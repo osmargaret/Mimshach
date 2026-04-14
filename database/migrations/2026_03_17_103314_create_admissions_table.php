@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('admissions', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('slug')->unique()->after('title');
             $table->string('subtitle')->nullable();
             $table->text('content');
             $table->string('image')->nullable();
             $table->string('program');
-            $table->year('year');
+            $table->integer('year')->unsigned();
             $table->string('country');
             $table->date('deadline');
             $table->foreignId('university_id')->constrained('universities')->onDelete('cascade');

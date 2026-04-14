@@ -1,100 +1,8 @@
 @php
-  $filters = [
-      [
-          'type' => 'search',
-          'name' => 'search',
-          'placeholder' => 'Search university...'
-      ],
-      [
-          'type' => 'checkboxes',
-          'name' => 'funding',
-          'label' => 'Funding Type',
-          'options' => ['Grant', 'Loan', 'Scholarship']
-      ],
-      [
-          'type' => 'select',
-          'name' => 'country',
-          'label' => 'Country',
-          'options' => [
-              'All Countries',
-              'Australia',
-              'Canada',
-              'Germany',
-              'New Zealand',
-              'Singapore',
-              'South Africa',
-              'Switzerland',
-              'UK',
-              'USA'
-          ]
-      ]
-  ];
-
-  $universities = [
-      [
-          'name' => 'University of Melbourne',
-          'country' => 'Australia',
-          'description' =>
-              "Australia's leading university with strong programs in business and engineering.",
-          'funding' => ['Grant', 'Scholarship'],
-          'image' =>
-              'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ],
-      [
-          'name' => 'University of Toronto',
-          'country' => 'Canada',
-          'description' =>
-              'Top research university in Canada with diverse undergraduate and graduate programs.',
-          'funding' => ['Loan', 'Scholarship'],
-          'image' =>
-              'https://images.unsplash.com/photo-1517486808906-6ca8b3f8e1c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ],
-      [
-          'name' => "King's College London",
-          'country' => 'UK',
-          'description' =>
-              'Prestigious UK university known for law, medicine, and international relations.',
-          'funding' => ['Grant', 'Loan', 'Scholarship'],
-          'image' =>
-              'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ],
-      [
-          'name' => 'University of Sydney',
-          'country' => 'Australia',
-          'description' =>
-              "One of Australia's oldest universities with strong programs in arts and sciences.",
-          'funding' => ['Grant', 'Scholarship'],
-          'image' =>
-              'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ],
-      [
-          'name' => 'University of British Columbia',
-          'country' => 'Canada',
-          'description' =>
-              'Leading Canadian university with a beautiful campus and strong research focus.',
-          'funding' => ['Loan', 'Scholarship'],
-          'image' =>
-              'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ],
-      [
-          'name' => 'University of Edinburgh',
-          'country' => 'UK',
-          'description' =>
-              'Historic UK university with strong programs in humanities and sciences.',
-          'funding' => ['Grant', 'Loan'],
-          'image' =>
-              'https://images.unsplash.com/photo-1509395062183-67c691481df8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ]
-  ];
+  // Filters and universities are provided by the controller
 @endphp
 
-<x-app-layout pageTitle="Universities | Mimshach">
+<x-app-layout pageTitle="Partner Universities | Mimshach">
   <x-slot:styles>
     <style>
       /* pagination */
@@ -126,6 +34,124 @@
         background: #C6A43F;
         color: #0A192F;
         border-color: #C6A43F;
+      }
+
+      /* universities grid */
+      .uni-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        margin: 60px 0;
+      }
+
+      .uni-card {
+        background: white;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.05);
+        transition: 0.3s;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .uni-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 30px -10px rgba(198, 164, 63, 0.15);
+      }
+
+      .uni-thumbnail {
+        height: 180px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .uni-content {
+        padding: 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .uni-title {
+        font-size: 22px;
+        margin-bottom: 8px;
+      }
+
+      .uni-title a {
+        text-decoration: none;
+        color: #0A192F;
+      }
+
+      .uni-title a:hover {
+        color: #C6A43F;
+      }
+
+      .uni-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+        color: #C6A43F;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .uni-meta i {
+        margin-right: 4px;
+      }
+
+      .uni-description {
+        color: #4a5568;
+        margin-bottom: 20px;
+        flex: 1;
+      }
+
+      .funding-tags {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+      }
+
+      .funding-tag {
+        background: #F0EEE9;
+        padding: 6px 14px;
+        border-radius: 40px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #0A192F;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .funding-tag i {
+        color: #C6A43F;
+      }
+
+      .uni-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #eee;
+        padding-top: 16px;
+      }
+
+      .explore-link {
+        color: #C6A43F;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .explore-link i {
+        transition: 0.2s;
+      }
+
+      .explore-link:hover i {
+        transform: translateX(5px);
       }
 
       @media (max-width: 992px) {
@@ -160,12 +186,26 @@
     title="Partner Universities" />
 
   <div class="container">
-    <x-filter-bar :$filters />
+    <x-filter-bar :$filters contentId="uniGrid" paginationId="paginationContainer" />
 
     <div class="uni-grid" id="uniGrid">
-      @foreach ($universities as $university)
-        <x-university.university-card :$university />
-      @endforeach
+      @if ($universities->isEmpty())
+        <div class="no-results"
+          style="padding: 40px; text-align: center; background: white; border-radius: 30px; box-shadow: 0 8px 20px -5px rgba(0,0,0,.05); margin: 30px 0;">
+          <h3>No universities found</h3>
+          <p>Please adjust your filters to see more results.</p>
+        </div>
+      @else
+        @foreach ($universities as $university)
+          <x-university.university-card :$university />
+        @endforeach
+      @endif
+    </div>
+
+    <div id="paginationContainer">
+      @if ($universities->hasPages())
+        {{ $universities->links('vendor.pagination.custom') }}
+      @endif
     </div>
   </div>
 </x-app-layout>

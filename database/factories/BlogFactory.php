@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Blog;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Blog>
+ * @extends Factory<Blog>
  */
 class BlogFactory extends Factory
 {
@@ -18,9 +19,9 @@ class BlogFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(4),
-            'content' => $this->faker->paragraph(),
+            'content' => $this->faker->paragraph(8, true),
             'subtitle' => $this->faker->sentence(2),
-            'featured_image' => 'https://images.unsplash.com/photo-1559136555-9303b…d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
+            'featured_image' => 'https://images.unsplash.com/photo-1524995997946-a1…f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
         ];
     }
 }

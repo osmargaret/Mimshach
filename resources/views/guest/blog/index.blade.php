@@ -1,155 +1,149 @@
-@php
-  $filters = [
-      [
-          'type' => 'search',
-          'name' => 'search',
-          'placeholder' => 'Search blog posts...'
-      ],
-      [
-          'type' => 'checkboxes',
-          'name' => 'category',
-          'options' => [
-              'All',
-              'Study Abroad',
-              'Scholarships',
-              'Visa Guide',
-              'Student Life',
-              'Career Advice',
-              'University Reviews'
-          ]
-      ]
-  ];
-
-  $blogs = [
-      [
-          'title' => 'Complete Guide to UK Student Visas 2026',
-          'excerpt' =>
-              'Everything you need to know about the UK student visa application process, requirements, and timeline.',
-          'content' => 'Full article content would go here...',
-          'category' => 'Visa Guide',
-          'author' => 'Sarah Johnson',
-          'date' => 'March 15, 2026',
-          'read_time' => '8 min read',
-          'image' =>
-              'https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ],
-      [
-          'title' => 'Top 10 Scholarships for African Students in 2026',
-          'excerpt' =>
-              'Discover fully-funded scholarships available for African students to study in Europe, USA, and Canada.',
-          'content' => 'Full article content would go here...',
-          'category' => 'Scholarships',
-          'author' => 'Michael Okafor',
-          'date' => 'March 10, 2026',
-          'read_time' => '10 min read',
-          'image' =>
-              'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ],
-      [
-          'title' => 'Student Life in Germany: What to Expect',
-          'excerpt' =>
-              'A comprehensive look at living costs, accommodation, culture, and student experiences in German universities.',
-          'content' => 'Full article content would go here...',
-          'category' => 'Student Life',
-          'author' => 'Anna Schmidt',
-          'date' => 'March 5, 2026',
-          'read_time' => '6 min read',
-          'image' =>
-              'https://images.unsplash.com/photo-1555888997-1e4b3e3b0b0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ],
-      [
-          'title' => 'How to Write a Winning Statement of Purpose',
-          'excerpt' =>
-              'Expert tips and templates for crafting an SOP that stands out to admissions committees.',
-          'content' => 'Full article content would go here...',
-          'category' => 'Study Abroad',
-          'author' => 'David Chen',
-          'date' => 'February 28, 2026',
-          'read_time' => '7 min read',
-          'image' =>
-              'https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ],
-      [
-          'title' => 'Top Engineering Universities in Canada',
-          'excerpt' =>
-              'Ranking and review of the best Canadian universities for engineering and technology programs.',
-          'content' => 'Full article content would go here...',
-          'category' => 'University Reviews',
-          'author' => 'Priya Patel',
-          'date' => 'February 20, 2026',
-          'read_time' => '9 min read',
-          'image' =>
-              'https://images.unsplash.com/photo-1517486808906-6ca8b3f8e1c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ],
-      [
-          'title' => 'Part-Time Work Rules for International Students',
-          'excerpt' =>
-              'Understanding work hour limits, visa conditions, and job opportunities in major study destinations.',
-          'content' => 'Full article content would go here...',
-          'category' => 'Visa Guide',
-          'author' => 'James Wilson',
-          'date' => 'February 15, 2026',
-          'read_time' => '5 min read',
-          'image' =>
-              'https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80',
-          'url' => '#'
-      ],
-      [
-          'title' => 'MBA vs Masters: Which One is Right for You?',
-          'excerpt' =>
-              'Compare costs, career outcomes, and program structures to make an informed decision.',
-          'content' => 'Full article content would go here...',
-          'category' => 'Career Advice',
-          'author' => 'Robert Taylor',
-          'date' => 'February 10, 2026',
-          'read_time' => '8 min read',
-          'image' =>
-              'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ],
-      [
-          'title' => 'Australian University Application Timeline',
-          'excerpt' =>
-              'Step-by-step guide to applying for Australian universities for the 2026-2027 academic year.',
-          'content' => 'Full article content would go here...',
-          'category' => 'Study Abroad',
-          'author' => 'Emma Watson',
-          'date' => 'February 5, 2026',
-          'read_time' => '6 min read',
-          'image' =>
-              'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ],
-      [
-          'title' => 'Scholarship Interview Tips and Questions',
-          'excerpt' =>
-              'Prepare for scholarship interviews with common questions and proven strategies.',
-          'content' => 'Full article content would go here...',
-          'category' => 'Scholarships',
-          'author' => 'Grace Kim',
-          'date' => 'January 28, 2026',
-          'read_time' => '4 min read',
-          'image' =>
-              'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'url' => '#'
-      ]
-  ];
-@endphp
-
 <x-app-layout pageTitle="Blog & Resources | Mimshach">
   <x-slot:styles>
     <style>
+      /* pagination */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin: 60px 0;
+      }
+
+      .page-item {
+        list-style: none;
+      }
+
+      .page-link {
+        display: block;
+        padding: 10px 18px;
+        background: white;
+        border-radius: 50px;
+        color: #0A192F;
+        text-decoration: none;
+        font-weight: 500;
+        transition: 0.2s;
+        border: 1px solid transparent;
+      }
+
+      .page-link:hover,
+      .page-link.active {
+        background: #C6A43F;
+        color: #0A192F;
+        border-color: #C6A43F;
+      }
+
       /* Blog specific styles */
       .blog-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 30px;
         margin: 60px 0;
+      }
+
+      .blog-card {
+        background: white;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.05);
+        transition: 0.3s;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .blog-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 30px -10px rgba(198, 164, 63, 0.15);
+      }
+
+      .blog-thumbnail {
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .blog-content {
+        padding: 24px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .blog-category {
+        display: inline-block;
+        background: #F0EEE9;
+        color: #C6A43F;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 40px;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .blog-title {
+        font-size: 22px;
+        margin-bottom: 12px;
+        line-height: 1.3;
+      }
+
+      .blog-title a {
+        text-decoration: none;
+        color: #0A192F;
+      }
+
+      .blog-title a:hover {
+        color: #C6A43F;
+      }
+
+      .blog-meta {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 12px;
+        color: #666;
+        font-size: 14px;
+      }
+
+      .blog-meta i {
+        color: #C6A43F;
+        margin-right: 4px;
+      }
+
+      .blog-excerpt {
+        color: #4a5568;
+        margin-bottom: 20px;
+        flex: 1;
+        line-height: 1.6;
+      }
+
+      .blog-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #eee;
+        padding-top: 16px;
+      }
+
+      .read-more {
+        color: #C6A43F;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .read-more i {
+        transition: 0.2s;
+      }
+
+      .read-more:hover i {
+        transform: translateX(5px);
+      }
+
+      .blog-date {
+        color: #999;
+        font-size: 13px;
       }
 
       /* Category filter pills */
@@ -208,12 +202,21 @@
     title="Blog & Resources" />
 
   <div class="container">
-    <x-filter-bar :$filters />
-
-    <div class="blog-grid">
-      @foreach ($blogs as $blog)
-        <x-blog.blog-card :$blog />
-      @endforeach
+    <div class="blog-grid" id="blogGrid">
+      @if ($blogs->isEmpty())
+        <div class="no-results"
+          style="padding: 40px; text-align: center; background: white; border-radius: 30px; box-shadow: 0 8px 20px -5px rgba(0,0,0,.05); margin: 30px 0;">
+          <h3>No blog posts found</h3>
+        </div>
+      @else
+        @foreach ($blogs as $blog)
+          <x-blog.blog-card :$blog />
+        @endforeach
+      @endif
     </div>
-  </div>
+    <div id="paginationContainer">
+      @if ($blogs->hasPages())
+        {{ $blogs->links('vendor.pagination.custom') }}
+      @endif
+    </div>
 </x-app-layout>

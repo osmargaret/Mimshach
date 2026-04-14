@@ -224,27 +224,23 @@
       <!-- Right: Contact Form -->
       <div class="contact-form">
         <h2>Send a Message</h2>
-        <div class="success-message" id="successMessage">
-          <i class="fas fa-check-circle"></i> Thank you!
-          Your message has been sent. We'll get back to
-          you soon.
-        </div>
         <form id="contactForm">
+          @csrf
           <div class="form-group">
             <label for="name">Full Name *</label>
-            <input id="name" required type="text" />
+            <input id="name" name="name" required type="text" />
           </div>
           <div class="form-group">
             <label for="email">Email *</label>
-            <input id="email" required type="email" />
+            <input id="email" name="email" required type="email" />
           </div>
           <div class="form-group">
-            <label for="subject">Subject</label>
-            <input id="subject" type="text" />
+            <label for="subject">Subject *</label>
+            <input id="subject" name="subject" type="text" />
           </div>
           <div class="form-group">
             <label for="message">Message *</label>
-            <textarea id="message" required rows="5"></textarea>
+            <textarea id="message" name="message" required rows="5"></textarea>
           </div>
           <button class="btn-submit" type="submit">
             Send Message
@@ -259,4 +255,63 @@
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.5454374764347!2d-0.10553468422931346!3d51.51411747963698!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761b4b3e2e1b7f%3A0x8f8b6f8f8f8f8f8f!2sLondon%2C%20UK!5e0!3m2!1sen!2s!4v1620000000000"></iframe>
     </div>
   </div>
+
+  <x-slot:scripts>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('contactForm');
+
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+
+          // Get form data
+          const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value,
+            _token: '{{ csrf_token() }}'
+          };
+          console.log('Form Data:', formData);
+
+          // Disable submit button and show loading state
+          const submitBtn = form.querySelector('.btn-submit');
+          const originalText = submitBtn.textContent;
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+
+          try {
+            const response = await fetch('{{ route('contact.submit') }}', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': formData._token
+              },
+              body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+            // console.log('Response:', response);
+
+            if (result.success) {
+              // Show success toast
+              window.showToast('Thank you for your message! We\'ll get back to you soon.', 'success');
+
+              // Reset form
+              form.reset();
+            } else {
+              window.showToast(result.message || 'Failed to send message. Please try again.', 'error');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            window.showToast('An error occurred. Please try again later.', 'error');
+          } finally {
+            // Re-enable submit button
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+          }
+        });
+      });
+    </script>
+  </x-slot:scripts>
 </x-app-layout>

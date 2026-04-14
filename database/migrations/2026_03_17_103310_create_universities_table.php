@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('universities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug')->unique()->after('name');
             $table->string('subtitle')->nullable();
             $table->text('content');
             $table->string('image')->nullable();

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('level_of_education');
             $table->json('programme_of_interest');
             $table->json('preferred_countries');
-            $table->string('tuition_budget');
+            $table->integer('tuition_budget');
             $table->timestamps();
         });
     }

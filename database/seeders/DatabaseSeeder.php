@@ -5,13 +5,10 @@ namespace Database\Seeders;
 use App\Models\Blog;
 use App\Models\Event;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
@@ -24,7 +21,7 @@ class DatabaseSeeder extends Seeder
             'phone' => '09051776591',
         ]);
 
-        Event::factory(12)->create();
+        Event::factory()->count(12)->create();
 
         $this->call([
             UniversitySeeder::class,

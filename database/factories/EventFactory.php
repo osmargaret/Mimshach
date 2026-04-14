@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Event;
+use Galahad\TimezoneMapper\Facades\TimezoneMapper;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Event>
+ * @extends Factory<Event>
  */
 class EventFactory extends Factory
 {
@@ -16,15 +18,26 @@ class EventFactory extends Factory
      */
     public function definition(): array
     {
+        $locations = require database_path('data/locations.php');
+        $location = $this->faker->randomElement($locations);
+
+        $latitude = $location['lat'];
+        $longitude = $location['lng'];
+        $timezone = TimezoneMapper::mapCoordinates($latitude, $longitude, 'UTC');
+
+        $startDate = $this->faker->dateTimeBetween('now', '+6 months');
+        $endDate = (clone $startDate)->modify('+2 hours');
+
         return [
             'title' => $this->faker->sentence(4),
-            'description' => $this->faker->paragraph(),
+            'description' => $this->faker->paragraph(5, true),
             'subtitle' => $this->faker->sentence(2),
-            'image' => 'https://images.unsplash.com/photo-1559136555-9303b…d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-            'start_time' => $this->faker->time(),
-            'end_time' => $this->faker->time(),
-            'date' => $this->faker->date(),
-            'location' => $this->faker->address(),
+            'image' => 'https://images.unsplash.com/photo-1524995997946-a1…f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
+            'start_time' => $startDate,
+            'end_time' => $endDate,
+            'location' => $location['location'],
+            'date' => $startDate->format('Y-m-d'),
+            'timezone' => $timezone,
         ];
     }
 }

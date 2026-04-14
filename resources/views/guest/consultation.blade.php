@@ -134,9 +134,12 @@
         background: #d4edda;
         color: #155724;
         padding: 15px 20px;
-        border-radius: 50px;
+        border-radius: 20px;
         margin-top: 20px;
         display: none;
+        position: absolute;
+        top: 70px;
+        right: 10px;
         align-items: center;
         gap: 10px;
       }
@@ -186,30 +189,36 @@
         <h2>Tell us about yourself</h2>
         <p>We'll get back to you within 24 hours.</p>
 
-        <div class="success-message" id="successMessage">
-          <i class="fas fa-check-circle"></i>
-          Congratulation! You just took a great step.
-        </div>
+        <form action="{{ route('consultation.submit') }}" id="consultationForm" method="POST">
+          @csrf
+          @if ($errors->any())
+            <div class="alert alert-danger">
+              <ul>
+                @foreach ($errors->all() as $error)
+                  <li style="color: red;">{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+          @endif
 
-        <form id="consultationForm">
           <div class="form-group">
             <label for="fullname">Full Name *</label>
-            <input id="fullname" required type="text" />
+            <input id="fullname" name="fullname" required type="text" />
           </div>
 
           <div class="form-group">
             <label for="email">Email *</label>
-            <input id="email" required type="email" />
+            <input id="email" name="email" required type="email" />
           </div>
 
           <div class="form-group">
             <label for="phone">Phone *</label>
-            <input id="phone" required type="tel" />
+            <input id="phone" name="phone" required type="tel" />
           </div>
 
           <div class="form-group">
             <label for="education">Level of Education *</label>
-            <select id="education" required>
+            <select id="education" name="education" required>
               <option value="">Select...</option>
               <option value="high_school">
                 High School
@@ -229,7 +238,7 @@
 
           <div class="form-group">
             <label for="programmes">Programmes of Interest (multiple) *</label>
-            <select id="programmes" multiple required size="4">
+            <select id="programmes" multiple name="programmes[]" required size="4">
               <option value="business">
                 Business & Management
               </option>
@@ -258,7 +267,7 @@
 
           <div class="form-group">
             <label for="countries">Preferred Countries (multiple) *</label>
-            <select id="countries" multiple required size="4">
+            <select id="countries" multiple name='countries[]' required size="4">
               <option value="uk">United Kingdom</option>
               <option value="usa">United States</option>
               <option value="canada">Canada</option>
@@ -273,17 +282,23 @@
             <small style="color: #666">Hold Ctrl/Cmd to select multiple</small>
           </div>
 
-          <div class="form-group">
+          {{-- <div class="form-group">
             <label for="tuition">Tuition Budget (per year) *</label>
             <div class="range-container">
-              <input id="tuition" max="100000" min="0" step="1000" type="range"
-                value="20000" />
+              <input id="tuition" max="100000" min="0" name='tuition' step="1000"
+                type="range" value="20000" />
               <span class="range-value" id="tuitionValue">$20,000</span>
             </div>
+          </div> --}}
+
+          <div class="form-group">
+            <label for="tuition">Tuition(in $) *</label>
+            <input id="tuition" max="100000" min="0" name="tuition" required
+              type="number" />
           </div>
 
           <div class="checkbox-group">
-            <input id="terms" required type="checkbox" />
+            <input id="terms" name='terms' required type="checkbox" value="1" />
             <label for="terms">I agree to the
               <a href="#" style="color: #c6a43f">Terms and Conditions</a>
               and
@@ -304,4 +319,169 @@
       </div>
     </div>
   </div>
+
+  <x-slot:scripts>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Get form elements
+        const form = document.getElementById('consultationForm');
+
+        // Get tuition range elements
+        const tuitionRange = document.getElementById('tuition');
+        const tuitionValue = document.getElementById('tuitionValue');
+
+        // Function to update tuition value display
+        function updateTuitionValue() {
+          if (tuitionRange && tuitionValue) {
+            const value = parseInt(tuitionRange.value);
+            tuitionValue.textContent = '$' + value.toLocaleString();
+          }
+        }
+
+        // Add event listeners for tuition range
+        if (tuitionRange) {
+          // Update when slider moves
+          tuitionRange.addEventListener('input', updateTuitionValue);
+
+          // Also update on change (for keyboard input)
+          tuitionRange.addEventListener('change', updateTuitionValue);
+
+          // Initial update to ensure display is correct
+          updateTuitionValue();
+        }
+
+        // Handle form submission
+        form.addEventListener('submit', async function(e) {
+          e.preventDefault();
+
+          // Get form data
+          const programmesSelect = document.getElementById('programmes');
+          const programmes = Array.from(programmesSelect.selectedOptions).map(option => option
+            .value);
+
+          const countriesSelect = document.getElementById('countries');
+          const countries = Array.from(countriesSelect.selectedOptions).map(option => option
+            .value);
+
+          const formData = {
+            fullname: document.getElementById('fullname').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            education: document.getElementById('education').value,
+            programmes: programmes,
+            countries: countries,
+            tuition: parseInt(document.getElementById('tuition').value),
+            terms: document.getElementById('terms').checked ? 'on' : null,
+            _token: '{{ csrf_token() }}'
+          };
+
+          // Validate required fields
+          if (!formData.fullname) {
+            window.showToast('Please enter your full name.', 'error');
+            return;
+          }
+
+          if (!formData.email) {
+            window.showToast('Please enter your email address.', 'error');
+            return;
+          }
+
+          // Validate email format
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(formData.email)) {
+            window.showToast('Please enter a valid email address.', 'error');
+            return;
+          }
+
+          if (!formData.phone) {
+            window.showToast('Please enter your phone number.', 'error');
+            return;
+          }
+
+          if (!formData.education) {
+            window.showToast('Please select your level of education.', 'error');
+            return;
+          }
+
+          if (formData.programmes.length === 0) {
+            window.showToast('Please select at least one programme of interest.', 'error');
+            return;
+          }
+
+          if (formData.countries.length === 0) {
+            window.showToast('Please select at least one preferred country.', 'error');
+            return;
+          }
+
+          if (!formData.terms) {
+            window.showToast('You must agree to the Terms and Conditions and Privacy Policy.', 'error');
+            return;
+          }
+
+          // Disable submit button and show loading state
+          const submitBtn = form.querySelector('.btn-submit');
+          const originalText = submitBtn.textContent;
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Submitting...';
+
+          try {
+            const response = await fetch('{{ route('consultation.submit') }}', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': formData._token,
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+              // Handle validation errors from backend
+              if (result.errors) {
+                const errorMessages = Object.values(result.errors).flat().join('\n');
+                alert(errorMessages);
+              } else if (result.message) {
+                alert(result.message);
+              } else {
+                alert('Failed to submit your request. Please try again.');
+              }
+              return;
+            }
+
+            if (result.success) {
+              // Show success toast
+              window.showToast('Thank you! Your consultation request has been submitted successfully.', 'success');
+
+              // Reset form
+              form.reset();
+
+              // Reset tuition slider to default
+              if (tuitionRange) {
+                tuitionRange.value = 20000;
+                updateTuitionValue();
+              }
+
+              // Clear selected options from multiselects
+              programmesSelect.selectedIndex = -1;
+              countriesSelect.selectedIndex = -1;
+
+              // Uncheck terms
+              document.getElementById('terms').checked = false;
+            } else {
+              window.showToast(result.message || 'Failed to submit your request. Please try again.', 'error');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            window.showToast('An error occurred. Please try again later.', 'error');
+          } finally {
+            // Re-enable submit button
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+          }
+        });
+      });
+    </script>
+  </x-slot:scripts>
 </x-app-layout>

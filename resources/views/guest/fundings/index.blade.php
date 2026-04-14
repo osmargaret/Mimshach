@@ -1,385 +1,225 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Start Funding · Student Loan</title>
+<x-app-layout pageTitle="Funding Opportunities | Study Abroad">
+  <x-slot:styles>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin: 60px 0;
+      }
+
+      .page-item {
+        list-style: none;
+      }
+
+      .page-link {
+        display: block;
+        padding: 10px 18px;
+        background: white;
+        border-radius: 50px;
+        color: #0A192F;
+        text-decoration: none;
+        font-weight: 500;
+        transition: 0.2s;
+        border: 1px solid transparent;
+      }
+
+      .page-link:hover,
+      .page-link.active {
+        background: #C6A43F;
+        color: #0A192F;
+        border-color: #C6A43F;
+      }
+
+      /* fundings grid */
+      .fundings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 30px;
+        margin: 60px 0;
+      }
+
+      .funding-card {
+        background: white;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s, box-shadow 0.3s;
+        text-decoration: none;
+        display: block;
+      }
+
+      .funding-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      }
+
+      .funding-image {
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .funding-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+      }
+
+      .funding-card:hover .funding-image img {
+        transform: scale(1.05);
+      }
+
+      .funding-badge {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        background: #C6A43F;
+        color: #0A192F;
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .funding-content {
+        padding: 24px;
+      }
+
+      .funding-title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #0A192F;
+        margin-bottom: 8px;
+        font-family: 'Playfair Display', serif;
+      }
+
+      .funding-university {
+        color: #C6A43F;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .funding-university i {
+        font-size: 12px;
+      }
+
+      .funding-description {
+        color: #4a5568;
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .funding-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 16px;
+        border-top: 1px solid #e2e8f0;
+      }
+
+      .education-level {
+        background: #f0f3ff;
+        color: #0A192F;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .view-link {
+        color: #C6A43F;
+        font-weight: 600;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: transform 0.2s;
+      }
+
+      .funding-card:hover .view-link {
+        transform: translateX(5px);
+      }
+
+      .no-results {
+        padding: 60px 40px;
+        text-align: center;
+        background: white;
+        border-radius: 30px;
+        box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.05);
+        margin: 30px 0;
+      }
+
+      .no-results i {
+        font-size: 64px;
+        color: #C6A43F;
+        margin-bottom: 20px;
+        display: block;
+      }
+
+      .no-results h3 {
+        font-size: 24px;
+        margin-bottom: 12px;
+        color: #0A192F;
+      }
+
+      .no-results p {
+        color: #4a5568;
+      }
+
+      @media (max-width: 768px) {
+        .fundings-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
         }
 
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
+        .funding-content {
+          padding: 20px;
         }
 
-        .funding-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 600px;
-            padding: 2.5rem 2rem;
-            transition: transform 0.3s ease;
+        .funding-title {
+          font-size: 20px;
         }
-
-        .funding-card:hover {
-            transform: translateY(-4px);
-        }
-
-        h1 {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #1a1f36;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .subhead {
-            color: #5b6e8c;
-            font-size: 0.95rem;
-            margin-bottom: 2rem;
-            line-height: 1.5;
-            border-left: 3px solid #667eea;
-            padding-left: 1rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #2d3a5e;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .select-wrapper {
-            position: relative;
-        }
-
-        .select-wrapper::after {
-            content: "▼";
-            font-size: 0.8rem;
-            color: #667eea;
-            position: absolute;
-            right: 1.2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-        }
-
-        select {
-            width: 100%;
-            padding: 1rem 1.2rem;
-            font-size: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            background-color: white;
-            color: #1a1f36;
-            appearance: none;
-            cursor: pointer;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        select:hover {
-            border-color: #a0b4d7;
-        }
-
-        select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: white;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s;
-            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
-            box-shadow: none;
-            margin-top: 1rem;
-        }
-
-        .btn-secondary:hover {
-            background: #f0f3ff;
-            opacity: 1;
-        }
-
-        .result {
-            margin-top: 2rem;
-            padding: 1.2rem;
-            background: #f8fafd;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            display: none;
-            color: #2d3a5e;
-            font-weight: 500;
-            text-align: center;
-        }
-
-        .result.show {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
-
-        .loan-types {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin: 1.5rem 0;
-        }
-
-        .loan-type-tag {
-            background: #f0f3ff;
-            color: #2d3a5e;
-            padding: 0.6rem 1.2rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            border: 1px solid #d0d9f0;
-        }
-
-        .faq-section {
-            margin: 2rem 0 1rem;
-            text-align: left;
-        }
-
-        .faq-item {
-            margin-bottom: 1.25rem;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 1rem;
-        }
-
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-
-        .faq-question {
-            font-weight: 600;
-            color: #1a1f36;
-            margin-bottom: 0.3rem;
-            font-size: 1rem;
-        }
-
-        .faq-answer {
-            color: #5b6e8c;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        .disclaimer {
-            font-size: 0.8rem;
-            color: #8a9bb5;
-            margin-top: 2rem;
-            font-style: italic;
-            border-top: 1px dashed #d0d9f0;
-            padding-top: 1rem;
-        }
-
-        .step {
-            transition: opacity 0.3s ease;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .back-link {
-            text-align: center;
-            margin-top: 1rem;
-        }
-
-        .back-link button {
-            background: none;
-            border: none;
-            color: #667eea;
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: underline;
-            font-size: 0.9rem;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 480px) {
-            .funding-card {
-                padding: 2rem 1.25rem;
-            }
-            h1 {
-                font-size: 1.75rem;
-            }
-        }
+      }
     </style>
-</head>
-<body>
-    <div class="funding-card" id="app">
-        <!-- Step 1: Funding Type Selection -->
-        <div id="step1" class="step">
-            <div class="funding-icon" style="text-align: center; margin-bottom: 1.5rem;">
-                <span style="font-size: 2.5rem; background: rgba(102, 126, 234, 0.1); padding: 0.75rem 1.5rem; border-radius: 60px; display: inline-block;">🎓💰</span>
-            </div>
-            <h1>Start your funding</h1>
-            <div class="subhead">
-                Choose the type of funding that fits your journey.<br>
-                We’ll guide you through the next steps.
-            </div>
-            <form id="fundingForm">
-                <div class="form-group">
-                    <label for="fundingType">I'm looking for</label>
-                    <div class="select-wrapper">
-                        <select id="fundingType" name="fundingType">
-                            <option value="student-loan" selected>Student Loan</option>
-                            <option value="personal-loan">Personal Loan</option>
-                            <option value="business-loan">Business Loan</option>
-                            <option value="mortgage">Mortgage</option>
-                            <option value="scholarship">Scholarship</option>
-                            <option value="grant">Grant</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn" id="continueBtn">Continue →</button>
-            </form>
-            <div id="result" class="result"></div>
+  </x-slot:styles>
+
+  <x-page-header 
+    subtitle="Discover scholarships, grants, and loans to support your study abroad journey"
+    title="Funding Opportunities" 
+  />
+
+  <div class="container">
+
+    <div class="fundings-grid" id="fundingsGrid">
+      @if ($fundings->isEmpty())
+        <div class="no-results">
+          <i class="fas fa-search"></i>
+          <h3>No funding opportunities found</h3>
+          <p>Please adjust your filters to see more results.</p>
         </div>
-
-        <!-- Step 2: Student Loan Details (hidden by default) -->
-        <div id="step2" class="step hidden">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
-                <span style="font-size: 2rem; background: rgba(102, 126, 234, 0.1); padding: 0.5rem 1rem; border-radius: 50px;">🎓</span>
-                <h2 style="color: #1a1f36; margin:0;">Student Loan Options</h2>
-            </div>
-            <p class="subhead" style="margin-bottom: 1.5rem;">Choose the type that matches your education level.</p>
-
-            <!-- Different types of student loans -->
-            <div class="loan-types">
-                <span class="loan-type-tag">Undergraduate Loan</span>
-                <span class="loan-type-tag">Graduate Loan</span>
-                <span class="loan-type-tag">MBA Loan</span>
-                <span class="loan-type-tag">Medical School Loan</span>
-                <span class="loan-type-tag">Law School Loan</span>
-                <span class="loan-type-tag">Study Abroad Loan</span>
-            </div>
-
-            <!-- FAQ Section -->
-            <div class="faq-section">
-                <h3 style="color: #1a1f36; margin-bottom: 1rem;">Frequently Asked Questions</h3>
-
-                <div class="faq-item">
-                    <div class="faq-question">Who is eligible for a Prodigy Finance no co-signer loan?</div>
-                    <div class="faq-answer">International students admitted to one of our partner schools can apply without a co-signer, based on future earning potential.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">What are the benefits of applying without a co-signer?</div>
-                    <div class="faq-answer">You don't need a credit history or a guarantor – the loan is based on your program and expected income.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">What documents do I need?</div>
-                    <div class="faq-answer">Typically your passport, acceptance letter, academic transcripts, and proof of funds for living expenses.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">What are the loan repayment terms?</div>
-                    <div class="faq-answer">Repayment usually starts 6 months after graduation, with flexible terms up to 20 years depending on the loan.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">Can I repay my loan early?</div>
-                    <div class="faq-answer">Yes, you can make early repayments without any prepayment penalties.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">What are the benefits of choosing Prodigy Finance?</div>
-                    <div class="faq-answer">No co-signer required, global community funding, and support for students from over 150 countries.</div>
-                </div>
-            </div>
-
-            <!-- Disclaimer -->
-            <div class="disclaimer">
-                *Loan and promotion offers are subject to our eligibility, funding, and credit assessment criteria.
-            </div>
-
-            <!-- Back button -->
-            <div class="back-link">
-                <button id="backToStep1" class="btn-secondary btn">← Change funding type</button>
-            </div>
-        </div>
+      @else
+        @foreach ($fundings as $funding)
+          <x-funding.funding-card :$funding />
+        @endforeach
+      @endif
     </div>
 
-    <script>
-        (function() {
-            const step1 = document.getElementById('step1');
-            const step2 = document.getElementById('step2');
-            const form = document.getElementById('fundingForm');
-            const select = document.getElementById('fundingType');
-            const resultDiv = document.getElementById('result');
-            const backButton = document.getElementById('backToStep1');
-
-            // Handle Continue button
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const selectedValue = select.value;
-                const selectedText = select.options[select.selectedIndex].text;
-
-                if (selectedValue === 'student-loan') {
-                    // Show student loan details (step2)
-                    step1.classList.add('hidden');
-                    step2.classList.remove('hidden');
-                } else {
-                    // For other options, show a message in step1 result
-                    resultDiv.textContent = `✅ You selected: ${selectedText}. More information will be available soon.`;
-                    resultDiv.classList.add('show');
-                }
-            });
-
-            // Handle Back button (return to step1)
-            backButton.addEventListener('click', function() {
-                step2.classList.add('hidden');
-                step1.classList.remove('hidden');
-                // Optionally clear any result message
-                resultDiv.classList.remove('show');
-            });
-
-            // Optional: hide result when changing selection (for better UX)
-            select.addEventListener('change', function() {
-                resultDiv.classList.remove('show');
-            });
-        })();
-    </script>
-</body>
-</html>
+    <div id="paginationContainer">
+      @if ($fundings->hasPages())
+        {{ $fundings->links('vendor.pagination.custom') }}
+      @endif
+    </div>
+  </div>
+</x-app-layout>

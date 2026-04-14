@@ -1,124 +1,5 @@
 @php
-  $filters = [
-      [
-          'type' => 'select',
-          'name' => 'year',
-          'label' => 'Year',
-          'options' => ['All Years', '2026', '2025']
-      ],
-      [
-          'type' => 'select',
-          'name' => 'university',
-          'label' => 'University',
-          'options' => [
-              'All Universities',
-              'University of Melbourne',
-              'University of Oxford',
-              'Harvard University',
-              'University of Toronto',
-              'LMU Munich',
-              'Imperial College London',
-              'Australian National University',
-              'Stanford University',
-              'Trinity College Dublin',
-              'INSEAD'
-          ]
-      ],
-      [
-          'type' => 'select',
-          'name' => 'program',
-          'label' => 'Program',
-          'options' => [
-              'All Programs',
-              'Business',
-              'Law',
-              'MBA',
-              'Engineering',
-              'Computer Science',
-              'Medicine',
-              'Environmental Science',
-              'PhD',
-              'Data Science'
-          ]
-      ],
-      [
-          'type' => 'select',
-          'name' => 'country',
-          'label' => 'Country',
-          'options' => [
-              'All Countries',
-              'Australia',
-              'UK',
-              'USA',
-              'Canada',
-              'Germany',
-              'Ireland',
-              'France'
-          ]
-      ]
-  ];
-  $admissions = [
-      [
-          'image' =>
-              'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'date' => 'Feb 15, 2026',
-          'university' => 'University of Melbourne',
-          'country' => 'Australia',
-          'title' => 'Early Application Deadlines for 2026',
-          'excerpt' =>
-              'Many top universities have moved their deadlines earlier. Learn how to prepare your application on time.',
-          'url' => '#',
-          'tags' => ['Business', '2026']
-      ],
-      [
-          'image' =>
-              'https://images.unsplash.com/photo-1541339901998-67808f4b9c3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'date' => 'Jan 10, 2025',
-          'university' => 'University of Oxford',
-          'country' => 'UK',
-          'title' => 'Scholarship Opportunities in the UK for 2025',
-          'excerpt' =>
-              'A comprehensive guide to Chevening, Commonwealth, and university-specific scholarships.',
-          'url' => '#',
-          'tags' => ['Law', '2025']
-      ],
-      [
-          'image' =>
-              'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'date' => 'Mar 1, 2026',
-          'university' => 'Harvard University',
-          'country' => 'USA',
-          'title' => 'MBA Deadlines: What You Need to Know',
-          'excerpt' =>
-              'Round 1 vs Round 2 - which is better for you? Key dates for top business schools.',
-          'url' => '#',
-          'tags' => ['MBA', '2026']
-      ],
-      [
-          'image' =>
-              'https://images.unsplash.com/photo-1517486808906-6ca8b3f8e1c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'date' => 'Apr 22, 2025',
-          'university' => 'University of Toronto',
-          'country' => 'Canada',
-          'title' => 'Studying in Canada: New Visa Rules 2025',
-          'excerpt' =>
-              'Recent changes to the Student Direct Stream (SDS) and what they mean for applicants.',
-          'url' => '#',
-          'tags' => ['Engineering', '2025']
-      ],
-      [
-          'image' =>
-              'https://images.unsplash.com/photo-1555888997-1e4b3e3b0b0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80',
-          'date' => 'May 5, 2026',
-          'university' => 'LMU Munich',
-          'country' => 'Germany',
-          'title' => "Germany's Tuition-Free Universities",
-          'excerpt' =>
-              'How to apply to public universities in Germany with little to no tuition fees.',
-          'url' => '#',
-          'tags' => ['Computer Science', '2026']
-      ]
-  ];
+
 @endphp
 
 <x-app-layout pageTitle='Admission Insights | Mimshach Education Centre'>
@@ -153,6 +34,107 @@
         background: #C6A43F;
         color: #0A192F;
         border-color: #C6A43F;
+      }
+
+      /* blog list */
+      .blog-list {
+        margin: 60px 0;
+      }
+
+      .blog-item {
+        display: flex;
+        background: white;
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+        transition: 0.3s;
+      }
+
+      .blog-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 30px -10px rgba(198, 164, 63, 0.15);
+      }
+
+      .blog-thumbnail {
+        flex: 0 0 260px;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .blog-content {
+        flex: 1;
+        padding: 30px;
+      }
+
+      .blog-meta {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 12px;
+        font-size: 14px;
+        color: #C6A43F;
+        font-weight: 500;
+      }
+
+      .blog-meta span i {
+        margin-right: 5px;
+        font-size: 12px;
+      }
+
+      .blog-title {
+        font-size: 24px;
+        margin-bottom: 12px;
+      }
+
+      .blog-title a {
+        text-decoration: none;
+        color: #0A192F;
+      }
+
+      .blog-title a:hover {
+        color: #C6A43F;
+      }
+
+      .blog-excerpt {
+        color: #4a5568;
+        margin-bottom: 16px;
+      }
+
+      .blog-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .read-more {
+        color: #C6A43F;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .read-more i {
+        transition: 0.2s;
+      }
+
+      .read-more:hover i {
+        transform: translateX(5px);
+      }
+
+      .blog-tags {
+        display: flex;
+        gap: 10px;
+      }
+
+      .tag {
+        background: #F0EEE9;
+        padding: 4px 12px;
+        border-radius: 40px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #0A192F;
       }
 
       @media (max-width: 768px) {
@@ -231,13 +213,27 @@
 
   <div class="container">
     <!-- Filter Bar -->
-    <x-filter-bar :$filters />
+    <x-filter-bar :$filters contentId="blogList" paginationId="paginationContainer" />
 
     <div class="blog-list" id="blogList">
-      @foreach ($admissions as $admission)
-        <x-admission.admission-card :$admission />
-      @endforeach
+      @if ($admissions->isEmpty())
+        <div class="no-results"
+          style="padding: 40px; text-align: center; background: white; border-radius: 30px; box-shadow: 0 8px 20px -5px rgba(0,0,0,.05); margin: 30px 0;">
+          <h3>No admission records found</h3>
+          <p>Please adjust your filters to see results. Try selecting a different year, university,
+            or program.</p>
+        </div>
+      @else
+        @foreach ($admissions as $admission)
+          <x-admission.admission-card :$admission />
+        @endforeach
+      @endif
     </div>
-    {{-- TODO: Pagination to be handled after implementing Eloquent Database --}}
+
+    <div id="paginationContainer">
+      @if ($admissions->hasPages())
+        {{ $admissions->links('vendor.pagination.custom') }}
+      @endif
+    </div>
   </div>
 </x-app-layout>

@@ -635,6 +635,51 @@
         background: #1a2f4a;
       }
 
+      .deadline-timer {
+        background: linear-gradient(135deg, #0A192F, #1a2f4a);
+        padding: 24px;
+        border-radius: 16px;
+        text-align: center;
+        margin-top: 24px;
+        color: white;
+      }
+
+      .deadline-timer .timer-label {
+        font-size: 14px;
+        color: #C6A43F;
+        margin-bottom: 12px;
+      }
+
+      .timer-numbers {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+      }
+
+      .timer-unit {
+        text-align: center;
+      }
+
+      .timer-unit .number {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+        font-size: 32px;
+        font-weight: 700;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 8px 12px;
+        border-radius: 12px;
+        min-width: 60px;
+        display: inline-block;
+        font-variant-numeric: tabular-nums;
+        text-align: center;
+      }
+
+      .timer-unit .label {
+        font-size: 11px;
+        margin-top: 6px;
+        display: block;
+        opacity: 0.7;
+      }
+
       /* footer */
       footer {
         background: #0A192F;
@@ -722,6 +767,40 @@
         width: 100%;
       }
 
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translateX(-50%) translateY(16px);
+        min-width: 280px;
+        max-width: calc(100% - 32px);
+        background: rgba(15, 23, 42, 0.96);
+        color: #f8fafc;
+        padding: 14px 18px;
+        border-radius: 9999px;
+        box-shadow: 0 20px 50px rgba(15, 23, 42, 0.35);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease;
+        z-index: 9999;
+        text-align: center;
+      }
+
+      .toast.success {
+        background: #047857;
+        color: #f8fafc;
+      }
+
+      .toast.error {
+        background: #b91c1c;
+        color: #ffffff;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
       .copyright {
         text-align: center;
         padding-top: 40px;
@@ -729,6 +808,26 @@
         opacity: 0.6;
         font-size: 14px;
       }
+
+      /* .countdown {
+        display: flex;
+        gap: 12px;
+      }
+
+      .time-box {
+        background: #0A192F;
+        color: white;
+        padding: 12px 16px;
+        border-radius: 12px;
+        text-align: center;
+        min-width: 70px;
+      }
+
+      .time-box span {
+        font-size: 20px;
+        font-weight: bold;
+        display: block;
+      } */
 
       /* responsive */
       @media (max-width: 1024px) {
@@ -795,6 +894,7 @@
     <x-layouts.header />
     {{ $slot }}
     <x-layouts.footer />
+    <div aria-atomic="true" aria-live="polite" class="toast" id="app-toast"></div>
 
     <!-- Smooth scroll and navbar script -->
     <script>
@@ -856,7 +956,124 @@
           }
         });
       });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const newsletterForm = document.getElementById('newsletter-form');
+        const toast = document.getElementById('app-toast');
+
+        function showToast(message, type = 'success') {
+          if (!toast) {
+            alert(message);
+            return;
+          }
+
+          toast.textContent = message;
+          toast.classList.remove('success', 'error');
+          toast.classList.add(type, 'show');
+
+          clearTimeout(window.__toastTimeout);
+          window.__toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+          }, 3000);
+        }
+
+        // Make showToast globally available
+        window.showToast = showToast;
+
+        if (newsletterForm) {
+          newsletterForm.addEventListener('submit', async event => {
+            event.preventDefault();
+
+            const formData = new FormData(newsletterForm);
+
+            try {
+              const response = await fetch(newsletterForm.action, {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/json',
+                },
+                body: formData,
+              });
+
+              const data = await response.json();
+
+              if (!response.ok) {
+                const message = data.message || 'Subscription failed. Please try again.';
+                throw new Error(message);
+              }
+
+              showToast(data.message || 'Thank you for subscribing!', 'success');
+              newsletterForm.reset();
+            } catch (error) {
+              showToast(error.message || 'Failed to subscribe. Please try again.', 'error');
+            }
+          });
+        }
+
+        document.querySelectorAll(".deadline-timer").forEach(timer => {
+
+          const deadline = new Date(timer.dataset.deadline);
+
+          const monthsEl = timer.querySelector(".months");
+          const daysEl = timer.querySelector(".days");
+          const hoursEl = timer.querySelector(".hours");
+          const minutesEl = timer.querySelector(".minutes");
+          const secondsEl = timer.querySelector(".seconds");
+
+          function updateTimer() {
+
+            const now = new Date();
+
+            if (deadline <= now) {
+              timer.innerHTML =
+                "<strong style='color:#10b981'>Closed</strong>";
+              return;
+            }
+
+            // ---- CALENDAR DIFFERENCE ----
+            let start = new Date(now);
+            let end = new Date(deadline);
+
+            let months =
+              (end.getFullYear() - start.getFullYear()) * 12 +
+              (end.getMonth() - start.getMonth());
+
+            // adjust if day not reached
+            if (end.getDate() < start.getDate()) {
+              months--;
+            }
+
+            // remaining after removing months
+            let tempDate = new Date(start);
+            tempDate.setMonth(tempDate.getMonth() + months);
+
+            let diff = end - tempDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            diff %= (1000 * 60 * 60 * 24);
+
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            diff %= (1000 * 60 * 60);
+
+            const minutes = Math.floor(diff / (1000 * 60));
+            diff %= (1000 * 60);
+
+            const seconds = Math.floor(diff / 1000);
+
+            monthsEl.textContent = String(months).padStart(2, '0');
+            daysEl.textContent = String(days).padStart(2, '0');
+            hoursEl.textContent = String(hours).padStart(2, '0');
+            minutesEl.textContent = String(minutes).padStart(2, '0');
+            secondsEl.textContent = String(seconds).padStart(2, '0');
+          }
+
+          updateTimer();
+          setInterval(updateTimer, 1000);
+        });
+
+      });
     </script>
+    {{ $scripts ?? '' }}
   </body>
 
 </html>

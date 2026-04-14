@@ -25,23 +25,4 @@
       @endif
     @endforeach
   </ul>
-
-  {{-- <ul class="nav-menu" id="navMenu">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="Admission.html">Admission</a></li>
-    <li>
-      <a href="studentloanselect.html">Student Funding</a>
-      <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
-      <ul class="dropdown-content">
-        <li><a href="studentloanselect.html">Student Loan</a></li>
-        <li><a href="scholarship.html">Scholarship</a></li>
-        <li><a href="grant.html">Grants</a></li>
-      </ul>
-    </li>
-    <li><a href="Universities.html">Universities</a></li>
-    <li><a href="event.html">Events</a></li>
-    <li><a href="event.html">Blog</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a class="nav-cta" href="StartHere.html">Start Here</a></li>
-  </ul> --}}
 </nav>

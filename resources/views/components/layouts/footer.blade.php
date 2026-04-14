@@ -16,7 +16,7 @@
         <ul>
           <li><a href="{{ route('home') }}">Home</a></li>
           <li><a href="{{ route('admissions.index') }}">Admission</a></li>
-          <li><a href="{{ route('funding.index') }}">Student Funding</a></li>
+          <li><a href="{{ route('fundings.index') }}">Student Funding</a></li>
           <li><a href="{{ route('universities.index') }}">Universities</a></li>
           <li><a href="{{ route('events.index') }}">Events</a></li>
           <li><a href="{{ route('contact.index') }}">Contact</a></li>
@@ -32,9 +32,13 @@
       </div>
       <div class="newsletter">
         <h4>Subscribe</h4>
-        <p>Get free study abroad guides and updates.</p>
-        <input placeholder="Your email" type="email">
-        <button>Subscribe</button>
+        <p style="margin-bottom: 10px;">Get free study abroad guides and updates.</p>
+        <form action="{{ route('newsletter.subscribe') }}" id="newsletter-form" method="POST">
+          @csrf
+          <input autocomplete="email" name="email" placeholder="Your email" required
+            type="email">
+          <button type="submit">Subscribe</button>
+        </form>
       </div>
     </div>
     <div class="copyright">
