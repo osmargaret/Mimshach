@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admission;
 use Illuminate\Http\Request;
 
 class AdmissionController extends Controller
@@ -12,7 +13,11 @@ class AdmissionController extends Controller
      */
     public function index()
     {
-        //
+        $query = Admission::query();
+        $admissions = $query->with('university')
+            ->latest()
+            ->paginate(6);
+        return view('admin.admissions.index', compact('admissions'));
     }
 
     /**

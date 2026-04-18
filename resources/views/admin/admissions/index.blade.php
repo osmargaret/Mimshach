@@ -1,14 +1,19 @@
-<x-admin.layout header="Admissions Management">
+<x-admin-layout pageTitle="Admissions Management">
   <div class="space-y-6">
-    <div class="flex items-center justify-between">
+    <!-- Header Section -->
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
-        <h2 class="text-2xl font-bold text-gray-800">Admissions</h2>
-        <p class="mt-1 text-gray-600">Manage admission posts and deadlines</p>
+        <h2
+          class="from-primary to-accent bg-gradient-to-r bg-clip-text text-2xl font-bold text-transparent">
+          Admissions
+        </h2>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage admission posts and deadlines
+        </p>
       </div>
       <button
-        class="flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-white transition hover:bg-indigo-700"
+        class="from-primary to-accent focus:ring-primary inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2"
         onclick="openCreateModal()">
-        <svg class="mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
           </path>
         </svg>
@@ -16,26 +21,40 @@
       </button>
     </div>
 
-    <!-- Filters -->
-    <div class="rounded-lg bg-white p-4 shadow-md">
-      <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <input class="rounded-md border border-gray-300 px-3 py-2" id="search"
-          placeholder="Search admissions..." type="text">
-        <select class="rounded-md border border-gray-300 px-3 py-2" id="programFilter">
+    <!-- Filters Section -->
+    <div class="rounded-2xl bg-white p-4 shadow-lg dark:bg-gray-800">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div class="relative">
+          <svg class="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round"
+              stroke-linejoin="round" stroke-width="2"></path>
+          </svg>
+          <input
+            class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 bg-white py-2 pl-10 pr-4 text-gray-900 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            id="search" placeholder="Search admissions..." type="text">
+        </div>
+        <select
+          class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          id="programFilter">
           <option value="">All Programs</option>
-          @foreach ($programs as $program)
+          @foreach ($admissions->pluck('program')->unique() as $program)
             <option value="{{ $program }}">{{ $program }}</option>
           @endforeach
         </select>
-        <select class="rounded-md border border-gray-300 px-3 py-2" id="countryFilter">
+        <select
+          class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          id="countryFilter">
           <option value="">All Countries</option>
-          @foreach ($countries as $country)
+          @foreach ($admissions->pluck('country')->unique() as $country)
             <option value="{{ $country }}">{{ $country }}</option>
           @endforeach
         </select>
-        <select class="rounded-md border border-gray-300 px-3 py-2" id="universityFilter">
+        <select
+          class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+          id="universityFilter">
           <option value="">All Universities</option>
-          @foreach ($universities as $university)
+          @foreach ($admissions->pluck('university')->unique() as $university)
             <option value="{{ $university->id }}">{{ $university->name }}</option>
           @endforeach
         </select>
@@ -43,45 +62,63 @@
     </div>
 
     <!-- Admissions Table -->
-    <div class="overflow-hidden rounded-lg bg-white shadow-md">
+    <div class="overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-gray-800">
       <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead
+            class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">Image</th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">
-                Title/Program</th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">University
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">Country
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">Year</th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">Deadline
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">Status
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase text-gray-500">Actions
-              </th>
+              <th
+                class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 sm:px-6 dark:text-gray-300">
+                Image</th>
+              <th
+                class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 sm:px-6 dark:text-gray-300">
+                Program</th>
+              <th
+                class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 sm:px-6 dark:text-gray-300">
+                University</th>
+              <th
+                class="hidden px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 sm:table-cell sm:px-6 dark:text-gray-300">
+                Country</th>
+              <th
+                class="hidden px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 sm:px-6 lg:table-cell dark:text-gray-300">
+                Year</th>
+              <th
+                class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 sm:px-6 dark:text-gray-300">
+                Deadline</th>
+              <th
+                class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 sm:px-6 dark:text-gray-300">
+                Status</th>
+              <th
+                class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 sm:px-6 dark:text-gray-300">
+                Actions</th>
             </tr>
           </thead>
-          <tbody id="admissionsTableBody">
-            @include('admin.admissions.partials.table', ['admissions' => $admissions])
+          <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800"
+            id="admissionsTableBody">
+            @include('components.admin.admissions.table', ['admissions' => $admissions])
           </tbody>
         </table>
       </div>
-      <div class="px-6 py-4" id="paginationLinks">
+      <div class="border-t border-gray-200 px-4 py-4 sm:px-6 dark:border-gray-700"
+        id="paginationLinks">
         {{ $admissions->links() }}
       </div>
     </div>
   </div>
 
   <!-- Create/Edit Modal -->
-  <div class="fixed inset-0 z-50 hidden h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50"
+  <div class="fixed inset-0 z-50 hidden h-full w-full overflow-y-auto bg-black/50 backdrop-blur-sm"
     id="admissionModal">
-    <div class="relative top-10 mx-auto w-full max-w-2xl rounded-md border bg-white p-5 shadow-lg">
-      <div class="mb-4 flex items-center justify-between">
-        <h3 class="text-lg font-semibold text-gray-900" id="modalTitle">Add Admission</h3>
-        <button class="text-gray-400 hover:text-gray-600" onclick="closeModal()">
+    <div
+      class="relative mx-auto my-10 w-full max-w-2xl rounded-2xl bg-white shadow-2xl dark:bg-gray-800">
+      <div
+        class="flex items-center justify-between border-b border-gray-200 p-6 dark:border-gray-700">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white" id="modalTitle">Add Admission
+        </h3>
+        <button
+          class="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700"
+          onclick="closeModal()">
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"
               stroke-width="2"></path>
@@ -93,77 +130,99 @@
         <input id="method" name="_method" type="hidden" value="POST">
         <input id="admissionId" name="admission_id" type="hidden">
 
-        <div class="max-h-96 space-y-4 overflow-y-auto">
+        <div class="max-h-[60vh] space-y-4 overflow-y-auto p-6">
           <div>
-            <label class="mb-2 block text-sm font-medium text-gray-700">Title</label>
-            <input class="w-full rounded-md border border-gray-300 px-3 py-2" id="title"
-              name="title" required type="text">
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Title
+              *</label>
+            <input
+              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              id="title" name="title" required type="text">
           </div>
 
           <div>
-            <label class="mb-2 block text-sm font-medium text-gray-700">Subtitle</label>
-            <input class="w-full rounded-md border border-gray-300 px-3 py-2" id="subtitle"
-              name="subtitle" type="text">
+            <label
+              class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Subtitle</label>
+            <input
+              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              id="subtitle" name="subtitle" type="text">
           </div>
 
           <div>
-            <label class="mb-2 block text-sm font-medium text-gray-700">Program</label>
-            <input class="w-full rounded-md border border-gray-300 px-3 py-2" id="program"
-              name="program" required type="text">
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Program
+              *</label>
+            <input
+              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              id="program" name="program" required type="text">
           </div>
 
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label class="mb-2 block text-sm font-medium text-gray-700">Year</label>
-              <input class="w-full rounded-md border border-gray-300 px-3 py-2" id="year"
-                name="year" required type="number">
+              <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Year
+                *</label>
+              <input
+                class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                id="year" name="year" required type="number">
             </div>
             <div>
-              <label class="mb-2 block text-sm font-medium text-gray-700">Country</label>
-              <input class="w-full rounded-md border border-gray-300 px-3 py-2" id="country"
-                name="country" required type="text">
+              <label
+                class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Country
+                *</label>
+              <input
+                class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                id="country" name="country" required type="text">
             </div>
           </div>
 
           <div>
-            <label class="mb-2 block text-sm font-medium text-gray-700">University</label>
-            <select class="w-full rounded-md border border-gray-300 px-3 py-2" id="university_id"
-              name="university_id" required>
+            <label
+              class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">University
+              *</label>
+            <select
+              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              id="university_id" name="university_id" required>
               <option value="">Select University</option>
-              @foreach ($universities as $university)
+              @foreach ($admissions->pluck('university') as $university)
                 <option value="{{ $university->id }}">{{ $university->name }}</option>
               @endforeach
             </select>
           </div>
 
           <div>
-            <label class="mb-2 block text-sm font-medium text-gray-700">Deadline</label>
-            <input class="w-full rounded-md border border-gray-300 px-3 py-2" id="deadline"
-              name="deadline" required type="date">
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Deadline
+              *</label>
+            <input
+              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              id="deadline" name="deadline" required type="date">
           </div>
 
           <div>
-            <label class="mb-2 block text-sm font-medium text-gray-700">Content</label>
-            <textarea class="w-full rounded-md border border-gray-300 px-3 py-2" id="content"
-              name="content" required rows="5"></textarea>
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Content
+              *</label>
+            <textarea
+              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              id="content" name="content" required rows="5"></textarea>
           </div>
 
           <div>
-            <label class="mb-2 block text-sm font-medium text-gray-700">Image</label>
-            <input accept="image/*" class="w-full rounded-md border border-gray-300 px-3 py-2"
+            <label
+              class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Image</label>
+            <input accept="image/*"
+              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="image" name="image" type="file">
             <div class="mt-2 hidden" id="currentImage">
-              <img alt="Current image" class="h-32 w-32 rounded object-cover"
+              <img alt="Current image" class="h-24 w-24 rounded-lg object-cover"
                 id="currentImagePreview" src="">
             </div>
           </div>
+        </div>
 
-          <div class="flex justify-end space-x-3 pt-4">
-            <button class="rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300"
-              onclick="closeModal()" type="button">Cancel</button>
-            <button class="rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
-              type="submit">Save</button>
-          </div>
+        <div class="flex justify-end space-x-3 border-t border-gray-200 p-6 dark:border-gray-700">
+          <button
+            class="rounded-lg bg-gray-200 px-4 py-2 font-medium text-gray-700 transition hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+            onclick="closeModal()" type="button">Cancel</button>
+          <button
+            class="from-primary to-accent rounded-lg bg-gradient-to-r px-4 py-2 font-medium text-white transition hover:shadow-lg"
+            type="submit">Save Admission</button>
         </div>
       </form>
     </div>
@@ -185,7 +244,7 @@
 
         fetch(
             `/admin/admissions/filter?search=${search}&program=${program}&country=${country}&university=${university}`
-          )
+            )
           .then(response => response.json())
           .then(data => {
             document.getElementById('admissionsTableBody').innerHTML = data.html;
@@ -195,7 +254,7 @@
       function openCreateModal() {
         document.getElementById('modalTitle').textContent = 'Add Admission';
         document.getElementById('method').value = 'POST';
-        document.getElementById('admissionForm').action = "{{ route('admin.admissions.store') }}";
+        document.getElementById('admissionForm').action = "{{ route('admin.admission.store') }}";
         document.getElementById('admissionForm').reset();
         document.getElementById('currentImage').classList.add('hidden');
         document.getElementById('admissionModal').classList.remove('hidden');
@@ -232,4 +291,4 @@
       }
     </script>
   </x-slot:scripts>
-</x-admin.layout>
+</x-admin-layout>
