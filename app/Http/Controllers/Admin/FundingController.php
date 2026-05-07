@@ -104,7 +104,7 @@ class FundingController extends Controller
     public function edit($id)
     {
         try {
-            $funding = Funding::findOrFail($id);
+            $funding = Funding::with('university')->findOrFail($id);
 
             // Add full URL for image
             $fundingData = $funding->toArray();

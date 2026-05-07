@@ -13,7 +13,7 @@ class UniversityController extends Controller
     {
         $countries = ['All Countries', ...University::distinct()->pluck('country')->filter()->sort()->values()->toArray()];
 
-        $fundingOptions = Funding::orderBy('name')->pluck('name')->unique()->toArray();
+        $fundingOptions = Funding::orderBy('name', 'asc')->pluck('name')->unique()->toArray();
 
         $filters = [
             [
@@ -53,7 +53,7 @@ class UniversityController extends Controller
         }
 
         $universities = $query->with('fundings')
-            ->orderBy('name')
+            ->latest()
             ->paginate(6)
             ->appends($request->query());
 

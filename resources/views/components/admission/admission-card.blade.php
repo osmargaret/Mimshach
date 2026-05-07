@@ -9,7 +9,7 @@
     <!-- Image -->
     <div
       class="h-full w-full bg-cover bg-center transition duration-700 group-hover:scale-110"
-      style="background-image: url('{{ $admission['image'] }}');">
+      style="background-image: url('{{ Storage::url($admission->image) }}');">
     </div>
 
     <!-- Gradient Overlay -->

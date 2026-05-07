@@ -6,6 +6,7 @@
   <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $pageTitle }}</title>
 
     <!-- Fonts & Icons -->
@@ -14,21 +15,34 @@
       rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     {{ $styles ?? '' }}
   </head>
 
-  <body class="overflow-x-hidden scroll-smooth bg-[#FEFCF8] font-sans text-primary">
+  <body class="text-primary overflow-x-hidden scroll-smooth bg-[#FEFCF8] font-sans">
     <!-- Hero Section -->
     <x-layouts.header />
     {{ $slot }}
     <x-layouts.footer />
-    <div class="fixed right-6 top-6 z-2000 flex flex-col gap-3" id="toastContainer"></div>
+    <div class="z-2000 fixed right-6 top-6 flex flex-col gap-3" id="toastContainer"></div>
 
     <!-- Smooth scroll and navbar script -->
     <script>
+      function setUserTimezoneCookie() {
+        const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (userTimezone) {
+          document.cookie =
+          `user_timezone=${userTimezone}; path=/; max-age=${60 * 60 * 24 * 30}`;
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', setUserTimezoneCookie);
+
       // Smooth scroll for "Explore Services" button
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -42,6 +56,14 @@
         });
       });
 
+      document.querySelectorAll('.datepicker-input').forEach(input => {
+        flatpickr(input, {
+          dateFormat: "Y-m-d",
+          allowInput: true,
+          placeholder: input.placeholder
+        });
+      });
+
       function showToast(type = 'success', message = '') {
         const container = document.getElementById('toastContainer');
 
@@ -51,8 +73,8 @@
           flex items-center gap-3 rounded-xl px-4 py-3 text-sm shadow-lg backdrop-blur-xl border
           transition-all duration-300 opacity-0 translate-y-[-10px]
           ${type === 'success' 
-            ? 'bg-green-500/20 border-green-400/30 text-green-800' 
-            : 'bg-red-500/20 border-red-400/30 text-red-800'}
+            ? 'bg-green-500/20 border-green-400/30 text-green-500 dark:text-green-200' 
+            : 'bg-red-500/20 border-red-400/30 text-red-800 dark:text-red-200'}
         `;
 
         toast.innerHTML = `

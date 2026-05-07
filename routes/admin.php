@@ -15,13 +15,13 @@ use App\Http\Controllers\Auth\AuthController;
 // Admin Auth Routes
 Route::prefix('admin')->name('admin.')->group(function () {
   Route::prefix('auth')->controller(AuthController::class)->group(function () {
-    Route::get('/login','showLoginForm')->name('login');
+    Route::get('/login', 'showLoginForm')->name('login');
     Route::post('/login', 'login');
     Route::post('/logout', 'logout')->name('logout');
   });
 
   // Protected Admin Routes
-  Route::middleware('auth:admin')->group(function () {
+  Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resources([
@@ -43,8 +43,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Newsletters
     Route::get('/newsletters', [NewsletterController::class, 'index'])->name('newsletters.index');
 
-    // Settings
+    // Settings Routes
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
-    Route::post('/settings/update', [SettingsController::class, 'update'])->name('settings.update');
+    Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile.update');
+    Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.password.update');
+    Route::post('/settings/admins', [SettingsController::class, 'createAdmin'])->name('settings.admins.store');
+    Route::put('/settings/admins/{admin}', [SettingsController::class, 'updateAdmin'])->name('settings.admins.update');
+    Route::delete('/settings/admins/{admin}', [SettingsController::class, 'deleteAdmin'])->name('settings.admins.destroy');
+    Route::get('/settings/site', [SettingsController::class, 'getSiteSettings'])->name('settings.site.get');
+    Route::post('/settings/site', [SettingsController::class, 'updateSiteSettings'])->name('settings.site.update');
   });
 });

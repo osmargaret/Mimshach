@@ -4,14 +4,15 @@
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h2
-          class="from-primary to-accent bg-gradient-to-r bg-clip-text text-2xl font-bold text-transparent">
+          class="from-accent to-accent bg-linear-to-r bg-clip-text text-2xl font-bold text-transparent">
           Universities
         </h2>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage partner universities and
           institutions</p>
       </div>
-      <button
-        class="from-primary to-accent inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl"
+      @if(auth()->user()->isSuperAdmin())
+        <button
+        class="from-accent to-accent bg-linear-to-r inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl"
         onclick="openUniversityModal()">
         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -19,6 +20,7 @@
         </svg>
         Add University
       </button>
+      @endif
     </div>
 
     <!-- Filter Component -->
@@ -28,7 +30,7 @@
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead
-            class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+            class="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
             <tr>
               <th
                 class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 sm:px-6 dark:text-gray-300">
@@ -69,6 +71,8 @@
     </div>
   </div>
 
+  <x-admin.view-modal title="View Details" />
+
   <!-- Create/Edit Modal -->
   <div class="fixed inset-0 z-50 hidden h-full w-full overflow-y-auto bg-black/50 backdrop-blur-sm"
     id="universityModal">
@@ -79,7 +83,7 @@
         <h3 class="text-xl font-bold text-gray-900 dark:text-white" id="modalTitle">Add University
         </h3>
         <button
-          class="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700"
+          class="text-accent hover:bg-accent hover:text-primary dark:hover:bg-accent dark:hover:text-primary rounded-lg p-1"
           onclick="closeUniversityModal()">
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"
@@ -87,8 +91,8 @@
           </svg>
         </button>
       </div>
-      <form action="{{ route('admin.universities.store') }}" class="p-6" enctype="multipart/form-data"
-        id="universityForm" method="POST">
+      <form action="{{ route('admin.universities.store') }}" class="p-6"
+        enctype="multipart/form-data" id="universityForm" method="POST">
         @csrf
         <input id="method" name="_method" type="hidden" value="POST">
         <input id="universityId" name="university_id" type="hidden">
@@ -99,7 +103,7 @@
               class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">University
               Name *</label>
             <input
-              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="name" name="name" required type="text">
           </div>
 
@@ -107,7 +111,7 @@
             <label
               class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Subtitle</label>
             <input
-              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="subtitle" name="subtitle" type="text">
           </div>
 
@@ -116,14 +120,14 @@
               <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Country
                 *</label>
               <input
-                class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 id="country" name="country" required type="text">
             </div>
             <div>
               <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">City
                 *</label>
               <input
-                class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 id="city" name="city" required type="text">
             </div>
           </div>
@@ -132,7 +136,7 @@
             <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Content
               *</label>
             <textarea
-              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="content" name="content" required rows="5"></textarea>
           </div>
 
@@ -166,10 +170,10 @@
         <div
           class="mt-6 flex justify-end space-x-3 border-t border-gray-200 pt-4 dark:border-gray-700">
           <button
-            class="rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+            class="flex-1 rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
             onclick="closeUniversityModal()" type="button">Cancel</button>
           <button
-            class="from-primary to-accent rounded-lg bg-gradient-to-r px-4 py-2 text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl"
+            class="from-accent to-accent bg-linear-to-r w-full flex-1 rounded-lg px-4 py-2 font-medium text-white transition hover:shadow-lg"
             type="submit">Save University</button>
         </div>
       </form>
@@ -177,7 +181,8 @@
   </div>
 
   <!-- Delete Confirmation Modal -->
-  <div class="fixed inset-0 z-50 hidden place-items-center bg-black/50 backdrop-blur-sm" id="deleteModal">
+  <div class="fixed inset-0 z-50 hidden place-items-center bg-black/50 backdrop-blur-sm"
+    id="deleteModal">
     <div class="flex min-h-full items-center justify-center p-4">
       <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-800">
         <div class="text-center">
@@ -190,7 +195,8 @@
                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
             </svg>
           </div>
-          <h3 class="mt-4 text-lg font-semibold text-gray-900 dark:text-white">Delete University</h3>
+          <h3 class="mt-4 text-lg font-semibold text-gray-900 dark:text-white">Delete University
+          </h3>
           <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Are you sure you want to delete
             this university? This action cannot be undone.</p>
           <form class="mt-6 flex justify-center space-x-3" id="deleteForm" method="POST">
@@ -216,7 +222,7 @@
         class="flex items-center justify-between border-b border-gray-200 p-6 dark:border-gray-700">
         <h3 class="text-xl font-bold text-gray-900 dark:text-white">University Admissions</h3>
         <button
-          class="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700"
+          class="text-accent hover:bg-accent hover:text-primary dark:hover:bg-accent dark:hover:text-primary rounded-lg p-1"
           onclick="closeAdmissionsModal()">
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"
@@ -303,11 +309,12 @@
           }
 
           const university = data.university;
+          console.log(university);
           const form = document.getElementById('universityForm');
 
           document.getElementById('modalTitle').textContent = 'Edit University';
           document.getElementById('method').value = 'PUT';
-          form.action = routes.update(id);
+          form.action = routes.update(university.id);
           document.getElementById('universityId').value = university.id;
 
           // Populate fields
@@ -410,7 +417,7 @@
 
           let html = `
             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+              <thead class="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
                 <tr>
                   <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300">Title</th>
                   <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300">Program</th>

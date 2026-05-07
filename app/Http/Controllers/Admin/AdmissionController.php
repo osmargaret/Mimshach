@@ -138,6 +138,7 @@ class AdmissionController extends Controller
 
             $admissionData = $admission->toArray();
             $admissionData['formatted_deadline'] = Carbon::parse($admission->deadline)->format('Y-m-d');
+            $admissionData['image'] = $admission->image ? Storage::url($admission->image) : null;
             return response()->json([
                 'success' => true,
                 'admission' => $admissionData

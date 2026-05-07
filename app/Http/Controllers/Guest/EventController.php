@@ -15,6 +15,21 @@ class EventController extends Controller
 
         $filters = [
             [
+                'type' => 'date',
+                'name' => 'date_from',
+                'placeholder' => 'Event From',
+            ],
+            [
+                'type' => 'date',
+                'name' => 'date_to',
+                'placeholder' => 'Event To',
+            ],
+            [
+                'type' => 'date',
+                'name' => 'specific_date',
+                'placeholder' => 'Specific Date',
+            ],
+            [
                 'type' => 'search',
                 'name' => 'search',
                 'placeholder' => 'Search events...',
@@ -37,7 +52,17 @@ class EventController extends Controller
             $query->where('location', $request->city);
         }
 
-        $events = $query->orderBy('date', 'desc')->paginate(6);
+        if ($request->filled('date_from')) {
+            $query->whereDate('date', '>=', $request->date_from);
+        }
+        if ($request->filled('date_to')) {
+            $query->whereDate('date', '<=', $request->date_to);
+        }
+        if ($request->filled('specific_date')) {
+            $query->whereDate('date', $request->specific_date);
+        }
+
+        $events = $query->orderBy('created_at', 'desc')->paginate(8);
 
         return view('guest.events.index', compact('events', 'filters'));
     }
@@ -56,7 +81,10 @@ class EventController extends Controller
             'date_of_birth' => 'required|date',
         ]);
 
-        $exists = EventRegistration::where('event_id', $event->id)->where('email', $validated['email'])->exists();
+        $exists = EventRegistration::query()
+            ->where('event_id', $event->id)
+            ->where('email', $validated['email'])
+            ->exists();
 
         if ($exists) {
             return response()->json([

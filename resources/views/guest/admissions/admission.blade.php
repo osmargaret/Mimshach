@@ -10,15 +10,7 @@
 <x-app-layout :$pageTitle>
   <x-slot:styles>
     <style>
-      /* Your existing styles remain the same */
-      .admission-hero {
-        background: linear-gradient(135deg, #0A192F 0%, #1a2f4a 100%);
-        padding: 140px 0 80px;
-        color: white;
-        position: relative;
-        overflow: hidden;
-      }
-
+      /* Only keeping essential styles that can't be easily replaced with Tailwind */
       .admission-hero:before {
         content: '';
         position: absolute;
@@ -30,110 +22,6 @@
         clip-path: polygon(100% 0, 0% 100%, 100% 100%);
       }
 
-      .admission-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(198, 164, 63, 0.2);
-        backdrop-filter: blur(10px);
-        padding: 6px 16px;
-        border-radius: 50px;
-        font-size: 13px;
-        font-weight: 500;
-        margin-bottom: 24px;
-        border: 1px solid rgba(198, 164, 63, 0.4);
-        position: absolute;
-        right: 5px;
-      }
-
-      .admission-hero h1 {
-        font-size: 48px;
-        margin-bottom: 20px;
-        line-height: 1.2;
-      }
-
-      .admission-meta {
-        display: flex;
-        gap: 24px;
-        flex-wrap: wrap;
-        margin-top: 32px;
-      }
-
-      .meta-item {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .meta-item i {
-        font-size: 20px;
-        color: #C6A43F;
-      }
-
-      .deadline-urgent {
-        background: #dc2626;
-        color: white;
-        padding: 4px 12px;
-        border-radius: 50px;
-        font-size: 12px;
-        font-weight: 600;
-        margin-left: 8px;
-      }
-
-      .deadline-open {
-        background: #33ff00;
-        color: white;
-        padding: 4px 12px;
-        border-radius: 50px;
-        font-size: 12px;
-        font-weight: 600;
-        margin-left: 8px;
-      }
-
-      .deadline-expired {
-        background: #6b7280;
-        color: white;
-        padding: 4px 12px;
-        border-radius: 50px;
-        font-size: 12px;
-        font-weight: 600;
-        margin-left: 8px;
-      }
-
-      .admission-content {
-        padding: 80px 0;
-        background: #F9F7F5;
-      }
-
-      .content-layout {
-        display: grid;
-        grid-template-columns: 2.5fr 1.5fr;
-        gap: 60px;
-      }
-
-      .main-section {
-        background: white;
-        border-radius: 30px;
-        padding: 48px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-      }
-
-      .detail-block {
-        margin-bottom: 48px;
-      }
-
-      .detail-block:last-child {
-        margin-bottom: 0;
-      }
-
-      .detail-block h2 {
-        font-size: 28px;
-        margin-bottom: 20px;
-        color: #0A192F;
-        position: relative;
-        padding-bottom: 12px;
-      }
-
       .detail-block h2:after {
         content: '';
         position: absolute;
@@ -143,298 +31,114 @@
         height: 3px;
         background: #C6A43F;
       }
-
-      .detail-block p {
-        color: #4a5568;
-        line-height: 1.8;
-        margin-bottom: 16px;
-      }
-
-      .info-box {
-        background: #F9F7F5;
-        padding: 20px;
-        border-radius: 16px;
-        margin-bottom: 16px;
-      }
-
-      .info-box .label {
-        font-size: 13px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: #C6A43F;
-        font-weight: 600;
-        margin-bottom: 8px;
-      }
-
-      .info-box .value {
-        font-size: 18px;
-        font-weight: 600;
-        color: #0A192F;
-      }
-
-      .sidebar-card {
-        background: white;
-        border-radius: 24px;
-        padding: 32px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        margin-bottom: 32px;
-        position: sticky;
-        top: 100px;
-      }
-
-      .sidebar-card h3 {
-        font-size: 22px;
-        margin-bottom: 24px;
-        color: #0A192F;
-      }
-
-      .info-item {
-        display: flex;
-        justify-content: space-between;
-        padding: 16px 0;
-        border-bottom: 1px solid #e2e8f0;
-      }
-
-      .info-item:last-child {
-        border-bottom: none;
-      }
-
-      .info-label {
-        font-weight: 600;
-        color: #0A192F;
-      }
-
-      .info-value {
-        color: #4a5568;
-        text-align: right;
-      }
-
-      .action-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        margin-top: 24px;
-      }
-
-      .btn-apply {
-        background: #C6A43F;
-        color: #0A192F;
-        padding: 14px 28px;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        text-align: center;
-        transition: 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-      }
-
-      .btn-apply:hover {
-        background: #b38f2e;
-        transform: translateY(-2px);
-      }
-
-      .related-posts {
-        margin-top: 60px;
-        padding-top: 60px;
-        border-top: 1px solid #e2e8f0;
-      }
-
-      .related-posts h3 {
-        font-size: 28px;
-        margin-bottom: 32px;
-        color: #0A192F;
-      }
-
-      .related-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 30px;
-      }
-
-      .related-card {
-        background: white;
-        border-radius: 20px;
-        overflow: hidden;
-        transition: 0.3s;
-        text-decoration: none;
-        color: inherit;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        display: block;
-      }
-
-      .related-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-      }
-
-      .related-card-content {
-        padding: 20px;
-      }
-
-      .related-card h4 {
-        font-size: 18px;
-        margin-bottom: 10px;
-        color: #0A192F;
-      }
-
-      .related-card p {
-        font-size: 14px;
-        color: #4a5568;
-        margin-bottom: 12px;
-      }
-
-      .related-deadline {
-        font-size: 12px;
-        color: #C6A43F;
-      }
-
-      .back-button {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: white;
-        text-decoration: none;
-        margin-bottom: 24px;
-        font-weight: 500;
-        transition: 0.2s;
-      }
-
-      .back-button:hover {
-        gap: 12px;
-        color: #C6A43F;
-      }
-
-      @media (max-width: 992px) {
-        .content-layout {
-          grid-template-columns: 1fr;
-        }
-
-        .sidebar-card {
-          position: static;
-        }
-
-        .related-grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (max-width: 768px) {
-        .admission-hero {
-          padding: 100px 0 60px;
-        }
-
-        .admission-hero h1 {
-          font-size: 32px;
-        }
-
-        .main-section {
-          padding: 32px;
-        }
-
-        .related-grid {
-          grid-template-columns: 1fr;
-        }
-      }
     </style>
   </x-slot:styles>
 
-  <div @class(['admission-hero'])>
-    <div @class(['container'])>
-      <a @class(['back-button']) href="{{ route('admissions.index') }}">
-        <i @class(['fas', 'fa-arrow-left'])></i> Back to Insights
+  <div
+    class="admission-hero bg-linear-to-br relative overflow-hidden from-[#0A192F] to-[#1a2f4a] py-[140px] pb-20 text-white">
+    <div class="container mx-auto max-w-[1200px] px-4">
+      <a class="back-button mb-6 inline-flex items-center gap-2 font-medium text-white transition-all duration-200 hover:gap-3 hover:text-[#C6A43F]"
+        href="{{ route('admissions.index') }}">
+        <i class="fas fa-arrow-left"></i> Back to Insights
       </a>
-      <div @class(['admission-badge'])>
-        <i @class(['fas', 'fa-graduation-cap'])></i>
+      <div
+        class="absolute right-5 inline-flex items-center gap-2 rounded-full border border-[rgba(198,164,63,0.4)] bg-[rgba(198,164,63,0.2)] px-4 py-1.5 text-sm font-semibold backdrop-blur-[10px]">
+        <i class="fas fa-graduation-cap"></i>
         <span>Admission {{ $admission->year }}</span>
       </div>
-      <h1>{{ $admission->title }}</h1>
+      <h1 class="mb-5 text-3xl leading-tight md:text-5xl">{{ $admission->title }}</h1>
       @if ($admission->subtitle)
-        <p style="font-size: 18px; opacity: 0.9; max-width: 700px;">{{ $admission->subtitle }}</p>
+        <p class="max-w-[700px] text-lg opacity-90">{{ $admission->subtitle }}</p>
       @endif
-      <div @class(['admission-meta'])>
-        <div @class(['meta-item'])>
-          <i @class(['fas', 'fa-university'])></i>
+      <div class="mt-8 flex flex-wrap gap-6">
+        <div class="flex items-center gap-2.5">
+          <i class="fas fa-university text-[#C6A43F]"></i>
           <span>{{ $admission->university->name ?? ($admission->university_name ?? 'University') }}</span>
         </div>
-        <div @class(['meta-item'])>
-          <i @class(['fas', 'fa-map-marker-alt'])></i>
+        <div class="flex items-center gap-2.5">
+          <i class="fas fa-map-marker-alt text-[#C6A43F]"></i>
           <span>{{ $admission->country }}</span>
         </div>
-        <div @class(['meta-item'])>
-          <i @class(['fas', 'fa-calendar-alt'])></i>
+        <div class="flex items-center gap-2.5">
+          <i class="fas fa-calendar-alt text-[#C6A43F]"></i>
           <span>Deadline: {{ \Carbon\Carbon::parse($admission->deadline)->format('F j, Y') }}</span>
           @if ($admission->deadline->isPast())
-            <span @class(['deadline-expired'])>Expired</span>
+            <span
+              class="ml-2 rounded-full bg-gray-500 px-3 py-1 text-xs font-semibold text-white">Expired</span>
           @elseif ($admission->deadline->greaterThan(now()->addMonths(6)))
-            <span @class(['deadline-open'])>Open</span>
+            <span
+              class="ml-2 rounded-full bg-green-500 px-3 py-1 text-xs font-semibold text-white">Open</span>
           @else
-            <span @class(['deadline-urgent'])>Urgent</span>
+            <span
+              class="ml-2 rounded-full bg-red-600 px-3 py-1 text-xs font-semibold text-white">Urgent</span>
           @endif
         </div>
-        <div @class(['meta-item'])>
-          <i @class(['fas', 'fa-book'])></i>
+        <div class="flex items-center gap-2.5">
+          <i class="fas fa-book text-[#C6A43F]"></i>
           <span>Program: {{ $admission->program }}</span>
         </div>
       </div>
     </div>
   </div>
 
-  <div @class(['admission-content'])>
-    <div @class(['container'])>
-      <div @class(['content-layout'])>
-        <div @class(['main-section'])>
-          <div @class(['detail-block'])>
-            <h2>About This Admission</h2>
-            <div @class(['detail-block-content'])>
+  <div class="bg-[#F9F7F5] py-20">
+    <div class="container mx-auto max-w-[1200px] px-4">
+      <div class="grid grid-cols-1 gap-16 lg:grid-cols-[2.5fr_1.5fr]">
+        <div class="rounded-[30px] bg-white p-8 shadow-md md:p-12">
+          <div class="mb-12">
+            <h2 class="relative mb-5 pb-3 text-2xl font-bold text-[#0A192F] md:text-3xl">About This
+              Admission</h2>
+            <div class="leading-relaxed text-[#4a5568]">
               {!! nl2br(e($admission->content)) !!}
             </div>
           </div>
 
-          <div @class(['detail-block'])>
-            <h2>Program Information</h2>
-            <div @class(['info-box'])>
-              <div @class(['label'])>Program of Study</div>
-              <div @class(['value'])>{{ $admission->program }}</div>
+          <div>
+            <h2 class="relative mb-5 pb-3 text-2xl font-bold text-[#0A192F] md:text-3xl">Program
+              Information</h2>
+            <div class="mb-4 rounded-2xl bg-[#F9F7F5] p-5">
+              <div class="mb-2 text-xs font-semibold uppercase tracking-wider text-[#C6A43F]">
+                Program of Study</div>
+              <div class="text-lg font-semibold text-[#0A192F]">{{ $admission->program }}</div>
             </div>
-            <div @class(['info-box'])>
-              <div @class(['label'])>Academic Year</div>
-              <div @class(['value'])>{{ $admission->year }}</div>
+            <div class="mb-4 rounded-2xl bg-[#F9F7F5] p-5">
+              <div class="mb-2 text-xs font-semibold uppercase tracking-wider text-[#C6A43F]">
+                Academic Year</div>
+              <div class="text-lg font-semibold text-[#0A192F]">{{ $admission->year }}</div>
             </div>
-            <div @class(['info-box'])>
-              <div @class(['label'])>Location</div>
-              <div @class(['value'])>{{ $admission->country }}</div>
+            <div class="mb-4 rounded-2xl bg-[#F9F7F5] p-5">
+              <div class="mb-2 text-xs font-semibold uppercase tracking-wider text-[#C6A43F]">
+                Location</div>
+              <div class="text-lg font-semibold text-[#0A192F]">{{ $admission->country }}</div>
             </div>
           </div>
         </div>
 
         <div>
-          <div @class(['sidebar-card'])>
-            <h3>Key Information</h3>
+          <div class="sticky top-[100px] mb-8 rounded-2xl bg-white p-8 shadow-md">
+            <h3 class="mb-6 text-2xl font-bold text-[#0A192F]">Key Information</h3>
 
-            <div @class(['info-item'])>
-              <span @class(['info-label'])>University</span>
+            <div class="flex justify-between border-b border-gray-200 py-4">
+              <span class="font-semibold text-[#0A192F]">University</span>
               <span
-                @class(['info-value'])>{{ $admission->university->name ?? 'N/A' }}</span>
+                class="text-right text-[#4a5568]">{{ $admission->university->name ?? 'N/A' }}</span>
             </div>
-            <div @class(['info-item'])>
-              <span @class(['info-label'])>Program</span>
-              <span @class(['info-value'])>{{ $admission->program }}</span>
+            <div class="flex justify-between border-b border-gray-200 py-4">
+              <span class="font-semibold text-[#0A192F]">Program</span>
+              <span class="text-right text-[#4a5568]">{{ $admission->program }}</span>
             </div>
-            <div @class(['info-item'])>
-              <span @class(['info-label'])>Year</span>
-              <span @class(['info-value'])>{{ $admission->year }}</span>
+            <div class="flex justify-between border-b border-gray-200 py-4">
+              <span class="font-semibold text-[#0A192F]">Year</span>
+              <span class="text-right text-[#4a5568]">{{ $admission->year }}</span>
             </div>
-            <div @class(['info-item'])>
-              <span @class(['info-label'])>Country</span>
-              <span @class(['info-value'])>{{ $admission->country }}</span>
+            <div class="flex justify-between border-b border-gray-200 py-4">
+              <span class="font-semibold text-[#0A192F]">Country</span>
+              <span class="text-right text-[#4a5568]">{{ $admission->country }}</span>
             </div>
-            <div @class(['info-item'])>
-              <span @class(['info-label'])>Application Deadline</span>
+            <div class="flex justify-between py-4">
+              <span class="font-semibold text-[#0A192F]">Application Deadline</span>
               <span
-                @class(['info-value'])>{{ \Carbon\Carbon::parse($admission->deadline)->format('F j, Y') }}</span>
+                class="text-right text-[#4a5568]">{{ \Carbon\Carbon::parse($admission->deadline)->format('F j, Y') }}</span>
             </div>
 
             @if (!\Carbon\Carbon::parse($admission->deadline)->isPast())
@@ -443,13 +147,15 @@
           </div>
 
           @if ($admission->university)
-            <div @class(['sidebar-card'])>
-              <h3>About {{ $admission->university->name }}</h3>
-              <p style="color: #4a5568; margin-bottom: 16px; line-height: 1.6;">
-                {{ Str::limit(strip_tags($admission->university->content), 150) }}</p>
-              <a href="{{ route('universities.university', $admission->university) }}"
-                style="color: #C6A43F; text-decoration: none; font-weight: 500;">
-                View University Details <i @class(['fas', 'fa-arrow-right'])></i>
+            <div class="sticky top-[100px] mb-8 rounded-2xl bg-white p-8 shadow-md">
+              <h3 class="mb-6 text-2xl font-bold text-[#0A192F]">About
+                {{ $admission->university->name }}</h3>
+              <p class="mb-4 leading-relaxed text-[#4a5568]">
+                {{ Str::limit(strip_tags($admission->university->content), 150) }}
+              </p>
+              <a class="text-accent border-accent/30 hover:bg-accent/30 rounded-lg border px-4 py-2 font-semibold no-underline transition-all duration-300"
+                href="{{ route('universities.university', $admission->university) }}">
+                View University Details <i class="fas fa-arrow-right"></i>
               </a>
             </div>
           @endif
@@ -457,17 +163,18 @@
       </div>
 
       @if ($relatedAdmissions && count($relatedAdmissions) > 0)
-        <div @class(['related-posts'])>
-          <h3>Related Admission Opportunities</h3>
-          <div @class(['related-grid'])>
+        <div class="mt-16 border-t border-gray-200 pt-16">
+          <h3 class="mb-8 text-3xl font-bold text-[#0A192F]">Related Admission Opportunities</h3>
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             @foreach ($relatedAdmissions as $related)
-              <a @class(['related-card'])
+              <a class="block rounded-2xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 href="{{ route('admissions.admission', $related) }}">
-                <div @class(['related-card-content'])>
-                  <h4>{{ $related->title }}</h4>
-                  <p>{{ Str::limit(strip_tags($related->content), 100) }}</p>
-                  <div @class(['related-deadline'])>
-                    <i @class(['fas', 'fa-calendar-alt'])></i>
+                <div class="p-5">
+                  <h4 class="mb-2.5 text-lg font-bold text-[#0A192F]">{{ $related->title }}</h4>
+                  <p class="mb-3 text-sm text-[#4a5568]">
+                    {{ Str::limit(strip_tags($related->content), 100) }}</p>
+                  <div class="text-sm text-[#C6A43F]">
+                    <i class="fas fa-calendar-alt"></i>
                     {{ \Carbon\Carbon::parse($related->deadline)->format('M d, Y') }}
                   </div>
                 </div>

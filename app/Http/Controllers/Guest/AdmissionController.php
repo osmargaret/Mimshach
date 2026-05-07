@@ -13,12 +13,12 @@ class AdmissionController extends Controller
     {
         // Get unique values from database for filters
         $years = ['All Years', ...Admission::distinct()->pluck('year')->sort()->toArray()];
-        $universitiesList = University::orderBy('name')->pluck('name')->toArray();
+        $universitiesList = University::orderBy('name', 'asc')->pluck('name')->toArray();
         $universities = ['All Universities', ...$universitiesList];
         $programs = ['All Programs', ...Admission::distinct()->pluck('program')->sort()->toArray()];
         $countries = ['All Countries', ...Admission::distinct()->pluck('country')->sort()->toArray()];
 
-        // Build filters array (keep it simple)
+        // Build filters array (keep it simple) 
         $filters = [
             [
                 'type' => 'select',

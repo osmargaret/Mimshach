@@ -149,18 +149,6 @@
               </div>
             </div>
 
-            <!-- Remember Me & Forgot Password -->
-            <div class="flex items-center justify-between">
-              <label class="flex items-center">
-                <input
-                  class="focus:ring-accent text-accent h-4 w-4 rounded border-white/20 bg-white/10"
-                  name="remember" type="checkbox">
-                <span class="ml-2 text-sm text-white/60">Remember me</span>
-              </label>
-              <a class="text-accent hover:text-accent/80 text-sm transition" href="#">Forgot
-                password?</a>
-            </div>
-
             <!-- Submit Button -->
             <button
               class="login-btn bg-accent text-primary w-full transform cursor-pointer rounded-lg py-3 font-semibold transition duration-200 hover:scale-[1.02] hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 disabled:hover:opacity-50"

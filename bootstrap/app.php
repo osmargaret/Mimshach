@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Middleware\AdminPermission;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use App\Http\Middleware\Authenticate;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -14,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'auth' => Authenticate::class,
+            'admin.permission' => AdminPermission::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

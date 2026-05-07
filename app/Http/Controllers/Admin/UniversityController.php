@@ -75,8 +75,6 @@ class UniversityController extends Controller
                 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
-            $validated['slug'] = Str::slug($validated['name']);
-
             // Handle image upload
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 try {

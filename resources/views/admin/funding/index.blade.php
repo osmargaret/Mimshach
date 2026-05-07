@@ -4,20 +4,24 @@
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h2
-          class="from-primary to-accent bg-gradient-to-r bg-clip-text text-2xl font-bold text-transparent">
+          class="from-accent to-accent bg-linear-to-r bg-clip-text text-2xl font-bold text-transparent">
           Funding Opportunities
         </h2>
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage scholarships, grants, and funding opportunities</p>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage scholarships, grants, and
+          funding opportunities</p>
       </div>
-      <button
-        class="from-primary to-accent inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl"
-        onclick="openFundingModal()">
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-          </path>
-        </svg>
-        Add Funding Opportunity
-      </button>
+      @if (auth()->user()->isSuperAdmin())
+        <button
+          class="from-accent to-accent bg-linear-to-r inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl"
+          onclick="openFundingModal()">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="2">
+            </path>
+          </svg>
+          Add Funding Opportunity
+        </button>
+      @endif
     </div>
 
     <!-- Filter Bar -->
@@ -27,7 +31,7 @@
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead
-            class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+            class="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
             <tr>
               <th
                 class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 sm:px-6 dark:text-gray-300">
@@ -68,16 +72,20 @@
     </div>
   </div>
 
+  <x-admin.view-modal title="View Details" />
+
   <!-- Create/Edit Modal -->
-  <div class="fixed inset-0 z-50 hidden h-full w-full overflow-y-auto bg-black/50 backdrop-blur-sm"
+  <div
+    class="fixed inset-0 z-50 hidden h-full w-full overflow-y-auto bg-black/50 px-2 backdrop-blur-sm"
     id="fundingModal">
     <div
       class="relative mx-auto my-10 w-full max-w-2xl rounded-2xl bg-white shadow-2xl dark:bg-gray-800">
       <div
         class="flex items-center justify-between border-b border-gray-200 p-6 dark:border-gray-700">
-        <h3 class="text-xl font-bold text-gray-900 dark:text-white" id="modalTitle">Add Funding Opportunity</h3>
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white" id="modalTitle">Add Funding
+          Opportunity</h3>
         <button
-          class="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700"
+          class="text-accent hover:bg-accent hover:text-primary dark:hover:bg-accent dark:hover:text-primary rounded-lg p-1"
           onclick="closeFundingModal()">
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"
@@ -85,80 +93,94 @@
           </svg>
         </button>
       </div>
-      <form action="{{ route('admin.fundings.store') }}" class="p-6" enctype="multipart/form-data"
-        id="fundingForm" method="POST">
+      <form action="{{ route('admin.fundings.store') }}" class="p-6"
+        enctype="multipart/form-data" id="fundingForm" method="POST">
         @csrf
         <input id="method" name="_method" type="hidden" value="POST">
         <input id="fundingId" name="funding_id" type="hidden">
 
         <div class="max-h-[60vh] space-y-4 overflow-y-auto px-1">
           <div>
-            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Funding Name *</label>
+            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Funding
+              Name *</label>
             <input
-              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="name" name="name" required type="text">
           </div>
 
           <div>
-            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Description *</label>
+            <label
+              class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Description
+              *</label>
             <textarea
-              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="description" name="description" required rows="5"></textarea>
           </div>
 
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">University *</label>
+              <label
+                class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">University
+                *</label>
               <select
-                class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 id="university_id" name="university_id" required>
                 <option value="">Select University</option>
-                @foreach($universities as $university)
+                @foreach ($universities as $university)
                   <option value="{{ $university->id }}">{{ $university->name }}</option>
                 @endforeach
               </select>
             </div>
             <div>
-              <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Education Level *</label>
+              <label
+                class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Education
+                Level *</label>
               <select
-                class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 id="education_level" name="education_level" required>
                 <option value="">Select Level</option>
-                @foreach($fundings->pluck('education_level')->unique() as $level)
-                  <option value="{{ $level }}">{{ $level }}</option>
-                @endforeach
-              </select>
+                <option value="High School">High School</option>
+                <option value="Associate Degree">Associate Degree</option>
+                <option value="Bachelor's">Bachelor's Degree</option>
+                <option value="Master's">Master's Degree</option>
+                <option value="Doctorate">Doctorate</option>
+                <option value="Postgraduate">Postgraduate</option>
+                <option value="Diploma">Diploma</option>
+                <option value="Certificate">Certificate</option>
             </div>
-          </div>
-
-          <div>
-            <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Image</label>
-            <input accept="image/*"
-              class="w-full rounded-lg border border-gray-300 px-4 py-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              id="image" name="image" type="file">
-            <div class="mt-2 hidden" id="currentImage">
-              <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Current Image:</p>
-              <img alt="Current image" class="h-24 w-24 rounded-lg object-cover"
-                id="currentImagePreview" src="">
-            </div>
+            </select>
           </div>
         </div>
 
-        <div
-          class="mt-6 flex justify-end space-x-3 border-t border-gray-200 pt-4 dark:border-gray-700">
-          <button
-            class="rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-            onclick="closeFundingModal()" type="button">Cancel</button>
-          <button
-            class="from-primary to-accent rounded-lg bg-gradient-to-r px-4 py-2 text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl"
-            type="submit">Save Funding</button>
+        <div>
+          <label
+            class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Image</label>
+          <input accept="image/*"
+            class="w-full rounded-lg border border-gray-300 px-4 py-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            id="image" name="image" type="file">
+          <div class="mt-2 hidden" id="currentImage">
+            <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Current Image:</p>
+            <img alt="Current image" class="h-24 w-24 rounded-lg object-cover"
+              id="currentImagePreview" src="">
+          </div>
         </div>
-      </form>
     </div>
+
+    <div
+      class="mt-6 flex justify-end space-x-3 border-t border-gray-200 pt-4 dark:border-gray-700">
+      <button
+        class="flex-1 rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+        onclick="closeFundingModal()" type="button">Cancel</button>
+      <button
+        class="from-accent to-accent bg-linear-to-r w-full flex-1 rounded-lg px-4 py-2 font-medium text-white transition hover:shadow-lg"
+        type="submit">Save Funding</button>
+    </div>
+    </form>
   </div>
 
   <!-- Delete Confirmation Modal -->
-  <div class="fixed inset-0 z-50 hidden place-items-center bg-black/50 backdrop-blur-sm" id="deleteModal">
+  <div class="fixed inset-0 z-50 hidden place-items-center bg-black/50 px-2 backdrop-blur-sm"
+    id="deleteModal">
     <div class="flex min-h-full items-center justify-center p-4">
       <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-800">
         <div class="text-center">
@@ -171,7 +193,8 @@
                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
             </svg>
           </div>
-          <h3 class="mt-4 text-lg font-semibold text-gray-900 dark:text-white">Delete Funding Opportunity</h3>
+          <h3 class="mt-4 text-lg font-semibold text-gray-900 dark:text-white">Delete Funding
+            Opportunity</h3>
           <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Are you sure you want to delete
             this funding opportunity? This action cannot be undone.</p>
           <form class="mt-6 flex justify-center space-x-3" id="deleteForm" method="POST">

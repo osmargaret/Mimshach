@@ -151,6 +151,7 @@ class EventController extends Controller
             $eventData['formatted_date'] = Carbon::parse($event->date)->format('Y-m-d');
             $eventData['formatted_start_time'] = $event->formatted_start_time;
             $eventData['formatted_end_time'] = $event->formatted_end_time;
+            $eventData['image'] = $event->image ? Storage::url($event->image) : null;
 
             return response()->json([
                 'success' => true,

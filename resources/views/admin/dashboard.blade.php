@@ -11,14 +11,6 @@
       @endforeach
     </x-admin.dashboard.dashboard-grid>
 
-    <!-- Charts Section -->
-    <x-admin.dashboard.dashboard-grid :columns="2">
-      <x-admin.dashboard.chart-card chartId="consultationChart" subtitle="Last 7 days activity"
-        title="Consultations Trend" />
-      <x-admin.dashboard.chart-card chartId="newsletterChart" subtitle="Subscription trends"
-        title="Newsletter Growth" />
-    </x-admin.dashboard.dashboard-grid>
-
     <!-- Recent Data Tables -->
     <x-admin.dashboard.dashboard-grid :columns="2">
       <!-- Recent Consultations Table -->

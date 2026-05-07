@@ -115,7 +115,7 @@ class BlogController extends Controller
     public function edit($id)
     {
         try {
-            $blog = Blog::findOrFail($id);
+            $blog = Blog::with('user')->findOrFail($id);
 
             // Add full URL for featured image
             $blogData = $blog->toArray();

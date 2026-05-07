@@ -4,21 +4,24 @@
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h2
-          class="from-primary to-accent bg-gradient-to-r bg-clip-text text-2xl font-bold text-transparent">
+          class="from-accent to-accent bg-linear-to-r bg-clip-text text-2xl font-bold text-transparent">
           Admissions
         </h2>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage admission posts and deadlines
         </p>
       </div>
-      <button
-        class="from-primary to-accent inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl"
-        onclick="openCreateModal()">
-        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-          </path>
-        </svg>
-        Add Admission
-      </button>
+      @if (auth()->user()->isSuperAdmin())
+        <button
+          class="from-accent to-accent bg-linear-to-r inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold text-white shadow-lg transition-all duration-200 hover:scale-105 hover:shadow-xl"
+          onclick="openCreateModal()">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"
+              stroke-width="2">
+            </path>
+          </svg>
+          Add Admission
+        </button>
+      @endif
     </div>
 
     <x-filter-bar :$filters contentId="admissionsList" paginationId="paginationContainer" />
@@ -27,7 +30,7 @@
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead
-            class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+            class="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
             <tr>
               <th
                 class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 sm:px-6 dark:text-gray-300">
@@ -68,8 +71,11 @@
     </div>
   </div>
 
+  <x-admin.view-modal title="View Details" />
+
   <!-- Create/Edit Modal -->
-  <div class="fixed inset-0 z-50 hidden h-full w-full overflow-y-auto bg-black/50 backdrop-blur-sm"
+  <div
+    class="fixed inset-0 z-50 hidden h-full w-full overflow-y-auto bg-black/50 px-2 backdrop-blur-sm"
     id="admissionModal">
     <div
       class="relative mx-auto my-10 w-full max-w-2xl rounded-2xl bg-white shadow-2xl dark:bg-gray-800">
@@ -78,7 +84,7 @@
         <h3 class="text-xl font-bold text-gray-900 dark:text-white" id="modalTitle">Add Admission
         </h3>
         <button
-          class="rounded-lg p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700"
+          class="text-accent hover:bg-accent hover:text-primary dark:hover:bg-accent dark:hover:text-primary rounded-lg p-1"
           onclick="closeModal()">
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"
@@ -96,7 +102,7 @@
             <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Title
               *</label>
             <input
-              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="title" name="title" required type="text">
           </div>
 
@@ -104,7 +110,7 @@
             <label
               class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Subtitle</label>
             <input
-              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="subtitle" name="subtitle" type="text">
           </div>
 
@@ -112,7 +118,7 @@
             <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Program
               *</label>
             <input
-              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="program" name="program" required type="text">
           </div>
 
@@ -121,14 +127,14 @@
               <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Year
                 *</label>
               <input
-                class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 id="year" name="year" required type="number">
             </div>
             <div>
               <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Country
                 *</label>
               <input
-                class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 id="country" name="country" required type="text">
             </div>
           </div>
@@ -138,7 +144,7 @@
               class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">University
               *</label>
             <select
-              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-accent  dark:bg-gray-700 dark:text-white"
+              class="focus:border-accent focus:ring-none w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="university_id" name="university_id" required>
               <option value="">Select University</option>
               @foreach (\App\Models\University::orderBy('name')->get() as $university)
@@ -151,7 +157,7 @@
             <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Deadline
               *</label>
             <input
-              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="deadline" name="deadline" required type="date">
           </div>
 
@@ -159,7 +165,7 @@
             <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Content
               *</label>
             <textarea
-              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="content" name="content" required rows="5"></textarea>
           </div>
 
@@ -167,7 +173,7 @@
             <label
               class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Image</label>
             <input accept="image/*"
-              class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="image" name="image" type="file">
             <div class="mt-2 hidden" id="currentImage">
               <img alt="Current image" class="h-24 w-24 rounded-lg object-cover"
@@ -178,10 +184,10 @@
 
         <div class="flex justify-end space-x-3 border-t border-gray-200 p-6 dark:border-gray-700">
           <button
-            class="rounded-lg bg-gray-200 px-4 py-2 font-medium text-gray-700 transition hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+            class="flex-1 rounded-lg bg-gray-200 px-4 py-2 font-medium text-gray-700 transition hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
             onclick="closeModal()" type="button">Cancel</button>
           <button
-            class="from-primary to-accent rounded-lg bg-gradient-to-r px-4 py-2 font-medium text-white transition hover:shadow-lg"
+            class="from-accent to-accent bg-linear-to-r w-full flex-1 rounded-lg px-4 py-2 font-medium text-white transition hover:shadow-lg"
             type="submit">Save Admission</button>
         </div>
       </form>
@@ -189,7 +195,7 @@
   </div>
 
   <!-- Delete Confirmation Modal -->
-  <div class="fixed inset-0 z-50 hidden place-items-center bg-black/50 backdrop-blur-sm"
+  <div class="fixed inset-0 z-50 hidden place-items-center bg-black/50 px-2 backdrop-blur-sm"
     id="deleteModal">
     <div class="flex min-h-full items-center justify-center p-4">
       <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl dark:bg-gray-800">
@@ -211,9 +217,9 @@
             @csrf
             @method('DELETE')
             <button
-              class="rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+              class="flex-1 rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
               onclick="closeDeleteModal()" type="button">Cancel</button>
-            <button class="rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+            <button class="flex-1 rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700"
               type="submit">Delete</button>
           </form>
         </div>

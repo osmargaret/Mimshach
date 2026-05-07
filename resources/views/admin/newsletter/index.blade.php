@@ -4,7 +4,7 @@
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h2
-          class="from-primary to-accent bg-gradient-to-r bg-clip-text text-2xl font-bold text-transparent">
+          class="from-accent to-accent bg-linear-to-r bg-clip-text text-2xl font-bold text-transparent">
           Newsletter Subscriptions
         </h2>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Manage email newsletter subscribers
@@ -108,7 +108,7 @@
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
           <thead
-            class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+            class="bg-linear-to-r from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
             <tr>
               <th
                 class="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600 sm:px-6 dark:text-gray-300">

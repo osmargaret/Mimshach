@@ -1,321 +1,135 @@
-<x-app-layout>
-  <x-slot:styles>
-    <style>
-      /* consultation section */
-      .consultation-section {
-        margin: 60px 0;
-      }
-
-      .consultation-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-        background: white;
-        border-radius: 40px;
-        overflow: hidden;
-        box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.1);
-      }
-
-      /* left side - form */
-      .consultation-form {
-        padding: 50px;
-      }
-
-      .consultation-form h2 {
-        font-size: 32px;
-        margin-bottom: 10px;
-      }
-
-      .consultation-form p {
-        color: #4a5568;
-        margin-bottom: 30px;
-      }
-
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      .form-group label {
-        display: block;
-        font-weight: 500;
-        margin-bottom: 8px;
-        color: #0a192f;
-      }
-
-      .form-group input,
-      .form-group select,
-      .form-group textarea {
-        width: 100%;
-        padding: 14px 18px;
-        border: 1px solid #e0e0e0;
-        border-radius: 30px;
-        font-family: 'Inter', sans-serif;
-        font-size: 16px;
-        background: #f9f7f5;
-      }
-
-      .form-group select[multiple] {
-        height: auto;
-        min-height: 100px;
-        padding: 10px;
-        border-radius: 20px;
-      }
-
-      .form-group select[multiple] option {
-        padding: 8px 12px;
-      }
-
-      .range-container {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        flex-wrap: wrap;
-      }
-
-      .range-container input[type='range'] {
-        flex: 1;
-        padding: 0;
-        height: 6px;
-        background: #f0eee9;
-        border-radius: 10px;
-        -webkit-appearance: none;
-      }
-
-      .range-container input[type='range']::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        width: 22px;
-        height: 22px;
-        background: #c6a43f;
-        border-radius: 50%;
-        cursor: pointer;
-      }
-
-      .range-value {
-        background: #c6a43f;
-        color: #0a192f;
-        padding: 8px 20px;
-        border-radius: 50px;
-        font-weight: 600;
-        min-width: 100px;
-        text-align: center;
-      }
-
-      .checkbox-group {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin: 20px 0;
-      }
-
-      .checkbox-group input[type='checkbox'] {
-        width: 20px;
-        height: 20px;
-        accent-color: #c6a43f;
-      }
-
-      .btn-submit {
-        background: #c6a43f;
-        color: #0a192f;
-        border: none;
-        padding: 16px 30px;
-        border-radius: 50px;
-        font-weight: 600;
-        font-size: 18px;
-        cursor: pointer;
-        width: 100%;
-        transition: 0.2s;
-      }
-
-      .btn-submit:hover {
-        background: #b38f2e;
-      }
-
-      .success-message {
-        background: #d4edda;
-        color: #155724;
-        padding: 15px 20px;
-        border-radius: 20px;
-        margin-top: 20px;
-        display: none;
-        position: absolute;
-        top: 70px;
-        right: 10px;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .success-message i {
-        font-size: 24px;
-      }
-
-      /* right side - image */
-      .consultation-image {
-        background: #0a192f;
-        min-height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .consultation-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
-
-      @media (max-width: 992px) {
-        .consultation-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .consultation-image {
-          order: -1;
-          /* image on top for mobile */
-          height: 300px;
-        }
-      }
-    </style>
-  </x-slot:styles>
-
-  <x-page-header subtitle="Let's discuss your goals and create a personalized study abroad plan"
-    title="Start Your Study Abroad Journey" />
+<x-app-layout pageTitle="Consultation | Mimshach">
+  <x-page-header 
+    subtitle="Let's discuss your goals and create a personalized study abroad plan"
+    title="Start Your Study Abroad Journey" 
+  />
 
   <!-- Consultation Section -->
-  <div class="consultation-section container">
-    <div class="consultation-grid">
-      <!-- Left: Form -->
-      <div class="consultation-form">
-        <h2>Tell us about yourself</h2>
-        <p>We'll get back to you within 24 hours.</p>
+  <div class="container mx-auto max-w-[1200px] px-4 my-12 md:my-16">
+    <div class="overflow-hidden rounded-3xl bg-white shadow-lg md:rounded-4xl">
+      <div class="flex flex-col lg:grid lg:grid-cols-2">
+        
+        <!-- Left: Form Section -->
+        <div class="p-6 md:p-8 lg:p-10 xl:p-12">
+          <h2 class="text-2xl font-bold text-[#0A192F] md:text-3xl">Tell us about yourself</h2>
+          <p class="mt-2 text-sm text-[#4a5568] md:text-base">We'll get back to you within 24 hours.</p>
 
-        <form action="{{ route('consultation.submit') }}" id="consultationForm" method="POST">
-          @csrf
-          @if ($errors->any())
-            <div class="alert alert-danger">
-              <ul>
-                @foreach ($errors->all() as $error)
-                  <li style="color: red;">{{ $error }}</li>
-                @endforeach
-              </ul>
+          <form action="{{ route('consultation.submit') }}" id="consultationForm" method="POST" class="mt-6 space-y-5">
+            @csrf
+            
+            @if ($errors->any())
+              <div class="rounded-2xl bg-red-50 p-4 text-sm text-red-600">
+                <ul class="list-inside list-disc space-y-1">
+                  @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                  @endforeach
+                </ul>
+              </div>
+            @endif
+
+            <!-- Full Name -->
+            <div>
+              <label for="fullname" class="mb-2 block text-sm font-semibold text-[#0A192F]">Full Name *</label>
+              <input type="text" id="fullname" name="fullname" required 
+                     class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
             </div>
-          @endif
 
-          <div class="form-group">
-            <label for="fullname">Full Name *</label>
-            <input id="fullname" name="fullname" required type="text" />
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email *</label>
-            <input id="email" name="email" required type="email" />
-          </div>
-
-          <div class="form-group">
-            <label for="phone">Phone *</label>
-            <input id="phone" name="phone" required type="tel" />
-          </div>
-
-          <div class="form-group">
-            <label for="education">Level of Education *</label>
-            <select id="education" name="education" required>
-              <option value="">Select...</option>
-              <option value="high_school">
-                High School
-              </option>
-              <option value="bachelor">
-                Bachelor's Degree
-              </option>
-              <option value="master">
-                Master's Degree
-              </option>
-              <option value="phd">PhD / Doctorate</option>
-              <option value="diploma">
-                Diploma / Certificate
-              </option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="programmes">Programmes of Interest (multiple) *</label>
-            <select id="programmes" multiple name="programmes[]" required size="4">
-              <option value="business">
-                Business & Management
-              </option>
-              <option value="engineering">
-                Engineering
-              </option>
-              <option value="computer_science">
-                Computer Science
-              </option>
-              <option value="medicine">
-                Medicine & Health
-              </option>
-              <option value="law">Law</option>
-              <option value="arts">
-                Arts & Humanities
-              </option>
-              <option value="social_sciences">
-                Social Sciences
-              </option>
-              <option value="natural_sciences">
-                Natural Sciences
-              </option>
-            </select>
-            <small style="color: #666">Hold Ctrl/Cmd to select multiple</small>
-          </div>
-
-          <div class="form-group">
-            <label for="countries">Preferred Countries (multiple) *</label>
-            <select id="countries" multiple name='countries[]' required size="4">
-              <option value="uk">United Kingdom</option>
-              <option value="usa">United States</option>
-              <option value="canada">Canada</option>
-              <option value="australia">Australia</option>
-              <option value="germany">Germany</option>
-              <option value="france">France</option>
-              <option value="netherlands">
-                Netherlands
-              </option>
-              <option value="ireland">Ireland</option>
-            </select>
-            <small style="color: #666">Hold Ctrl/Cmd to select multiple</small>
-          </div>
-
-          {{-- <div class="form-group">
-            <label for="tuition">Tuition Budget (per year) *</label>
-            <div class="range-container">
-              <input id="tuition" max="100000" min="0" name='tuition' step="1000"
-                type="range" value="20000" />
-              <span class="range-value" id="tuitionValue">$20,000</span>
+            <!-- Email -->
+            <div>
+              <label for="email" class="mb-2 block text-sm font-semibold text-[#0A192F]">Email *</label>
+              <input type="email" id="email" name="email" required 
+                     class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
             </div>
-          </div> --}}
 
-          <div class="form-group">
-            <label for="tuition">Tuition(in $) *</label>
-            <input id="tuition" max="100000" min="0" name="tuition" required
-              type="number" />
-          </div>
+            <!-- Phone -->
+            <div>
+              <label for="phone" class="mb-2 block text-sm font-semibold text-[#0A192F]">Phone *</label>
+              <input type="tel" id="phone" name="phone" required 
+                     class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+            </div>
 
-          <div class="checkbox-group">
-            <input id="terms" name='terms' required type="checkbox" value="1" />
-            <label for="terms">I agree to the
-              <a href="#" style="color: #c6a43f">Terms and Conditions</a>
-              and
-              <a href="#" style="color: #c6a43f">Privacy Policy</a>
-              *</label>
-          </div>
+            <!-- Education Level -->
+            <div>
+              <label for="education" class="mb-2 block text-sm font-semibold text-[#0A192F]">Level of Education *</label>
+              <select id="education" name="education" required 
+                      class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+                <option value="">Select...</option>
+                <option value="high_school">High School</option>
+                <option value="bachelor">Bachelor's Degree</option>
+                <option value="master">Master's Degree</option>
+                <option value="phd">PhD / Doctorate</option>
+                <option value="diploma">Diploma / Certificate</option>
+              </select>
+            </div>
 
-          <button class="btn-submit" type="submit">
-            Request Consultation
-          </button>
-        </form>
-      </div>
+            <!-- Programmes of Interest -->
+            <div>
+              <label for="programmes" class="mb-2 block text-sm font-semibold text-[#0A192F]">Programmes of Interest (multiple) *</label>
+              <select id="programmes" name="programmes[]" required multiple size="4" 
+                      class="w-full rounded-2xl border border-gray-200 bg-[#F9F7F5] p-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+                <option value="business">Business & Management</option>
+                <option value="engineering">Engineering</option>
+                <option value="computer_science">Computer Science</option>
+                <option value="medicine">Medicine & Health</option>
+                <option value="law">Law</option>
+                <option value="arts">Arts & Humanities</option>
+                <option value="social_sciences">Social Sciences</option>
+                <option value="natural_sciences">Natural Sciences</option>
+              </select>
+              <small class="mt-1 block text-xs text-gray-500">Hold Ctrl/Cmd to select multiple</small>
+            </div>
 
-      <!-- Right: Image -->
-      <div class="consultation-image">
-        <img alt="Diverse students studying together in a library"
-          src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" />
+            <!-- Preferred Countries -->
+            <div>
+              <label for="countries" class="mb-2 block text-sm font-semibold text-[#0A192F]">Preferred Countries (multiple) *</label>
+              <select id="countries" name="countries[]" required multiple size="4" 
+                      class="w-full rounded-2xl border border-gray-200 bg-[#F9F7F5] p-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+                <option value="uk">United Kingdom</option>
+                <option value="usa">United States</option>
+                <option value="canada">Canada</option>
+                <option value="australia">Australia</option>
+                <option value="germany">Germany</option>
+                <option value="france">France</option>
+                <option value="netherlands">Netherlands</option>
+                <option value="ireland">Ireland</option>
+              </select>
+              <small class="mt-1 block text-xs text-gray-500">Hold Ctrl/Cmd to select multiple</small>
+            </div>
+
+            <!-- Tuition Budget -->
+            <div>
+              <label for="tuition" class="mb-2 block text-sm font-semibold text-[#0A192F]">Tuition Budget (USD) *</label>
+              <input type="number" id="tuition" name="tuition" required min="0" max="100000" step="1000"
+                     class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+            </div>
+
+            <!-- Terms Checkbox -->
+            <div class="flex items-start gap-3">
+              <input type="checkbox" id="terms" name="terms" required value="1"
+                     class="mt-1 h-5 w-5 rounded border-gray-300 text-[#C6A43F] focus:ring-2 focus:ring-[#C6A43F]">
+              <label for="terms" class="text-sm text-[#4a5568]">
+                I agree to the 
+                <a href="#" class="text-[#C6A43F] hover:underline">Terms and Conditions</a> 
+                and 
+                <a href="#" class="text-[#C6A43F] hover:underline">Privacy Policy</a> *
+              </label>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" 
+                    class="btn-submit w-full rounded-full bg-[#C6A43F] px-6 py-3 text-lg font-semibold text-[#0A192F] transition-all duration-300 hover:bg-[#b38f2e] hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+              Request Consultation
+            </button>
+          </form>
+        </div>
+
+        <!-- Right: Image Section -->
+        <div class="relative order-first h-64 lg:order-last lg:h-auto">
+          <img alt="Diverse students studying together in a library"
+               src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80"
+               class="h-full w-full object-cover lg:rounded-r-3xl">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F]/20 to-transparent lg:hidden"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -323,45 +137,25 @@
   <x-slot:scripts>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // Get form elements
         const form = document.getElementById('consultationForm');
+        const submitBtn = form.querySelector('.btn-submit');
 
-        // Get tuition range elements
-        const tuitionRange = document.getElementById('tuition');
-        const tuitionValue = document.getElementById('tuitionValue');
-
-        // Function to update tuition value display
-        function updateTuitionValue() {
-          if (tuitionRange && tuitionValue) {
-            const value = parseInt(tuitionRange.value);
-            tuitionValue.textContent = '$' + value.toLocaleString();
+        function showToast(message, type = 'success') {
+          if (window.showToast) {
+            window.showToast(message, type);
+          } else {
+            alert(message);
           }
         }
 
-        // Add event listeners for tuition range
-        if (tuitionRange) {
-          // Update when slider moves
-          tuitionRange.addEventListener('input', updateTuitionValue);
-
-          // Also update on change (for keyboard input)
-          tuitionRange.addEventListener('change', updateTuitionValue);
-
-          // Initial update to ensure display is correct
-          updateTuitionValue();
-        }
-
-        // Handle form submission
         form.addEventListener('submit', async function(e) {
           e.preventDefault();
 
-          // Get form data
           const programmesSelect = document.getElementById('programmes');
-          const programmes = Array.from(programmesSelect.selectedOptions).map(option => option
-            .value);
+          const programmes = Array.from(programmesSelect.selectedOptions).map(option => option.value);
 
           const countriesSelect = document.getElementById('countries');
-          const countries = Array.from(countriesSelect.selectedOptions).map(option => option
-            .value);
+          const countries = Array.from(countriesSelect.selectedOptions).map(option => option.value);
 
           const formData = {
             fullname: document.getElementById('fullname').value.trim(),
@@ -370,59 +164,49 @@
             education: document.getElementById('education').value,
             programmes: programmes,
             countries: countries,
-            tuition: parseInt(document.getElementById('tuition').value),
+            tuition: parseInt(document.getElementById('tuition').value) || 0,
             terms: document.getElementById('terms').checked ? 'on' : null,
             _token: '{{ csrf_token() }}'
           };
 
-          // Validate required fields
+          // Validation
           if (!formData.fullname) {
-            window.showToast('Please enter your full name.', 'error');
+            showToast('Please enter your full name.', 'error');
             return;
           }
-
           if (!formData.email) {
-            window.showToast('Please enter your email address.', 'error');
+            showToast('Please enter your email address.', 'error');
             return;
           }
-
-          // Validate email format
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!emailRegex.test(formData.email)) {
-            window.showToast('Please enter a valid email address.', 'error');
+            showToast('Please enter a valid email address.', 'error');
             return;
           }
-
           if (!formData.phone) {
-            window.showToast('Please enter your phone number.', 'error');
+            showToast('Please enter your phone number.', 'error');
             return;
           }
-
           if (!formData.education) {
-            window.showToast('Please select your level of education.', 'error');
+            showToast('Please select your level of education.', 'error');
             return;
           }
-
           if (formData.programmes.length === 0) {
-            window.showToast('Please select at least one programme of interest.', 'error');
+            showToast('Please select at least one programme of interest.', 'error');
             return;
           }
-
           if (formData.countries.length === 0) {
-            window.showToast('Please select at least one preferred country.', 'error');
+            showToast('Please select at least one preferred country.', 'error');
             return;
           }
-
           if (!formData.terms) {
-            window.showToast('You must agree to the Terms and Conditions and Privacy Policy.', 'error');
+            showToast('You must agree to the Terms and Conditions and Privacy Policy.', 'error');
             return;
           }
 
-          // Disable submit button and show loading state
-          const submitBtn = form.querySelector('.btn-submit');
-          const originalText = submitBtn.textContent;
+          const originalText = submitBtn.innerHTML;
           submitBtn.disabled = true;
-          submitBtn.textContent = 'Submitting...';
+          submitBtn.innerHTML = '<div class="mx-auto h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>';
 
           try {
             const response = await fetch('{{ route('consultation.submit') }}', {
@@ -438,47 +222,32 @@
             const result = await response.json();
 
             if (!response.ok) {
-              // Handle validation errors from backend
               if (result.errors) {
                 const errorMessages = Object.values(result.errors).flat().join('\n');
-                alert(errorMessages);
+                showToast(errorMessages, 'error');
               } else if (result.message) {
-                alert(result.message);
+                showToast(result.message, 'error');
               } else {
-                alert('Failed to submit your request. Please try again.');
+                showToast('Failed to submit your request. Please try again.', 'error');
               }
               return;
             }
 
             if (result.success) {
-              // Show success toast
-              window.showToast('Thank you! Your consultation request has been submitted successfully.', 'success');
-
-              // Reset form
+              showToast('Thank you! Your consultation request has been submitted successfully.', 'success');
               form.reset();
-
-              // Reset tuition slider to default
-              if (tuitionRange) {
-                tuitionRange.value = 20000;
-                updateTuitionValue();
-              }
-
-              // Clear selected options from multiselects
               programmesSelect.selectedIndex = -1;
               countriesSelect.selectedIndex = -1;
-
-              // Uncheck terms
               document.getElementById('terms').checked = false;
             } else {
-              window.showToast(result.message || 'Failed to submit your request. Please try again.', 'error');
+              showToast(result.message || 'Failed to submit your request. Please try again.', 'error');
             }
           } catch (error) {
             console.error('Error:', error);
-            window.showToast('An error occurred. Please try again later.', 'error');
+            showToast('An error occurred. Please try again later.', 'error');
           } finally {
-            // Re-enable submit button
             submitBtn.disabled = false;
-            submitBtn.textContent = originalText;
+            submitBtn.innerHTML = originalText;
           }
         });
       });

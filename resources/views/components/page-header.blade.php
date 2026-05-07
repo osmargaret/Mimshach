@@ -1,31 +1,9 @@
 @props(['title', 'subtitle'])
 
-<style>
-  /* page header */
-  .page-header {
-    background: #0A192F;
-    color: white;
-    padding: 140px 0 60px;
-    text-align: center;
-  }
-
-  .page-header h1 {
-    font-size: 56px;
-    margin-bottom: 16px;
-  }
-
-  .page-header p {
-    font-size: 18px;
-    opacity: 0.8;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-</style>
-
 <!-- Page Header -->
-<section class="page-header">
+<section class="bg-primary text-white py-28 flex flex-col items-center justify-center text-center">
   <div class="container">
-    <h1>{{ $title }}</h1>
-    <p>{{ $subtitle }}</p>
+    <h1 class='text-4xl md:text-6xl mb-10'>{{ $title }}</h1>
+    <p class='text-sm md:text-xl max-w-xs sm:max-w-sm md:max-w-md lg:max-w-2xl mx-auto'>{{ $subtitle }}</p>
   </div>
 </section>
