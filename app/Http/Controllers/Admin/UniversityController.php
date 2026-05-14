@@ -14,7 +14,7 @@ class UniversityController extends Controller
     public function index(Request $request)
     {
         // Get unique values for filters
-        $countries = ['All Cities', ...University::distinct()->pluck('country')->filter()->sort()->values()->toArray()];
+        $countries = ['All Countries', ...University::distinct()->pluck('country')->filter()->sort()->values()->toArray()];
         $cities = ['All Cities', ...University::distinct()->pluck('city')->filter()->sort()->values()->toArray()];
 
         // Build filters array
@@ -49,7 +49,7 @@ class UniversityController extends Controller
             });
         }
 
-        if ($request->filled('country') && $request->country !== 'All Cities') {
+        if ($request->filled('country') && $request->country !== 'All Countries') {
             $query->where('country', $request->country);
         }
 
@@ -61,7 +61,7 @@ class UniversityController extends Controller
 
         return view('admin.universities.index', compact('universities', 'filters'));
     }
-    
+
     public function store(Request $request)
     {
         try {
@@ -86,8 +86,6 @@ class UniversityController extends Controller
                         'message' => 'Failed to upload image: ' . $e->getMessage()
                     ], 500);
                 }
-            } else {
-                unset($validated['image']);
             }
 
             // Handle logo upload
@@ -115,7 +113,8 @@ class UniversityController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Validation failed: ' . json_encode($e->errors())
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
             ], 422);
         } catch (\Exception $e) {
             Log::error('University store error: ' . $e->getMessage());
@@ -164,8 +163,6 @@ class UniversityController extends Controller
                 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
-            $validated['slug'] = Str::slug($validated['name']);
-
             // Handle image upload
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 // Delete old image if exists
@@ -173,17 +170,8 @@ class UniversityController extends Controller
                     Storage::disk('public')->delete($university->image);
                 }
 
-                try {
-                    $imagePath = $request->file('image')->store('universities', 'public');
-                    $validated['image'] = $imagePath;
-                } catch (\Exception $e) {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Failed to upload image: ' . $e->getMessage()
-                    ], 500);
-                }
-            } else {
-                unset($validated['image']);
+                $imagePath = $request->file('image')->store('universities', 'public');
+                $validated['image'] = $imagePath;
             }
 
             // Handle logo upload
@@ -193,17 +181,8 @@ class UniversityController extends Controller
                     Storage::disk('public')->delete($university->logo);
                 }
 
-                try {
-                    $logoPath = $request->file('logo')->store('universities/logos', 'public');
-                    $validated['logo'] = $logoPath;
-                } catch (\Exception $e) {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Failed to upload logo: ' . $e->getMessage()
-                    ], 500);
-                }
-            } else {
-                unset($validated['logo']);
+                $logoPath = $request->file('logo')->store('universities/logos', 'public');
+                $validated['logo'] = $logoPath;
             }
 
             $university->update($validated);
@@ -213,11 +192,6 @@ class UniversityController extends Controller
                 'message' => 'University updated successfully',
                 'university' => $university
             ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed: ' . json_encode($e->errors())
-            ], 422);
         } catch (\Exception $e) {
             Log::error('University update error: ' . $e->getMessage());
             return response()->json([

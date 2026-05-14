@@ -21,10 +21,6 @@
     <td class="px-4 py-4 sm:px-6">
       <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ $university->name }}
       </div>
-      @if ($university->subtitle)
-        <div class="text-xs text-gray-500 dark:text-gray-400">
-          {{ Str::limit($university->subtitle, 50) }}</div>
-      @endif
     </td>
     <td class="hidden px-4 py-4 text-sm text-gray-600 sm:table-cell sm:px-6 dark:text-gray-300">
       {{ $university->country }}

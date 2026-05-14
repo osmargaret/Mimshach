@@ -6,10 +6,10 @@
   <div class="mx-auto max-w-[1200px] px-4">
 
     <!-- Filter Bar -->
-    <x-filter-bar :$filters contentId="blogList" paginationId="paginationContainer" classes='-mt-10' />
+    <x-filter-bar :$filters contentId="admissionList" paginationId="paginationContainer" classes='-mt-10' disableDark="true" />
 
     <!-- Blog List -->
-    <div class="mt-12 space-y-6" id="blogList">
+    <div class="mt-12 space-y-6" id="admissionList">
 
       @if ($admissions->isEmpty())
         <div class="rounded-2xl bg-white p-10 text-center shadow-sm">

@@ -16,27 +16,26 @@
     <div
       class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-70 md:hidden">
     </div>
-
-    <!-- Floating Tag (optional premium touch) -->
-    <div class="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-[var(--color-primary)] shadow backdrop-blur">
-      {{ $admission->country }}
-    </div>
-
   </div>
 
   <!-- Content -->
   <div class="flex flex-1 flex-col p-6 md:p-7">
 
     <!-- Meta -->
-    <div class="mb-4 flex flex-wrap items-center gap-4 text-xs font-medium text-gray-500">
+    <div class="mb-4 flex flex-wrap items-center gap-5 text-xs font-medium text-accent">
 
-      <span class="flex items-center gap-1">
-        <i class="far fa-calendar-alt text-[var(--color-accent)]"></i>
+      <span class="flex items-center gap-2">
+        <i class="far fa-calendar-alt "></i>
         {{ $admission->deadline->format('M d, Y') }}
       </span>
 
-      <span class="flex items-center gap-1">
-        <i class="fas fa-university text-[var(--color-accent)]"></i>
+      <span class="flex items-center gap-2">
+        <i class="fas fa-university"></i>
+        {{ $admission->university->name }}
+      </span>
+      
+      <span class="flex items-center gap-2">
+        <i class="fas fa-globe"></i>
         {{ $admission->university->name }}
       </span>
 

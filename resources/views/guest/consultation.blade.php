@@ -1,58 +1,64 @@
 <x-app-layout pageTitle="Consultation | Mimshach">
-  <x-page-header 
-    subtitle="Let's discuss your goals and create a personalized study abroad plan"
-    title="Start Your Study Abroad Journey" 
-  />
+  <x-page-header subtitle="Let's discuss your goals and create a personalized study abroad plan"
+    title="Start Your Study Abroad Journey" />
 
   <!-- Consultation Section -->
-  <div class="container mx-auto max-w-[1200px] px-4 my-12 md:my-16">
-    <div class="overflow-hidden rounded-3xl bg-white shadow-lg md:rounded-4xl">
+  <div class="container mx-auto my-12 max-w-[1200px] px-4 md:my-16">
+    <div class="md:rounded-4xl overflow-hidden rounded-3xl bg-white shadow-lg">
       <div class="flex flex-col lg:grid lg:grid-cols-2">
-        
+
         <!-- Left: Form Section -->
         <div class="p-6 md:p-8 lg:p-10 xl:p-12">
           <h2 class="text-2xl font-bold text-[#0A192F] md:text-3xl">Tell us about yourself</h2>
-          <p class="mt-2 text-sm text-[#4a5568] md:text-base">We'll get back to you within 24 hours.</p>
+          <p class="mt-2 text-sm text-[#4a5568] md:text-base">We'll get back to you within 24 hours.
+          </p>
 
-          <form action="{{ route('consultation.submit') }}" id="consultationForm" method="POST" class="mt-6 space-y-5">
+          <form action="{{ route('consultation.submit') }}" class="mt-6 space-y-5"
+            id="consultationForm" method="POST">
             @csrf
-            
-            @if ($errors->any())
-              <div class="rounded-2xl bg-red-50 p-4 text-sm text-red-600">
-                <ul class="list-inside list-disc space-y-1">
-                  @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                  @endforeach
-                </ul>
-              </div>
-            @endif
 
+            <!-- Add a container for dynamic messages -->
+            <div class="mb-4 hidden rounded-2xl p-4 text-sm" id="formMessages"></div>
+
+            <!-- Your form fields (without required attributes) -->
             <!-- Full Name -->
             <div>
-              <label for="fullname" class="mb-2 block text-sm font-semibold text-[#0A192F]">Full Name *</label>
-              <input type="text" id="fullname" name="fullname" required 
-                     class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+              <label class="mb-2 block text-sm font-semibold text-[#0A192F]" for="fullname">Full
+                Name *</label>
+              <input
+                class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20"
+                id="fullname" name="fullname" type="text" value="{{ old('fullname') }}">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="fullname">
+              </div>
             </div>
 
             <!-- Email -->
             <div>
-              <label for="email" class="mb-2 block text-sm font-semibold text-[#0A192F]">Email *</label>
-              <input type="email" id="email" name="email" required 
-                     class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+              <label class="mb-2 block text-sm font-semibold text-[#0A192F]" for="email">Email
+                *</label>
+              <input
+                class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20"
+                id="email" name="email" type="email" value="{{ old('email') }}">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="email"></div>
             </div>
 
             <!-- Phone -->
             <div>
-              <label for="phone" class="mb-2 block text-sm font-semibold text-[#0A192F]">Phone *</label>
-              <input type="tel" id="phone" name="phone" required 
-                     class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+              <label class="mb-2 block text-sm font-semibold text-[#0A192F]" for="phone">Phone
+                *</label>
+              <input
+                class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20"
+                id="phone" name="phone" type="tel" value="{{ old('phone') }}">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="phone"></div>
             </div>
 
             <!-- Education Level -->
             <div>
-              <label for="education" class="mb-2 block text-sm font-semibold text-[#0A192F]">Level of Education *</label>
-              <select id="education" name="education" required 
-                      class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+              <label class="mb-2 block text-sm font-semibold text-[#0A192F]" for="education">Level
+                of Education *</label>
+              <select
+                class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20"
+                id="education" name="education">
                 <option value="">Select...</option>
                 <option value="high_school">High School</option>
                 <option value="bachelor">Bachelor's Degree</option>
@@ -60,13 +66,17 @@
                 <option value="phd">PhD / Doctorate</option>
                 <option value="diploma">Diploma / Certificate</option>
               </select>
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="education">
+              </div>
             </div>
 
             <!-- Programmes of Interest -->
             <div>
-              <label for="programmes" class="mb-2 block text-sm font-semibold text-[#0A192F]">Programmes of Interest (multiple) *</label>
-              <select id="programmes" name="programmes[]" required multiple size="4" 
-                      class="w-full rounded-2xl border border-gray-200 bg-[#F9F7F5] p-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+              <label class="mb-2 block text-sm font-semibold text-[#0A192F]"
+                for="programmes">Programmes of Interest (multiple) *</label>
+              <select
+                class="w-full rounded-2xl border border-gray-200 bg-[#F9F7F5] p-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20"
+                id="programmes" multiple name="programmes[]" size="4">
                 <option value="business">Business & Management</option>
                 <option value="engineering">Engineering</option>
                 <option value="computer_science">Computer Science</option>
@@ -76,14 +86,19 @@
                 <option value="social_sciences">Social Sciences</option>
                 <option value="natural_sciences">Natural Sciences</option>
               </select>
-              <small class="mt-1 block text-xs text-gray-500">Hold Ctrl/Cmd to select multiple</small>
+              <small class="mt-1 block text-xs text-gray-500">Hold Ctrl/Cmd to select
+                multiple</small>
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="programmes">
+              </div>
             </div>
 
             <!-- Preferred Countries -->
             <div>
-              <label for="countries" class="mb-2 block text-sm font-semibold text-[#0A192F]">Preferred Countries (multiple) *</label>
-              <select id="countries" name="countries[]" required multiple size="4" 
-                      class="w-full rounded-2xl border border-gray-200 bg-[#F9F7F5] p-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+              <label class="mb-2 block text-sm font-semibold text-[#0A192F]"
+                for="countries">Preferred Countries (multiple) *</label>
+              <select
+                class="w-full rounded-2xl border border-gray-200 bg-[#F9F7F5] p-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20"
+                id="countries" multiple name="countries[]" size="4">
                 <option value="uk">United Kingdom</option>
                 <option value="usa">United States</option>
                 <option value="canada">Canada</option>
@@ -93,31 +108,46 @@
                 <option value="netherlands">Netherlands</option>
                 <option value="ireland">Ireland</option>
               </select>
-              <small class="mt-1 block text-xs text-gray-500">Hold Ctrl/Cmd to select multiple</small>
+              <small class="mt-1 block text-xs text-gray-500">Hold Ctrl/Cmd to select
+                multiple</small>
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="countries">
+              </div>
             </div>
 
             <!-- Tuition Budget -->
             <div>
-              <label for="tuition" class="mb-2 block text-sm font-semibold text-[#0A192F]">Tuition Budget (USD) *</label>
-              <input type="number" id="tuition" name="tuition" required min="0" max="100000" step="1000"
-                     class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+              <label class="mb-2 block text-sm font-semibold text-[#0A192F]" for="tuition">Tuition
+                Budget (USD) *</label>
+              <input
+                class="w-full rounded-full border border-gray-200 bg-[#F9F7F5] px-5 py-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20"
+                id="tuition" max="100000" min="0" name="tuition" step="1000"
+                type="number" value="{{ old('tuition') }}">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="tuition">
+              </div>
             </div>
 
             <!-- Terms Checkbox -->
-            <div class="flex items-start gap-3">
-              <input type="checkbox" id="terms" name="terms" required value="1"
-                     class="mt-1 h-5 w-5 rounded border-gray-300 text-[#C6A43F] focus:ring-2 focus:ring-[#C6A43F]">
-              <label for="terms" class="text-sm text-[#4a5568]">
-                I agree to the 
-                <a href="#" class="text-[#C6A43F] hover:underline">Terms and Conditions</a> 
-                and 
-                <a href="#" class="text-[#C6A43F] hover:underline">Privacy Policy</a> *
-              </label>
+            <div class="flex flex-col items-start gap-3">
+              <div class='flex items-center gap-3'>
+                <input
+                  class="h-5 w-5 rounded border-gray-300 text-[#C6A43F] focus:ring-2 focus:ring-[#C6A43F]"
+                  id="terms" name="terms" type="checkbox" value="1">
+                <label class="text-sm text-[#4a5568]" for="terms">
+                  I agree to the
+                  <a class="text-[#C6A43F] hover:underline" href="#">Terms and
+                    Conditions</a>
+                  and
+                  <a class="text-[#C6A43F] hover:underline" href="#">Privacy Policy</a> *
+                </label>
+              </div>
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="terms">
+              </div>
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" 
-                    class="btn-submit w-full rounded-full bg-[#C6A43F] px-6 py-3 text-lg font-semibold text-[#0A192F] transition-all duration-300 hover:bg-[#b38f2e] hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+            <button
+              class="w-full rounded-full bg-[#C6A43F] px-6 py-3 text-lg font-semibold text-[#0A192F] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b38f2e] hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
+              id="submitBtn" type="submit">
               Request Consultation
             </button>
           </form>
@@ -126,9 +156,11 @@
         <!-- Right: Image Section -->
         <div class="relative order-first h-64 lg:order-last lg:h-auto">
           <img alt="Diverse students studying together in a library"
-               src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80"
-               class="h-full w-full object-cover lg:rounded-r-3xl">
-          <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F]/20 to-transparent lg:hidden"></div>
+            class="h-full w-full object-cover lg:rounded-r-3xl"
+            src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80">
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-[#0A192F]/20 to-transparent lg:hidden">
+          </div>
         </div>
       </div>
     </div>
@@ -136,118 +168,114 @@
 
   <x-slot:scripts>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('consultationForm');
-        const submitBtn = form.querySelector('.btn-submit');
+      document.getElementById('consultationForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-        function showToast(message, type = 'success') {
-          if (window.showToast) {
-            window.showToast(message, type);
-          } else {
-            alert(message);
-          }
-        }
+        const form = this;
+        const submitBtn = document.getElementById('submitBtn');
+        const formMessages = document.getElementById('formMessages');
 
-        form.addEventListener('submit', async function(e) {
-          e.preventDefault();
+        formMessages.className = 'mb-4 hidden rounded-2xl p-4 text-sm';
+        formMessages.innerHTML = '';
 
-          const programmesSelect = document.getElementById('programmes');
-          const programmes = Array.from(programmesSelect.selectedOptions).map(option => option.value);
+        document.querySelectorAll('.error-message').forEach(error => {
+          error.textContent = '';
+          error.classList.add('hidden');
+        });
 
-          const countriesSelect = document.getElementById('countries');
-          const countries = Array.from(countriesSelect.selectedOptions).map(option => option.value);
+        document.querySelectorAll('input, select').forEach(field => {
+          field.classList.remove('border-red-500');
+        });
 
-          const formData = {
-            fullname: document.getElementById('fullname').value.trim(),
-            email: document.getElementById('email').value.trim(),
-            phone: document.getElementById('phone').value.trim(),
-            education: document.getElementById('education').value,
-            programmes: programmes,
-            countries: countries,
-            tuition: parseInt(document.getElementById('tuition').value) || 0,
-            terms: document.getElementById('terms').checked ? 'on' : null,
-            _token: '{{ csrf_token() }}'
-          };
+        submitBtn.disabled = true;
 
-          // Validation
-          if (!formData.fullname) {
-            showToast('Please enter your full name.', 'error');
-            return;
-          }
-          if (!formData.email) {
-            showToast('Please enter your email address.', 'error');
-            return;
-          }
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          if (!emailRegex.test(formData.email)) {
-            showToast('Please enter a valid email address.', 'error');
-            return;
-          }
-          if (!formData.phone) {
-            showToast('Please enter your phone number.', 'error');
-            return;
-          }
-          if (!formData.education) {
-            showToast('Please select your level of education.', 'error');
-            return;
-          }
-          if (formData.programmes.length === 0) {
-            showToast('Please select at least one programme of interest.', 'error');
-            return;
-          }
-          if (formData.countries.length === 0) {
-            showToast('Please select at least one preferred country.', 'error');
-            return;
-          }
-          if (!formData.terms) {
-            showToast('You must agree to the Terms and Conditions and Privacy Policy.', 'error');
-            return;
-          }
+        submitBtn.innerHTML = `
+        <div class="mx-auto h-5 w-5 animate-spin rounded-full border-2 border-[#0A192F] border-t-transparent"></div>
+    `;
 
-          const originalText = submitBtn.innerHTML;
-          submitBtn.disabled = true;
-          submitBtn.innerHTML = '<div class="mx-auto h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>';
+        try {
 
-          try {
-            const response = await fetch('{{ route('consultation.submit') }}', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': formData._token,
-                'Accept': 'application/json'
-              },
-              body: JSON.stringify(formData)
+          const response = await fetch(form.action, {
+            method: 'POST',
+            headers: {
+              'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+              'Accept': 'application/json',
+            },
+            body: new FormData(form)
+          });
+
+          const data = await response.json();
+
+          if (response.status === 422) {
+
+            formMessages.classList.remove('hidden');
+            formMessages.classList.add('bg-red-50', 'text-red-600');
+
+            formMessages.innerHTML = `
+                Please fix the errors below.
+            `;
+
+            Object.entries(data.errors).forEach(([field, messages]) => {
+
+              const errorElement = document.querySelector(
+                `.error-message[data-field="${field}"]`
+              );
+
+              if (errorElement) {
+                errorElement.textContent = messages[0];
+                errorElement.classList.remove('hidden');
+              }
+
+              let fieldElement =
+                document.querySelector(`[name="${field}"]`) ||
+                document.querySelector(`[name="${field}[]"]`);
+
+              if (fieldElement) {
+                fieldElement.classList.add('border-red-500');
+              }
             });
 
-            const result = await response.json();
+            return;
+          }
 
-            if (!response.ok) {
-              if (result.errors) {
-                const errorMessages = Object.values(result.errors).flat().join('\n');
-                showToast(errorMessages, 'error');
-              } else if (result.message) {
-                showToast(result.message, 'error');
-              } else {
-                showToast('Failed to submit your request. Please try again.', 'error');
-              }
-              return;
-            }
+          formMessages.classList.remove('hidden');
+          formMessages.classList.add('bg-green-50', 'text-green-600');
 
-            if (result.success) {
-              showToast('Thank you! Your consultation request has been submitted successfully.', 'success');
-              form.reset();
-              programmesSelect.selectedIndex = -1;
-              countriesSelect.selectedIndex = -1;
-              document.getElementById('terms').checked = false;
-            } else {
-              showToast(result.message || 'Failed to submit your request. Please try again.', 'error');
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            showToast('An error occurred. Please try again later.', 'error');
-          } finally {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalText;
+          formMessages.innerHTML = data.message;
+
+          form.reset();
+
+        } catch (error) {
+
+          console.error(error);
+
+          formMessages.classList.remove('hidden');
+          formMessages.classList.add('bg-red-50', 'text-red-600');
+
+          formMessages.innerHTML =
+            'Something went wrong. Please try again.';
+
+        } finally {
+
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'Request Consultation';
+        }
+      });
+
+      document.querySelectorAll('input, select').forEach(field => {
+        field.addEventListener('input', function() {
+
+          this.classList.remove('border-red-500');
+
+          const fieldName = this.name.replace('[]', '');
+
+          const errorElement = document.querySelector(
+            `.error-message[data-field="${fieldName}"]`
+          );
+
+          if (errorElement) {
+            errorElement.textContent = '';
+            errorElement.classList.add('hidden');
           }
         });
       });

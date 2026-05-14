@@ -103,16 +103,18 @@
               class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">University
               Name *</label>
             <input
-              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              id="name" name="name" required type="text">
+              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              id="name" name="name" type="text">
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="name"></div>
           </div>
 
           <div>
             <label
               class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Subtitle</label>
             <input
-              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="subtitle" name="subtitle" type="text">
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="subtitle"></div>
           </div>
 
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -120,15 +122,17 @@
               <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Country
                 *</label>
               <input
-                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                id="country" name="country" required type="text">
+                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                id="country" name="country" type="text">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="country"></div>
             </div>
             <div>
               <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">City
                 *</label>
               <input
-                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                id="city" name="city" required type="text">
+                class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                id="city" name="city" type="text">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="city"></div>
             </div>
           </div>
 
@@ -136,16 +140,18 @@
             <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Content
               *</label>
             <textarea
-              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              id="content" name="content" required rows="5"></textarea>
+              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              id="content" name="content" rows="5"></textarea>
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="content"></div>
           </div>
 
           <div>
             <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Featured
               Image</label>
             <input accept="image/*"
-              class="w-full rounded-lg border border-gray-300 px-4 py-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="image" name="image" type="file">
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="image"></div>
             <div class="mt-2 hidden" id="currentImage">
               <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Current Image:</p>
               <img alt="Current image" class="h-24 w-24 rounded-lg object-cover"
@@ -157,8 +163,9 @@
             <label
               class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Logo</label>
             <input accept="image/*"
-              class="w-full rounded-lg border border-gray-300 px-4 py-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="logo" name="logo" type="file">
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="logo"></div>
             <div class="mt-2 hidden" id="currentLogo">
               <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Current Logo:</p>
               <img alt="Current logo" class="h-24 w-24 rounded-lg object-contain"
@@ -174,7 +181,7 @@
             onclick="closeUniversityModal()" type="button">Cancel</button>
           <button
             class="from-accent to-accent bg-linear-to-r w-full flex-1 rounded-lg px-4 py-2 font-medium text-white transition hover:shadow-lg"
-            type="submit">Save University</button>
+            type="submit" id='submitBtn'>Save University</button>
         </div>
       </form>
     </div>
@@ -253,6 +260,45 @@
         admissions: (id) => `/admin/universities/${id}/admissions`
       };
 
+      // Function to clear all error messages
+      function clearErrors() {
+        document.querySelectorAll('.error-message').forEach(error => {
+          error.textContent = '';
+          error.classList.add('hidden');
+        });
+
+        document.querySelectorAll('#universityForm input, #universityForm select, #universityForm textarea').forEach(field => {
+          field.classList.remove(
+            'dark:border-red-500',
+            'dark:focus:border-red-500',
+            'dark:focus:ring-red-500/20'
+          );
+        });
+      }
+
+      // Function to display validation errors
+      function displayErrors(errors) {
+        Object.entries(errors).forEach(([field, messages]) => {
+          const errorElement = document.querySelector(`.error-message[data-field="${field}"]`);
+          
+          if (errorElement) {
+            errorElement.textContent = messages[0];
+            errorElement.classList.remove('hidden');
+          }
+
+          // Find the field element and add error styling
+          let fieldElement = document.querySelector(`#universityForm [name="${field}"]`);
+          if (fieldElement) {
+            fieldElement.classList.remove('border-gray-300');
+            fieldElement.classList.add(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+          }
+        });
+      }
+
       // ==========================
       // MODAL HANDLING
       // ==========================
@@ -265,6 +311,10 @@
         document.getElementById('universityId').value = '';
         document.getElementById('currentImage').classList.add('hidden');
         document.getElementById('currentLogo').classList.add('hidden');
+        
+        // Clear any existing error messages
+        clearErrors();
+        
         document.getElementById('universityModal').classList.remove('hidden');
         document.body.style.overflow = 'hidden';
       }
@@ -272,6 +322,7 @@
       window.closeUniversityModal = function() {
         document.getElementById('universityModal').classList.add('hidden');
         document.body.style.overflow = 'auto';
+        clearErrors();
       }
 
       window.closeDeleteModal = function() {
@@ -309,7 +360,6 @@
           }
 
           const university = data.university;
-          console.log(university);
           const form = document.getElementById('universityForm');
 
           document.getElementById('modalTitle').textContent = 'Edit University';
@@ -323,6 +373,9 @@
           document.getElementById('content').value = university.content || '';
           document.getElementById('country').value = university.country || '';
           document.getElementById('city').value = university.city || '';
+
+          // Clear any existing error messages
+          clearErrors();
 
           // Image preview
           if (university.image_url) {
@@ -471,26 +524,24 @@
         e.preventDefault();
 
         const formData = new FormData(this);
-        const submitButton = this.querySelector('button[type="submit"]');
+        const submitButton = document.getElementById('submitBtn');
         const originalText = submitButton.innerHTML;
         const universityId = document.getElementById('universityId').value;
 
+        // Clear previous errors
+        clearErrors();
+
+        submitButton.disabled = true;
         submitButton.innerHTML =
           '<svg class="mx-auto h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
-        submitButton.disabled = true;
 
         try {
           let url = this.action;
 
-          // If editing, use the update route with ID
           if (universityId) {
             url = routes.update(universityId);
             formData.append('_method', 'PUT');
           }
-
-          // Debug logging
-          console.log('Submitting to URL:', url);
-          console.log('Is Edit:', !!universityId);
 
           const response = await fetch(url, {
             method: 'POST',
@@ -501,35 +552,67 @@
             }
           });
 
-          const text = await response.text();
-          console.log(text);
+          const data = await response.json();
 
-          try {
-            const data = JSON.parse(text);
-
-            if (data.success) {
-              closeUniversityModal();
-              showToast('success', data.message);
-              setTimeout(() => location.reload(), 1500);
-            } else {
-              showToast('error', data.message || 'An error occurred');
-              submitButton.innerHTML = originalText;
-              submitButton.disabled = false;
-            }
-
-          } catch (e) {
-            console.error('Non-JSON response:', text);
-            showToast('error', 'Server returned an invalid response');
-            submitButton.innerHTML = originalText;
+          if (response.status === 422) {
+            // Validation errors
+            displayErrors(data.errors);
             submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+            return;
+          }
+
+          if (data.success) {
+            closeUniversityModal();
+            showToast('success', data.message);
+            setTimeout(() => location.reload(), 1500);
+          } else {
+            showToast('error', data.message || 'An error occurred');
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
           }
 
         } catch (error) {
           console.error('Submit error:', error);
           showToast('error', 'An error occurred while saving the university');
-          submitButton.innerHTML = originalText;
           submitButton.disabled = false;
+          submitButton.innerHTML = originalText;
         }
+      });
+
+      // Real-time error clearing when user types
+      document.querySelectorAll('#universityForm input, #universityForm select, #universityForm textarea').forEach(field => {
+        field.addEventListener('input', function() {
+          this.classList.remove(
+            'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+          );
+          
+          const fieldName = this.name;
+          const errorElement = document.querySelector(`.error-message[data-field="${fieldName}"]`);
+          
+          if (errorElement) {
+            errorElement.textContent = '';
+            errorElement.classList.add('hidden');
+          }
+        });
+        
+        field.addEventListener('change', function() {
+          this.classList.remove(
+            'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+          );
+          
+          const fieldName = this.name;
+          const errorElement = document.querySelector(`.error-message[data-field="${fieldName}"]`);
+          
+          if (errorElement) {
+            errorElement.textContent = '';
+            errorElement.classList.add('hidden');
+          }
+        });
       });
 
       // Delete form submission

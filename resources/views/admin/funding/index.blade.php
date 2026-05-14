@@ -105,7 +105,8 @@
               Name *</label>
             <input
               class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              id="name" name="name" required type="text">
+              id="name" name="name" type="text">
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="name"></div>
           </div>
 
           <div>
@@ -114,7 +115,9 @@
               *</label>
             <textarea
               class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              id="description" name="description" required rows="5"></textarea>
+              id="description" name="description" rows="5"></textarea>
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="description">
+            </div>
           </div>
 
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -124,12 +127,14 @@
                 *</label>
               <select
                 class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                id="university_id" name="university_id" required>
+                id="university_id" name="university_id">
                 <option value="">Select University</option>
                 @foreach ($universities as $university)
                   <option value="{{ $university->id }}">{{ $university->name }}</option>
                 @endforeach
               </select>
+              <div class="error-message mt-1 hidden text-sm text-red-600"
+                data-field="university_id"></div>
             </div>
             <div>
               <label
@@ -137,18 +142,22 @@
                 Level *</label>
               <select
                 class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                id="education_level" name="education_level" required>
+                id="education_level" name="education_level">
                 <option value="">Select Level</option>
-                <option value="High School">High School</option>
-                <option value="Associate Degree">Associate Degree</option>
-                <option value="Bachelor's">Bachelor's Degree</option>
-                <option value="Master's">Master's Degree</option>
-                <option value="Doctorate">Doctorate</option>
-                <option value="Postgraduate">Postgraduate</option>
-                <option value="Diploma">Diploma</option>
-                <option value="Certificate">Certificate</option>
+                @php
+                  // Get unique education levels from the collection
+                  $uniqueLevels = $fundings->pluck('education_level')->unique()->filter()->sort();
+                @endphp
+                @foreach ($uniqueLevels as $level)
+                  <option value="{{ $level }}">{{ ucfirst($level) }}</option>
+                @endforeach
+              </select>
+              <div class="error-message mt-1 hidden text-sm text-red-600"
+                data-field="education_level"></div>
             </div>
             </select>
+            <div class="error-message mt-1 hidden text-sm text-red-600"
+              data-field="education_level"></div>
           </div>
         </div>
 
@@ -163,18 +172,21 @@
             <img alt="Current image" class="h-24 w-24 rounded-lg object-cover"
               id="currentImagePreview" src="">
           </div>
+          <div class="error-message mt-1 hidden text-sm text-red-600" data-field="image"></div>
+        </div>
+
+        <div
+          class="mt-6 flex justify-end space-x-3 border-t border-gray-200 pt-4 dark:border-gray-700">
+          <button
+            class="flex-1 rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+            onclick="closeFundingModal()" type="button">Cancel</button>
+          <button
+            class="from-accent to-accent bg-linear-to-r w-full flex-1 rounded-lg px-4 py-2 font-medium text-white transition hover:shadow-lg"
+            type="submit">Save Funding</button>
         </div>
     </div>
 
-    <div
-      class="mt-6 flex justify-end space-x-3 border-t border-gray-200 pt-4 dark:border-gray-700">
-      <button
-        class="flex-1 rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
-        onclick="closeFundingModal()" type="button">Cancel</button>
-      <button
-        class="from-accent to-accent bg-linear-to-r w-full flex-1 rounded-lg px-4 py-2 font-medium text-white transition hover:shadow-lg"
-        type="submit">Save Funding</button>
-    </div>
+
     </form>
   </div>
 
@@ -213,6 +225,46 @@
 
   <x-slot:scripts>
     <script>
+      // Function to clear all error messages
+      function clearErrors() {
+        document.querySelectorAll('.error-message').forEach(error => {
+          error.textContent = '';
+          error.classList.add('hidden');
+        });
+
+        document.querySelectorAll('#fundingForm input, #fundingForm select, #fundingForm textarea')
+          .forEach(field => {
+            field.classList.remove(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+          });
+      }
+
+      // Function to display validation errors
+      function displayErrors(errors) {
+        Object.entries(errors).forEach(([field, messages]) => {
+          const errorElement = document.querySelector(`.error-message[data-field="${field}"]`);
+
+          if (errorElement) {
+            errorElement.textContent = messages[0];
+            errorElement.classList.remove('hidden');
+          }
+
+          // Find the field element and add error styling
+          let fieldElement = document.querySelector(`#fundingForm [name="${field}"]`);
+          if (fieldElement) {
+            fieldElement.classList.remove('border-gray-300');
+            fieldElement.classList.add(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+          }
+        });
+      }
+
       // Routes configuration
       const routes = {
         store: "{{ route('admin.fundings.store') }}",
@@ -232,6 +284,10 @@
         form.reset();
         document.getElementById('fundingId').value = '';
         document.getElementById('currentImage').classList.add('hidden');
+
+        // Clear any existing error messages
+        clearErrors();
+
         document.getElementById('fundingModal').classList.remove('hidden');
         document.body.style.overflow = 'hidden';
       }
@@ -239,6 +295,7 @@
       window.closeFundingModal = function() {
         document.getElementById('fundingModal').classList.add('hidden');
         document.body.style.overflow = 'auto';
+        clearErrors();
       }
 
       window.closeDeleteModal = function() {
@@ -296,6 +353,9 @@
             document.getElementById('currentImage').classList.add('hidden');
           }
 
+          // Clear any existing error messages
+          clearErrors();
+
           document.getElementById('fundingModal').classList.remove('hidden');
           document.body.style.overflow = 'hidden';
 
@@ -326,9 +386,12 @@
         const originalText = submitButton.innerHTML;
         const fundingId = document.getElementById('fundingId').value;
 
+        // Clear previous errors
+        clearErrors();
+
+        submitButton.disabled = true;
         submitButton.innerHTML =
           '<svg class="mx-auto h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
-        submitButton.disabled = true;
 
         try {
           let url = this.action;
@@ -347,36 +410,71 @@
             }
           });
 
-          const text = await response.text();
-          console.log(text);
+          const data = await response.json();
 
-          try {
-            const data = JSON.parse(text);
-
-            if (data.success) {
-              closeFundingModal();
-              showToast('success', data.message);
-              setTimeout(() => location.reload(), 1500);
-            } else {
-              showToast('error', data.message || 'An error occurred');
-              submitButton.innerHTML = originalText;
-              submitButton.disabled = false;
-            }
-
-          } catch (e) {
-            console.error('Non-JSON response:', text);
-            showToast('error', 'Server returned an invalid response');
-            submitButton.innerHTML = originalText;
+          if (response.status === 422) {
+            // Validation errors
+            displayErrors(data.errors);
             submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+            return;
+          }
+
+          if (data.success) {
+            closeFundingModal();
+            showToast('success', data.message);
+            setTimeout(() => location.reload(), 1500);
+          } else {
+            showToast('error', data.message || 'An error occurred');
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
           }
 
         } catch (error) {
           console.error('Submit error:', error);
           showToast('error', 'An error occurred while saving the funding');
-          submitButton.innerHTML = originalText;
           submitButton.disabled = false;
+          submitButton.innerHTML = originalText;
         }
       });
+
+      // Real-time error clearing when user types
+      document.querySelectorAll('#fundingForm input, #fundingForm select, #fundingForm textarea')
+        .forEach(field => {
+          field.addEventListener('input', function() {
+            this.classList.remove(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+
+            const fieldName = this.name;
+            const errorElement = document.querySelector(
+              `.error-message[data-field="${fieldName}"]`);
+
+            if (errorElement) {
+              errorElement.textContent = '';
+              errorElement.classList.add('hidden');
+            }
+          });
+
+          field.addEventListener('change', function() {
+            this.classList.remove(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+
+            const fieldName = this.name;
+            const errorElement = document.querySelector(
+              `.error-message[data-field="${fieldName}"]`);
+
+            if (errorElement) {
+              errorElement.textContent = '';
+              errorElement.classList.add('hidden');
+            }
+          });
+        });
 
       // Delete form submission
       document.getElementById('deleteForm').addEventListener('submit', async function(e) {

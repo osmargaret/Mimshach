@@ -32,6 +32,7 @@
 
     body {
         overflow-x: hidden;
+        font-family: Inter, san-serif;
     }
 
     input:-webkit-autofill,

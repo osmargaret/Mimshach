@@ -27,15 +27,19 @@
                   <label
                     class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
                   <input
-                    class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     name="name" type="text" value="{{ $user->name }}">
+                  <div class="error-message mt-1 hidden text-sm text-red-600" data-field="name">
+                  </div>
                 </div>
                 <div>
                   <label
                     class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
                   <input
-                    class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     name="email" type="email" value="{{ $user->email }}">
+                  <div class="error-message mt-1 hidden text-sm text-red-600" data-field="email">
+                  </div>
                 </div>
                 <div>
                   <label
@@ -46,8 +50,8 @@
                     value="{{ ucfirst(str_replace('_', ' ', $user->role)) }}">
                 </div>
                 <button
-                  class="bg-accent hover:bg-accent/80 rounded-lg px-6 py-2 text-white transition"
-                  type="submit">
+                  class="bg-accent hover:bg-accent/80 rounded-lg px-6 py-2 text-white transition disabled:cursor-not-allowed disabled:opacity-50"
+                  id="profileSubmitBtn" type="submit">
                   Update Profile
                 </button>
               </div>
@@ -72,27 +76,33 @@
                     class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Current
                     Password</label>
                   <input
-                    class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                    name="current_password" required type="password">
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    name="current_password" type="password">
+                  <div class="error-message mt-1 hidden text-sm text-red-600"
+                    data-field="current_password"></div>
                 </div>
                 <div>
                   <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">New
                     Password</label>
                   <input
-                    class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                    name="new_password" required type="password">
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    name="new_password" type="password">
+                  <div class="error-message mt-1 hidden text-sm text-red-600"
+                    data-field="new_password"></div>
                 </div>
                 <div>
                   <label
                     class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Confirm
                     New Password</label>
                   <input
-                    class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                    name="new_password_confirmation" required type="password">
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    name="new_password_confirmation" type="password">
+                  <div class="error-message mt-1 hidden text-sm text-red-600"
+                    data-field="new_password_confirmation"></div>
                 </div>
                 <button
-                  class="bg-accent hover:bg-accent/80 rounded-lg px-6 py-2 text-white transition"
-                  type="submit">
+                  class="bg-accent hover:bg-accent/80 rounded-lg px-6 py-2 text-white transition disabled:cursor-not-allowed disabled:opacity-50"
+                  id="passwordSubmitBtn" type="submit">
                   Change Password
                 </button>
               </div>
@@ -109,54 +119,96 @@
               @csrf
               <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
                   <input
-                    class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     name="email" type="email" value="{{ settings('email') }}">
+                  <div class="error-message mt-1 hidden text-sm text-red-600" data-field="email">
+                  </div>
                 </div>
                 <div>
-                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
                   <input
-                    class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                    name="phone"
-                    type="text" value="{{ settings('phone') }}">
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    name="phone" type="text" value="{{ settings('phone') }}">
+                  <div class="error-message mt-1 hidden text-sm text-red-600" data-field="phone">
+                  </div>
                 </div>
                 <div class="sm:col-span-2">
-                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Address</label>
-                  <textarea class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white" name="address" rows="2">{{ settings('address') }}</textarea>
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Address</label>
+                  <textarea
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    name="address" rows="2">{{ settings('address') }}</textarea>
+                  <div class="error-message mt-1 hidden text-sm text-red-600" data-field="address">
+                  </div>
                 </div>
                 <div class="sm:col-span-2">
-                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Working Hours</label>
-                  <textarea class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white" name="working_hours" rows="2">{{ settings('working_hours') }}</textarea>
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Working
+                    Hours</label>
+                  <textarea
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    name="working_hours" rows="2">{{ settings('working_hours') }}</textarea>
+                  <div class="error-message mt-1 hidden text-sm text-red-600"
+                    data-field="working_hours"></div>
                 </div>
                 <div>
-                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300   ">Instagram URL</label>
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Instagram
+                    URL</label>
                   <input
-                    class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     name="instagram_url" type="url" value="{{ settings('instagram_url') }}">
+                  <div class="error-message mt-1 hidden text-sm text-red-600"
+                    data-field="instagram_url"></div>
                 </div>
                 <div>
-                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">LinkedIn URL</label>
-                  <input class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">LinkedIn
+                    URL</label>
+                  <input
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     name="linkedin_url" type="url" value="{{ settings('linkedin_url') }}">
+                  <div class="error-message mt-1 hidden text-sm text-red-600"
+                    data-field="linkedin_url"></div>
                 </div>
                 <div>
-                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Facebook URL</label>
-                  <input class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Facebook
+                    URL</label>
+                  <input
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     name="facebook_url" type="url" value="{{ settings('facebook_url') }}">
+                  <div class="error-message mt-1 hidden text-sm text-red-600"
+                    data-field="facebook_url"></div>
                 </div>
                 <div>
-                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Youtube URL</label>
-                  <input class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Youtube
+                    URL</label>
+                  <input
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     name="youtube_url" type="url" value="{{ settings('youtube_url') }}">
+                  <div class="error-message mt-1 hidden text-sm text-red-600"
+                    data-field="youtube_url"></div>
                 </div>
                 <div class="sm:col-span-2">
-                  <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Map URL</label>
-                  <textarea class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                  <label
+                    class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Map
+                    URL</label>
+                  <textarea
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                     name="map_embed_url" rows="2">{{ settings('map_embed_url') }}</textarea>
+                  <div class="error-message mt-1 hidden text-sm text-red-600"
+                    data-field="map_embed_url"></div>
                 </div>
               </div>
-              <button class="bg-accent mt-4 rounded-lg px-6 py-2 text-white" type="submit">Save
+              <button
+                class="bg-accent mt-4 rounded-lg px-6 py-2 text-white disabled:cursor-not-allowed disabled:opacity-50"
+                id="siteSettingsSubmitBtn" type="submit">Save
                 Settings</button>
             </form>
           </div>
@@ -252,14 +304,16 @@
               class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
             <input
               class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              id="adminName" name="name" required type="text">
+              id="adminName" name="name" type="text">
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="name"></div>
           </div>
           <div>
             <label
               class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
             <input
               class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              id="adminEmail" name="email" required type="email">
+              id="adminEmail" name="email" type="email">
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="email"></div>
           </div>
           <div id="passwordFields">
             <div>
@@ -268,6 +322,8 @@
               <input
                 class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 id="adminPassword" name="password" type="password">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="password">
+              </div>
             </div>
             <div>
               <label
@@ -276,6 +332,8 @@
               <input
                 class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 id="adminPasswordConfirmation" name="password_confirmation" type="password">
+              <div class="error-message mt-1 hidden text-sm text-red-600"
+                data-field="password_confirmation"></div>
             </div>
           </div>
           <div>
@@ -283,7 +341,7 @@
               class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
             <select
               class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              id="adminRole" name="role" required>
+              id="adminRole" name="role">
               <option value="admin">Admin</option>
               <option value="super_admin">Super Admin</option>
             </select>
@@ -327,42 +385,133 @@
         },
         admins: {
           store: "{{ route('admin.settings.admins.store') }}",
-          edit: (id) => `/admin/settings/admins/${id}/edit`,
+          edit: (id) => `/admin/settings/admins/${id}`,
           update: (id) => `/admin/settings/admins/${id}`,
           delete: (id) => `/admin/settings/admins/${id}`
         }
       };
 
+      function clearErrors(formId) {
+        document.querySelectorAll(`#${formId} .error-message`).forEach(error => {
+          error.textContent = '';
+          error.classList.add('hidden');
+        });
+
+        document.querySelectorAll(`#${formId} input, #${formId} textarea, #${formId} select`)
+          .forEach(field => {
+            field.classList.remove(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+          });
+      }
+
+      function displayErrors(formId, errors) {
+        Object.entries(errors).forEach(([field, messages]) => {
+
+          const errorElement = document.querySelector(
+            `#${formId} .error-message[data-field="${field}"]`
+          );
+
+          if (errorElement) {
+            errorElement.textContent = messages[0];
+            errorElement.classList.remove('hidden');
+          }
+
+          const fieldElement = document.querySelector(
+            `#${formId} [name="${field}"]`
+          );
+
+          if (fieldElement) {
+            fieldElement.classList.remove('border-gray-300');
+            fieldElement.classList.add(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+          }
+        });
+
+        const firstError = document.querySelector(`#${formId} .border-red-500`);
+
+        if (firstError) {
+          firstError.focus();
+
+          firstError.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }
+
       // Profile Update
       document.getElementById('profileForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        clearErrors('profileForm');
+
         const formData = new FormData(e.target);
 
+        const submitButton = document.getElementById('profileSubmitBtn');
+
+        const originalText = submitButton.innerHTML;
+
+        submitButton.disabled = true;
+
+        submitButton.innerHTML =
+          '<svg class="mx-auto h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+
         try {
+
           const response = await fetch(routes.profile.update, {
-            method: 'PUT',
+            method: 'POST',
             headers: {
               'X-CSRF-TOKEN': '{{ csrf_token() }}',
               'Accept': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
             },
             body: formData
           });
 
           const data = await response.json();
+
+          if (response.status === 422) {
+            displayErrors('profileForm', data.errors);
+
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+            return;
+          }
           if (data.success) {
             showToast('success', data.message);
           } else {
-            showToast('error', data.message || 'Failed to update profile');
+            showToast('error', data.message);
           }
+
         } catch (error) {
           showToast('error', 'Failed to update profile');
+        } finally {
+          submitButton.disabled = false;
+          submitButton.innerHTML = originalText;
         }
       });
 
       // Password Update
       document.getElementById('passwordForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+        clearErrors('passwordForm');
+
         const formData = new FormData(e.target);
+
+        const submitButton = document.getElementById('passwordSubmitBtn');
+
+        const originalText = submitButton.innerHTML;
+
+        submitButton.disabled = true;
+
+        submitButton.innerHTML =
+          '<svg class="mx-auto h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
 
         try {
           const response = await fetch(routes.password.update, {
@@ -375,35 +524,86 @@
           });
 
           const data = await response.json();
+          if (response.status === 422) {
+            displayErrors('passwordForm', data.errors);
+
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+            return;
+          }
           if (data.success) {
             showToast('success', data.message);
-            e.target.reset();
           } else {
             showToast('error', data.message);
           }
+
         } catch (error) {
-          showToast('error', 'Failed to update password');
+          showToast('error', 'Failed to update profile');
+        } finally {
+          submitButton.disabled = false;
+          submitButton.innerHTML = originalText;
         }
       });
 
-      document.getElementById('siteSettingsForm')?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
+      document.getElementById('siteSettingsForm')
+        ?.addEventListener('submit', async (e) => {
 
-        const response = await fetch('{{ route('admin.settings.site.update') }}', {
-          method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-          },
-          body: formData
+          e.preventDefault();
+
+          clearErrors('siteSettingsForm');
+
+          const formData = new FormData(e.target);
+
+          const submitButton = document.getElementById('siteSettingsSubmitBtn');
+
+          const originalText = submitButton.innerHTML;
+
+          submitButton.disabled = true;
+
+          submitButton.innerHTML = `
+      <div class="mx-auto h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+    `;
+
+          try {
+
+            const response = await fetch(
+              '{{ route('admin.settings.site.update') }}', {
+                method: 'POST',
+                headers: {
+                  'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                  'Accept': 'application/json',
+                  'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: formData
+              }
+            );
+
+            const data = await response.json();
+
+            if (response.status === 422) {
+
+              displayErrors('siteSettingsForm', data.errors);
+
+              submitButton.disabled = false;
+              submitButton.innerHTML = originalText;
+
+              return;
+            }
+
+            if (data.success) {
+              showToast('success', data.message);
+            }
+
+          } catch (error) {
+
+            showToast('error', 'Failed to update settings');
+
+          } finally {
+
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+          }
         });
-
-        const data = await response.json();
-        if (data.success) {
-          showToast('success', 'Settings updated!');
-          setTimeout(() => location.reload(), 1000);
-        }
-      });
 
       // Admin Management Functions
       let currentAdminId = null;
@@ -419,27 +619,46 @@
         document.body.style.overflow = 'hidden';
       }
 
-      function editAdmin(id) {
+      async function editAdmin(id) {
         currentAdminId = id;
-        // Fetch admin details using the route pattern
-        fetch(routes.admins.edit(id))
-          .then(response => response.json())
-          .then(data => {
-            document.getElementById('modalTitle').textContent = 'Edit Admin';
-            document.getElementById('adminName').value = data.name;
-            document.getElementById('adminEmail').value = data.email;
-            document.getElementById('adminRole').value = data.role;
-            document.getElementById('adminStatus').value = data.is_active ? '1' : '0';
-            document.getElementById('passwordFields').classList.add('hidden');
-            document.getElementById('statusField').classList.remove('hidden');
-            document.getElementById('adminModal').classList.remove('hidden');
-            document.getElementById('adminModal').classList.add('flex');
-            document.body.style.overflow = 'hidden';
-          })
-          .catch(error => {
-            console.error('Edit error:', error);
-            showToast('error', 'Failed to fetch admin details');
+
+        try {
+
+          const response = await fetch(routes.admins.edit(id), {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            }
           });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          document.getElementById('modalTitle').textContent = 'Edit Admin';
+
+          document.getElementById('adminName').value = data.name;
+          document.getElementById('adminEmail').value = data.email;
+          document.getElementById('adminRole').value = data.role;
+          document.getElementById('adminStatus').value = data.is_active ? '1' : '0';
+
+          document.getElementById('passwordFields').classList.add('hidden');
+          document.getElementById('statusField').classList.remove('hidden');
+
+          document.getElementById('adminModal').classList.remove('hidden');
+          document.getElementById('adminModal').classList.add('flex');
+
+          document.body.style.overflow = 'hidden';
+
+        } catch (error) {
+
+          console.error('Edit admin error:', error);
+
+          showToast('error', 'Failed to fetch admin details');
+        }
       }
 
       function closeAdminModal() {
@@ -450,6 +669,7 @@
 
       document.getElementById('adminForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+        clearErrors('adminForm');
         const formData = new FormData(e.target);
         const adminId = currentAdminId;
         const submitButton = e.target.querySelector('button[type="submit"]');
@@ -482,6 +702,17 @@
           });
 
           const data = await response.json();
+
+          if (response.status === 422) {
+
+            displayErrors('adminForm', data.errors);
+
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+
+            return;
+          }
+
           if (data.success) {
             showToast('success', data.message);
             setTimeout(() => location.reload(), 1500);
@@ -527,6 +758,51 @@
             });
         }
       }
+
+      document.querySelectorAll('form input, form textarea, form select')
+        .forEach(field => {
+
+          field.addEventListener('input', function() {
+
+            this.classList.remove(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+
+            const form = this.closest('form');
+
+            const errorElement = form.querySelector(
+              `.error-message[data-field="${this.name}"]`
+            );
+
+            if (errorElement) {
+              errorElement.textContent = '';
+              errorElement.classList.add('hidden');
+            }
+          });
+
+          field.addEventListener('change', function() {
+
+            this.classList.remove(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+
+            const form = this.closest('form');
+
+            const errorElement = form.querySelector(
+              `.error-message[data-field="${this.name}"]`
+            );
+
+            if (errorElement) {
+              errorElement.textContent = '';
+              errorElement.classList.add('hidden');
+            }
+          });
+
+        });
 
       // Close modal when clicking outside
       document.getElementById('adminModal').addEventListener('click', (e) => {

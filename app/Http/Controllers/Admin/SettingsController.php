@@ -188,9 +188,19 @@ class SettingsController extends Controller
     {
         $this->checkSuperAdmin();
 
-        $settings = $request->except('_token');
+        $validated = $request->validate([
+            'email' => ['nullable', 'email'],
+            'phone' => ['nullable', 'string', 'max:255'],
+            'address' => ['nullable', 'string'],
+            'working_hours' => ['nullable', 'string'],
+            'instagram_url' => ['nullable', 'url'],
+            'linkedin_url' => ['nullable', 'url'],
+            'facebook_url' => ['nullable', 'url'],
+            'youtube_url' => ['nullable', 'url'],
+            'map_embed_url' => ['nullable', 'url'],
+        ]);
 
-        foreach ($settings as $key => $value) {
+        foreach ($validated as $key => $value) {
             SiteSetting::set($key, $value);
         }
 

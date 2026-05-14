@@ -10,9 +10,9 @@
     <title>{{ $pageTitle }}</title>
 
     <!-- Fonts & Icons -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap"
-      rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
     {{ $styles ?? '' }}
   </head>
 
-  <body class="text-primary overflow-x-hidden scroll-smooth bg-[#FEFCF8] font-sans">
+  <body class="text-primary overflow-x-hidden scroll-smooth bg-[#FEFCF8]">
     <!-- Hero Section -->
     <x-layouts.header />
     {{ $slot }}
@@ -92,7 +92,7 @@
         setTimeout(() => {
           toast.classList.add('opacity-0', 'translate-y-[-10px]');
           setTimeout(() => toast.remove(), 300);
-        }, 3000);
+        }, 6000);
       }
     </script>
     {{ $scripts ?? '' }}

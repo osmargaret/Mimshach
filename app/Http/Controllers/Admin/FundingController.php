@@ -63,8 +63,6 @@ class FundingController extends Controller
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
-            $validated['slug'] = Str::slug($validated['name']);
-
             // Handle image upload
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 try {
@@ -76,8 +74,6 @@ class FundingController extends Controller
                         'message' => 'Failed to upload image: ' . $e->getMessage()
                     ], 500);
                 }
-            } else {
-                unset($validated['image']);
             }
 
             $funding = Funding::create($validated);
@@ -90,7 +86,8 @@ class FundingController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Validation failed: ' . json_encode($e->errors())
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
             ], 422);
         } catch (\Exception $e) {
             Log::error('Funding store error: ' . $e->getMessage());
@@ -109,7 +106,7 @@ class FundingController extends Controller
             // Add full URL for image
             $fundingData = $funding->toArray();
             $fundingData['image_url'] = $funding->image ? Storage::url($funding->image) : null;
-
+            
             return response()->json([
                 'success' => true,
                 'funding' => $fundingData
@@ -136,8 +133,6 @@ class FundingController extends Controller
                 'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
-            $validated['slug'] = Str::slug($validated['name']);
-
             // Handle image upload
             if ($request->hasFile('image') && $request->file('image')->isValid()) {
                 // Delete old image if exists
@@ -145,17 +140,8 @@ class FundingController extends Controller
                     Storage::disk('public')->delete($funding->image);
                 }
 
-                try {
-                    $imagePath = $request->file('image')->store('fundings', 'public');
-                    $validated['image'] = $imagePath;
-                } catch (\Exception $e) {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Failed to upload image: ' . $e->getMessage()
-                    ], 500);
-                }
-            } else {
-                unset($validated['image']);
+                $imagePath = $request->file('image')->store('fundings', 'public');
+                $validated['image'] = $imagePath;
             }
 
             $funding->update($validated);
@@ -165,11 +151,6 @@ class FundingController extends Controller
                 'message' => 'Funding opportunity updated successfully',
                 'funding' => $funding
             ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed: ' . json_encode($e->errors())
-            ], 422);
         } catch (\Exception $e) {
             Log::error('Funding update error: ' . $e->getMessage());
             return response()->json([

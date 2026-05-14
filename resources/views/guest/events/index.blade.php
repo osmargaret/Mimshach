@@ -5,7 +5,7 @@
   />
 
   <main id="main-content" class="container mx-auto max-w-[1400px] px-4">
-    <x-filter-bar :$filters contentId="eventsList" paginationId="paginationContainer" classes='-mt-10' />
+    <x-filter-bar :$filters contentId="eventsList" paginationId="paginationContainer" classes='-mt-10' disableDark="true" />
 
     <!-- Events Grid - 4 columns on desktop -->
     @if ($events->isEmpty())
@@ -15,7 +15,7 @@
         <p class="text-sm text-[#4a5568] md:text-base">Please adjust your filters to see more results.</p>
       </div>
     @else
-      <ul role="list" class="my-12 grid grid-cols-1 gap-6 md:my-16 md:grid-cols-2 md:gap-8 xl:grid-cols-4" id="eventsList">
+      <ul role="list" class="my-12 flex flex-col gap-6" id="eventsList">
         @foreach ($events as $event)
           <li role="listitem">
             <x-event.event-card :$event />

@@ -103,7 +103,8 @@
                 *</label>
               <input
                 class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                id="title" name="title" required type="text">
+                id="title" name="title"  type="text">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="title"></div>
             </div>
             <div>
               <label
@@ -111,6 +112,8 @@
               <input
                 class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
                 id="subtitle" name="subtitle" type="text">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="subtitle">
+              </div>
             </div>
           </div>
 
@@ -120,7 +123,9 @@
               *</label>
             <textarea
               class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              id="description" name="description" required rows="5"></textarea>
+              id="description" name="description"  rows="5"></textarea>
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="description">
+            </div>
           </div>
 
           <div class="grid gap-4 md:grid-cols-2">
@@ -129,7 +134,8 @@
                 *</label>
               <input
                 class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                id="date" name="date" required type="date">
+                id="date" name="date"  type="date">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="date"></div>
             </div>
             <div>
               <label
@@ -137,7 +143,9 @@
                 *</label>
               <input
                 class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                id="location" name="location" required type="text">
+                id="location" name="location"  type="text">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="location">
+              </div>
             </div>
           </div>
 
@@ -147,14 +155,18 @@
                 Time *</label>
               <input
                 class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                id="start_time" name="start_time" required type="time">
+                id="start_time" name="start_time"  type="time">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="start_time">
+              </div>
             </div>
             <div>
               <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">End
                 Time *</label>
               <input
                 class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                id="end_time" name="end_time" required type="time">
+                id="end_time" name="end_time" type="time">
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="end_time">
+              </div>
             </div>
           </div>
 
@@ -165,7 +177,7 @@
                 *</label>
               <select
                 class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                id="timezone" name="timezone" required>
+                id="timezone" name="timezone" >
                 <option value="">Select Timezone</option>
                 <option value="UTC">UTC</option>
                 <option value="Africa/Lagos">Africa/Lagos (West Africa Time)</option>
@@ -196,6 +208,8 @@
                 <option value="Australia/Perth">Australia/Perth (Australian Western Time)</option>
                 <option value="Pacific/Auckland">Pacific/Auckland (New Zealand Time)</option>
               </select>
+              <div class="error-message mt-1 hidden text-sm text-red-600" data-field="timezone">
+              </div>
             </div>
             <div>
               <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Event
@@ -207,6 +221,8 @@
                 <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Current Image:</p>
                 <img alt="Current image" class="h-32 w-32 rounded-lg object-cover"
                   id="currentImagePreview" src="">
+                <div class="error-message mt-1 hidden text-sm text-red-600" data-field="image">
+                </div>
               </div>
             </div>
           </div>
@@ -289,6 +305,46 @@
     <script>
       let currentDeleteId = null;
 
+      // Function to clear all error messages
+      function clearErrors() {
+        document.querySelectorAll('.error-message').forEach(error => {
+          error.textContent = '';
+          error.classList.add('hidden');
+        });
+
+        document.querySelectorAll('#eventForm input, #eventForm select, #eventForm textarea').forEach(
+          field => {
+            field.classList.remove(
+            'dark:border-red-500',
+            'dark:focus:border-red-500',
+            'dark:focus:ring-red-500/20'
+          );
+          });
+      }
+
+      // Function to display validation errors
+      function displayErrors(errors) {
+        Object.entries(errors).forEach(([field, messages]) => {
+          const errorElement = document.querySelector(`.error-message[data-field="${field}"]`);
+
+          if (errorElement) {
+            errorElement.textContent = messages[0];
+            errorElement.classList.remove('hidden');
+          }
+
+          // Find the field element and add error styling
+          let fieldElement = document.querySelector(`#eventForm [name="${field}"]`);
+          if (fieldElement) {
+              fieldElement.classList.remove('border-gray-300');
+            fieldElement.classList.add(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+            }
+        });
+      }
+
       // Routes configuration
       const routes = {
         store: "{{ route('admin.events.store') }}",
@@ -309,6 +365,10 @@
         form.reset();
         document.getElementById('eventId').value = '';
         document.getElementById('currentImage').classList.add('hidden');
+
+        // Clear any existing error messages
+        clearErrors();
+
         document.getElementById('eventModal').classList.remove('hidden');
         document.body.style.overflow = 'hidden';
       }
@@ -316,6 +376,7 @@
       window.closeEventModal = function() {
         document.getElementById('eventModal').classList.add('hidden');
         document.body.style.overflow = 'auto';
+        clearErrors();
       }
 
       window.closeDeleteModal = function() {
@@ -401,6 +462,9 @@
           } else {
             document.getElementById('currentImage').classList.add('hidden');
           }
+
+          // Clear any existing error messages
+          clearErrors();
 
           document.getElementById('eventModal').classList.remove('hidden');
           document.body.style.overflow = 'hidden';
@@ -523,26 +587,21 @@
         const originalText = submitButton.innerHTML;
         const isEdit = document.getElementById('eventId').value;
 
+        // Clear previous errors
+        clearErrors();
+
+        submitButton.disabled = true;
         submitButton.innerHTML =
           '<svg class="mx-auto h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
-        submitButton.disabled = true;
 
         try {
           let url = this.action;
 
-          // If editing, use the update route with ID
           if (isEdit) {
             url = routes.update(isEdit);
             formData.append('_method', 'PUT');
           }
 
-          // Debug logging
-          console.log('Submitting to URL:', url);
-          console.log('Is Edit:', !!isEdit);
-
-          for (let [key, value] of formData.entries()) {
-            console.log(key, value);
-          }
           const response = await fetch(url, {
             method: 'POST',
             body: formData,
@@ -552,32 +611,71 @@
             }
           });
 
-          const text = await response.text();
-          console.log(text);
+          const data = await response.json();
 
-          try {
-            const data = JSON.parse(text);
+          if (response.status === 422) {
+            // Validation errors
+            displayErrors(data.errors);
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+            return;
+          }
 
-            if (data.success) {
-              closeEventModal();
-              showToast('success', data.message);
-              setTimeout(() => location.reload(), 1500);
-            } else {
-              showToast('error', data.message || 'An error occurred');
-            }
-
-          } catch (e) {
-            console.error('Non-JSON response:', text);
-            showToast('error', 'Server returned an invalid response');
+          if (data.success) {
+            closeEventModal();
+            showToast('success', data.message);
+            setTimeout(() => location.reload(), 1500);
+          } else {
+            showToast('error', data.message || 'An error occurred');
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
           }
 
         } catch (error) {
           console.error('Submit error:', error);
           showToast('error', 'An error occurred while saving the event');
-          submitButton.innerHTML = originalText;
           submitButton.disabled = false;
+          submitButton.innerHTML = originalText;
         }
       });
+
+      // Real-time error clearing when user types
+      document.querySelectorAll('#eventForm input, #eventForm select, #eventForm textarea').forEach(
+        field => {
+          field.addEventListener('input', function() {
+            this.classList.remove(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+
+            const fieldName = this.name;
+            const errorElement = document.querySelector(
+              `.error-message[data-field="${fieldName}"]`);
+
+            if (errorElement) {
+              errorElement.textContent = '';
+              errorElement.classList.add('hidden');
+            }
+          });
+
+          field.addEventListener('change', function() {
+            this.classList.remove(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+
+            const fieldName = this.name;
+            const errorElement = document.querySelector(
+              `.error-message[data-field="${fieldName}"]`);
+
+            if (errorElement) {
+              errorElement.textContent = '';
+              errorElement.classList.add('hidden');
+            }
+          });
+        });
 
       document.getElementById('deleteForm').addEventListener('submit', async function(e) {
         e.preventDefault();

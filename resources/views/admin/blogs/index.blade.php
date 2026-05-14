@@ -84,6 +84,7 @@
           </svg>
         </button>
       </div>
+      
       <form action="{{ route('admin.blogs.store') }}" class="p-6" enctype="multipart/form-data"
         id="blogForm" method="POST">
         @csrf
@@ -95,32 +96,36 @@
             <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Title
               *</label>
             <input
-              class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              id="title" name="title" required type="text">
+              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              id="title" name="title"  type="text">
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="title"></div>
           </div>
 
           <div>
             <label
               class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Subtitle</label>
             <input
-              class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="subtitle" name="subtitle" type="text">
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="subtitle"></div>
           </div>
 
           <div>
             <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Content
               *</label>
             <textarea
-              class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              id="content" name="content" required rows="10"></textarea>
+              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              id="content" name="content"  rows="10"></textarea>
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="content"></div>
           </div>
 
           <div>
             <label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">Featured
               Image</label>
             <input accept="image/*"
-              class="focus:border-accent w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
               id="featured_image" name="featured_image" type="file">
+            <div class="error-message mt-1 hidden text-sm text-red-600" data-field="featured_image"></div>
             <div class="mt-2 hidden" id="currentImage">
               <p class="mb-2 text-sm text-gray-600 dark:text-gray-400">Current Image:</p>
               <img alt="Current image" class="h-32 w-32 rounded-lg object-cover"
@@ -135,8 +140,8 @@
             class="flex-1 rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
             onclick="closeBlogModal()" type="button">Cancel</button>
           <button
-            class="from-accent to-accent bg-linear-to-r w-auto flex-1 rounded-lg px-4 py-2 text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl"
-            type="submit">Save Blog Post</button>
+            class="from-accent to-accent bg-linear-to-r w-auto flex-1 rounded-lg px-4 py-2 text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
+            id="submitBtn" type="submit">Save Blog Post</button>
         </div>
       </form>
     </div>
@@ -185,6 +190,45 @@
         delete: (id) => `/admin/blogs/${id}`
       };
 
+      // Function to clear all error messages
+      function clearErrors() {
+        document.querySelectorAll('.error-message').forEach(error => {
+          error.textContent = '';
+          error.classList.add('hidden');
+        });
+
+        document.querySelectorAll('#blogForm input, #blogForm textarea').forEach(field => {
+          field.classList.remove(
+            'dark:border-red-500',
+            'dark:focus:border-red-500',
+            'dark:focus:ring-red-500/20'
+          );
+        });
+      }
+
+      // Function to display validation errors
+      function displayErrors(errors) {
+        Object.entries(errors).forEach(([field, messages]) => {
+          const errorElement = document.querySelector(`.error-message[data-field="${field}"]`);
+          
+          if (errorElement) {
+            errorElement.textContent = messages[0];
+            errorElement.classList.remove('hidden');
+          }
+
+          // Find the field element and add error styling
+          let fieldElement = document.querySelector(`#blogForm [name="${field}"]`);
+          if (fieldElement) {
+            fieldElement.classList.remove('border-gray-300');
+            fieldElement.classList.add(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+          }
+        });
+      }
+
       // ==========================
       // MODAL HANDLING
       // ==========================
@@ -196,6 +240,10 @@
         form.reset();
         document.getElementById('blogId').value = '';
         document.getElementById('currentImage').classList.add('hidden');
+        
+        // Clear any existing error messages
+        clearErrors();
+        
         document.getElementById('blogModal').classList.remove('hidden');
         document.body.style.overflow = 'hidden';
       }
@@ -246,6 +294,9 @@
           document.getElementById('subtitle').value = blog.subtitle || '';
           document.getElementById('content').value = blog.content || '';
 
+          // Clear any existing error messages
+          clearErrors();
+
           // Image preview
           if (blog.featured_image_url) {
             document.getElementById('currentImagePreview').src = blog.featured_image_url;
@@ -285,13 +336,16 @@
         e.preventDefault();
 
         const formData = new FormData(this);
-        const submitButton = this.querySelector('button[type="submit"]');
+        const submitButton = document.getElementById('submitBtn');
         const originalText = submitButton.innerHTML;
         const blogId = document.getElementById('blogId').value;
 
-        submitButton.innerHTML =
-          '<svg class="mx-auto h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
+        // Clear previous errors and messages
+        clearErrors();
+
         submitButton.disabled = true;
+        submitButton.innerHTML =
+        '<svg class="mx-auto h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle  class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>';
 
         try {
           let url = this.action;
@@ -310,35 +364,69 @@
             }
           });
 
-          const text = await response.text();
-          console.log(text);
+          const data = await response.json();
 
-          try {
-            const data = JSON.parse(text);
+          if (response.status === 422) {
+            
+            displayErrors(data.errors);
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
+            return;
+          }
 
-            if (data.success) {
+          if (data.success) {            
+            setTimeout(() => {
               closeBlogModal();
               showToast('success', data.message);
               setTimeout(() => location.reload(), 1500);
-            } else {
-              showToast('error', data.message || 'An error occurred');
-              submitButton.innerHTML = originalText;
-              submitButton.disabled = false;
-            }
-
-          } catch (e) {
-            console.error('Non-JSON response:', text);
-            showToast('error', 'Server returned an invalid response');
-            submitButton.innerHTML = originalText;
+            }, 1000);
+          } else {
+            showToast('error', data.message || 'An error occurred');
             submitButton.disabled = false;
+            submitButton.innerHTML = originalText;
           }
 
         } catch (error) {
           console.error('Submit error:', error);
           showToast('error', 'An error occurred while saving the blog post');
-          submitButton.innerHTML = originalText;
           submitButton.disabled = false;
+          submitButton.innerHTML = originalText;
         }
+      });
+
+      // Real-time error clearing when user types
+      document.querySelectorAll('#blogForm input, #blogForm textarea').forEach(field => {
+        field.addEventListener('input', function() {
+          this.classList.remove(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+          
+          const fieldName = this.name;
+          const errorElement = document.querySelector(`.error-message[data-field="${fieldName}"]`);
+          
+          if (errorElement) {
+            errorElement.textContent = '';
+            errorElement.classList.add('hidden');
+          }
+        });
+        
+        field.addEventListener('change', function() {
+          this.classList.remove(
+              'dark:border-red-500',
+              'dark:focus:border-red-500',
+              'dark:focus:ring-red-500/20'
+            );
+          
+          const fieldName = this.name;
+          const errorElement = document.querySelector(`.error-message[data-field="${fieldName}"]`);
+          
+          if (errorElement) {
+            errorElement.textContent = '';
+            errorElement.classList.add('hidden');
+          }
+        });
       });
 
       // Delete form submission

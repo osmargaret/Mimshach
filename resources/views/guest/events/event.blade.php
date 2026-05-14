@@ -262,28 +262,32 @@ $eventEndInEventTz = $event->end_time->setTimezone($event->timezone);
           <label class="mb-2 block text-sm font-semibold text-[#0A192F]">Full Name *</label>
           <input
             class="w-full rounded-lg border border-gray-200 p-3 focus:border-[#C6A43F] focus:outline-none"
-            name="name" required type="text">
+            name="name" type="text">
+          <div class="error-message mt-1 hidden text-sm text-red-600" data-field="name"></div>
         </div>
 
         <div class="mb-4">
           <label class="mb-2 block text-sm font-semibold text-[#0A192F]">Email Address *</label>
           <input
             class="w-full rounded-lg border border-gray-200 p-3 focus:border-[#C6A43F] focus:outline-none"
-            name="email" required type="email">
+            name="email" type="email">
+          <div class="error-message mt-1 hidden text-sm text-red-600" data-field="email"></div>
         </div>
 
         <div class="mb-4">
           <label class="mb-2 block text-sm font-semibold text-[#0A192F]">Phone Number *</label>
           <input
             class="w-full rounded-lg border border-gray-200 p-3 focus:border-[#C6A43F] focus:outline-none"
-            name="phone" required type="tel">
+            name="phone" type="tel">
+          <div class="error-message mt-1 hidden text-sm text-red-600" data-field="phone"></div>
         </div>
 
         <div class="mb-4">
           <label class="mb-2 block text-sm font-semibold text-[#0A192F]">Date of Birth *</label>
           <input
             class="w-full rounded-lg border border-gray-200 p-3 focus:border-[#C6A43F] focus:outline-none"
-            name="date_of_birth" required type="date">
+            name="date_of_birth" type="date">
+          <div class="error-message mt-1 hidden text-sm text-red-600" data-field="date_of_birth"></div>
         </div>
 
         <div class="flex gap-3">
@@ -292,7 +296,7 @@ $eventEndInEventTz = $event->end_time->setTimezone($event->timezone);
             onclick="closeRegistrationModal()" type="button">Cancel</button>
           <button
             class="flex-1 rounded-full bg-[#C6A43F] px-6 py-3 font-semibold text-[#0A192F] transition-all hover:bg-[#b38f2e]"
-            id="submitBtn" type="submit">Submit Registration</button>
+            id="submitBtn" type="submit">Submit</button>
         </div>
       </form>
     </div>
@@ -350,49 +354,119 @@ $eventEndInEventTz = $event->end_time->setTimezone($event->timezone);
       }
 
       eventRegistrationForm.addEventListener('submit', async function(e) {
+
         e.preventDefault();
+
         errorsBox.innerHTML = '';
+        errorsBox.className = 'mb-4 hidden rounded-lg p-3 text-sm';
+
+        document.querySelectorAll('.error-message').forEach(error => {
+          error.textContent = '';
+          error.classList.add('hidden');
+        });
+
+        eventRegistrationForm.querySelectorAll('input').forEach(field => {
+          field.classList.remove('border-red-500');
+        });
+
         submitBtn.disabled = true;
+
         submitBtn.innerHTML =
           '<div class="mx-auto h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>';
 
-        const formData = new FormData(eventRegistrationForm);
-
         try {
-          const response = await fetch("{{ route('events.register', $event) }}", {
-            method: "POST",
-            headers: {
-              "X-CSRF-TOKEN": document.querySelector('input[name=_token]').value,
-              "Accept": "application/json"
-            },
-            body: formData
-          });
+
+          const formData = new FormData(eventRegistrationForm);
+
+          const response = await fetch(
+            "{{ route('events.register', $event) }}", {
+              method: "POST",
+              headers: {
+                "X-CSRF-TOKEN": document.querySelector(
+                  'meta[name="csrf-token"]'
+                ).content,
+                "Accept": "application/json"
+              },
+              body: formData
+            }
+          );
 
           const data = await response.json();
 
-          if (!response.ok) {
-            throw data;
+          if (response.status === 422) {
+
+            errorsBox.classList.remove('hidden');
+            errorsBox.classList.add(
+              'bg-red-50',
+              'text-red-600'
+            );
+
+            errorsBox.innerHTML =
+              'Please fix the errors below.';
+
+            Object.entries(data.errors).forEach(([field, messages]) => {
+
+              const errorElement = document.querySelector(
+                `.error-message[data-field="${field}"]`
+              );
+
+              if (errorElement) {
+                errorElement.textContent = messages[0];
+                errorElement.classList.remove('hidden');
+              }
+
+              const fieldElement = document.querySelector(
+                `[name="${field}"]`
+              );
+
+              if (fieldElement) {
+                fieldElement.classList.add('border-red-500');
+              }
+            });
+
+            return;
           }
 
-          showToast(data.message, 'success');
+          showToast('success', data.message);
+
           closeRegistrationModal();
 
         } catch (error) {
-          if (error.errors) {
-            Object.values(error.errors).forEach(messages => {
-              messages.forEach(msg => {
-                const errorDiv = document.createElement('div');
-                errorDiv.textContent = msg;
-                errorsBox.appendChild(errorDiv);
-              });
-            });
-          } else if (error.message) {
-            showToast(error.message, 'error');
-          }
-        }
 
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Submit Registration';
+          console.error(error);
+
+          errorsBox.classList.remove('hidden');
+
+          errorsBox.classList.add(
+            'bg-red-50',
+            'text-red-600'
+          );
+
+          errorsBox.innerHTML =
+            'Something went wrong. Please try again later.';
+
+        } finally {
+
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'Submit';
+        }
+      });
+
+      eventRegistrationForm.querySelectorAll('input').forEach(field => {
+
+        field.addEventListener('input', function() {
+
+          this.classList.remove('border-red-500');
+
+          const errorElement = document.querySelector(
+            `.error-message[data-field="${this.name}"]`
+          );
+
+          if (errorElement) {
+            errorElement.textContent = '';
+            errorElement.classList.add('hidden');
+          }
+        });
       });
 
       // Close modal when clicking outside

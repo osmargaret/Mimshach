@@ -8,7 +8,7 @@
     title="Partner Universities" />
 
   <div class="container mx-auto max-w-[1400px] px-4">
-    <x-filter-bar :$filters contentId="uniGrid" paginationId="paginationContainer" classes='-mt-10' />
+    <x-filter-bar :$filters contentId="uniGrid" paginationId="paginationContainer" classes='-mt-10' disableDark="true" />
 
     <!-- Universities Grid - 4 columns on large screens -->
     <div class="my-12 grid grid-cols-1 gap-6 md:my-16 md:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4" id="uniGrid">

@@ -73,9 +73,6 @@ class BlogController extends Controller
                 'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
-            $validated['slug'] = Str::slug($validated['title']);
-            $validated['user_id'] = Auth::id();
-
             // Handle featured image upload
             if ($request->hasFile('featured_image') && $request->file('featured_image')->isValid()) {
                 try {
@@ -87,9 +84,7 @@ class BlogController extends Controller
                         'message' => 'Failed to upload image: ' . $e->getMessage()
                     ], 500);
                 }
-            } else {
-                unset($validated['featured_image']);
-            }
+            } 
 
             $blog = Blog::create($validated);
 
@@ -101,7 +96,8 @@ class BlogController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Validation failed: ' . json_encode($e->errors())
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
             ], 422);
         } catch (\Exception $e) {
             Log::error('Blog store error: ' . $e->getMessage());
@@ -146,8 +142,6 @@ class BlogController extends Controller
                 'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
 
-            $validated['slug'] = Str::slug($validated['title']);
-
             // Handle featured image upload
             if ($request->hasFile('featured_image') && $request->file('featured_image')->isValid()) {
                 // Delete old image if exists
@@ -155,17 +149,8 @@ class BlogController extends Controller
                     Storage::disk('public')->delete($blog->featured_image);
                 }
 
-                try {
-                    $imagePath = $request->file('featured_image')->store('blogs', 'public');
-                    $validated['featured_image'] = $imagePath;
-                } catch (\Exception $e) {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Failed to upload image: ' . $e->getMessage()
-                    ], 500);
-                }
-            } else {
-                unset($validated['featured_image']);
+                $imagePath = $request->file('featured_image')->store('blogs', 'public');
+                $validated['featured_image'] = $imagePath;
             }
 
             $blog->update($validated);
@@ -175,11 +160,6 @@ class BlogController extends Controller
                 'message' => 'Blog post updated successfully',
                 'blog' => $blog
             ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed: ' . json_encode($e->errors())
-            ], 422);
         } catch (\Exception $e) {
             Log::error('Blog update error: ' . $e->getMessage());
             return response()->json([

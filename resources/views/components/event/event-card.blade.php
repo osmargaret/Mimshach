@@ -18,75 +18,79 @@
   $userOffset = $timezoneDetails['user_offset'];
 @endphp
 
-<a
-  class="group relative block h-80 overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C6A43F]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A192F]"
-  href="{{ route('events.event', $event) }}"
+<a aria-describedby="event-card-meta-{{ $eventCardId }}"
   aria-labelledby="event-card-title-{{ $eventCardId }}"
-  aria-describedby="event-card-meta-{{ $eventCardId }}">
+  class="group relative block h-80 overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C6A43F]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A192F]"
+  href="{{ route('events.event', $event) }}">
 
   <!-- Background Image -->
-  <div
+  <div aria-hidden="true"
     class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-    style="background-image: url('{{ Storage::url($event->image) }}');"
-    aria-hidden="true">
+    style="background-image: url('{{ Storage::url($event->image) }}');">
   </div>
 
   <!-- Gradient Overlay -->
-  <div class="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-[#0A192F]/60 to-transparent" aria-hidden="true">
+  <div aria-hidden="true"
+    class="absolute inset-0 bg-gradient-to-t from-[#0A192F] via-[#0A192F]/60 to-[#0A192F]/20">
   </div>
 
   <!-- Content -->
   <div class="absolute bottom-0 left-0 right-0 p-4 md:p-5">
     <h3
-      id="event-card-title-{{ $eventCardId }}"
-      class="line-clamp-2 text-lg font-bold text-white transition-colors group-hover:text-[#C6A43F] md:text-xl">
+      class="mb-4 line-clamp-2 text-lg font-[Playfair_Display] font-bold text-white transition-colors group-hover:text-[#C6A43F] md:text-2xl"
+      id="event-card-title-{{ $eventCardId }}">
       {{ $event->title }}
     </h3>
 
-    <p class="mb-2 line-clamp-2 text-xs text-gray-200 opacity-90 md:text-sm">
-      {{ $event->subtitle }}
-    </p>
+    <div>
+      <div class="mb-4 flex gap-5 text-[#C6A43F]">
 
-    <div class="mb-2 space-y-1.5 text-xs text-[#C6A43F]">
-      <p>
-        <i class="fas fa-calendar w-3.5" aria-hidden="true"></i>
-        {{ $eventDate }}
+        <div class="flex items-center gap-1.5 text-sm">
+          <p>
+            <i aria-hidden="true" class="fas fa-calendar w-3.5"></i>
+            {{ $eventDate }} at
+          </p>
+
+          @if ($isSameTimezone || !$userEventTime)
+            <span>
+              {{ $eventTime }} ({{ $eventTz }})
+            </span>
+          @else
+            <span
+              title="Event timezone: {{ $timezoneDetails['event_timezone'] }} (UTC{{ $eventOffset }})">
+              {{ $eventTime }} {{ $eventTz }}
+            </span>
+
+            <span class="text-gray-500">•</span>
+
+            <span class="text-gray-300"
+              title="Your timezone: {{ $timezoneDetails['user_timezone'] }} (UTC{{ $userOffset }})">
+              {{ $userTime }} ({{ $userTz }})
+            </span>
+          @endif
+        </div>
+
+        <!-- Location -->
+        <div class="flex items-center gap-1.5 text-sm">
+          <i aria-hidden="true" class="fas fa-map-marker-alt w-3.5"></i>
+          <span class="line-clamp-1">{{ $event->location }}</span>
+        </div>
+
+        <div class="sr-only" id="event-card-meta-{{ $eventCardId }}">
+          {{ $eventDate }}.
+          @if ($isSameTimezone || !$userEventTime)
+            {{ $eventTime }} {{ $eventTz }}.
+          @else
+            {{ $eventTime }} ({{ $eventCity }}), local time {{ $userTime }}
+            ({{ $userTz }}).
+          @endif
+          {{ $event->location }}.
+        </div>
+      </div>
+      
+      <p class="mb-2 line-clamp-2 block text-sm text-gray-200 opacity-90 md:text-base">
+        {{ $event->subtitle }}
       </p>
-      <div class="flex items-center gap-1.5 text-xs">
-        <i class="fas fa-clock w-3.5" aria-hidden="true"></i>
-
-        @if ($isSameTimezone || !$userEventTime)
-          <span>
-            {{ $eventTime }} ({{ $eventTz }})
-          </span>
-        @else
-          <span title="Event timezone: {{ $timezoneDetails['event_timezone'] }} (UTC{{ $eventOffset }})">
-            {{ $eventTime }} ({{ $eventCity ?? $eventTz }})
-          </span>
-
-          <span class="text-gray-500">•</span>
-
-          <span class="text-gray-300" title="Your timezone: {{ $timezoneDetails['user_timezone'] }} (UTC{{ $userOffset }})">
-            {{ $userTime }} ({{ $userTz }})
-          </span>
-        @endif
-      </div>
-
-      <!-- Location -->
-      <div class="flex items-center gap-1.5">
-        <i class="fas fa-map-marker-alt w-3.5" aria-hidden="true"></i>
-        <span class="line-clamp-1">{{ $event->location }}</span>
-      </div>
-
-      <div id="event-card-meta-{{ $eventCardId }}" class="sr-only">
-        {{ $eventDate }}.
-        @if ($isSameTimezone || !$userEventTime)
-          {{ $eventTime }} {{ $eventTz }}.
-        @else
-          {{ $eventTime }} ({{ $eventCity }}), local time {{ $userTime }} ({{ $userTz }}).
-        @endif
-        {{ $event->location }}.
-      </div>
     </div>
 
     <!-- Status Badge -->
@@ -95,11 +99,11 @@
       @elseif($event->status == 'ongoing') bg-amber-500
       @else bg-gray-500 @endif absolute -top-2 right-3 rounded-full px-2.5 py-1 text-xs font-semibold text-white shadow-md">
       @if ($event->status == 'upcoming')
-        <i class="fas fa-clock mr-1" aria-hidden="true"></i> Upcoming
+        <i aria-hidden="true" class="fas fa-clock mr-1"></i> Upcoming
       @elseif($event->status == 'ongoing')
-        <i class="fas fa-play mr-1" aria-hidden="true"></i> Live
+        <i aria-hidden="true" class="fas fa-play mr-1"></i> Live
       @else
-        <i class="fas fa-check-circle mr-1" aria-hidden="true"></i> Past
+        <i aria-hidden="true" class="fas fa-check-circle mr-1"></i> Past
       @endif
     </div>
   </div>

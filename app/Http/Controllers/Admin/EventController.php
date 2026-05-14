@@ -113,10 +113,7 @@ class EventController extends Controller
                         'message' => 'Failed to upload image: ' . $e->getMessage()
                     ], 500);
                 }
-            } else {
-                // Remove image from validated data if no file was uploaded
-                unset($validated['image']);
-            }
+            } 
 
             $validated['start_time'] = $startDateTime;
             $validated['end_time'] = $endDateTime;
@@ -131,7 +128,8 @@ class EventController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Validation failed: ' . json_encode($e->errors())
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
             ], 422);
         } catch (\Exception $e) {
             return response()->json([
@@ -204,9 +202,6 @@ class EventController extends Controller
                 // Store new image
                 $imagePath = $request->file('image')->store('events', 'public');
                 $validated['image'] = $imagePath;
-            } else {
-                // Keep existing image, remove it from validated data
-                unset($validated['image']);
             }
 
             $event->update($validated);

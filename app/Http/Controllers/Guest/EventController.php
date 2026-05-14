@@ -14,21 +14,21 @@ class EventController extends Controller
         $cities = ['All Cities', ...Event::distinct()->pluck('location')->filter()->sort()->values()->toArray()];
 
         $filters = [
-            [
-                'type' => 'date',
-                'name' => 'date_from',
-                'placeholder' => 'Event From',
-            ],
-            [
-                'type' => 'date',
-                'name' => 'date_to',
-                'placeholder' => 'Event To',
-            ],
-            [
-                'type' => 'date',
-                'name' => 'specific_date',
-                'placeholder' => 'Specific Date',
-            ],
+            // [
+            //     'type' => 'date',
+            //     'name' => 'date_from',
+            //     'placeholder' => 'Event From',
+            // ],
+            // [
+            //     'type' => 'date',
+            //     'name' => 'date_to',
+            //     'placeholder' => 'Event To',
+            // ],
+            // [
+            //     'type' => 'date',
+            //     'name' => 'specific_date',
+            //     'placeholder' => 'Specific Date',
+            // ],
             [
                 'type' => 'search',
                 'name' => 'search',
@@ -77,8 +77,8 @@ class EventController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'phone' => 'required',
-            'date_of_birth' => 'required|date',
+            'phone' => 'required|string|max:20',
+            'date_of_birth' => 'required|date|before:today',
         ]);
 
         $exists = EventRegistration::query()
@@ -88,7 +88,10 @@ class EventController extends Controller
 
         if ($exists) {
             return response()->json([
-                'message' => 'You are already registered for this event.',
+                'success' => false,
+                'errors' => [
+                    'email' => ['You are already registered for this event.']
+                ]
             ], 422);
         }
 
@@ -101,7 +104,8 @@ class EventController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'You have successfully registered for the event!',
+            'success' => true,
+            'message' => 'You have successfully registered for the event!'
         ]);
     }
 }

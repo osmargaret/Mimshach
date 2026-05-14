@@ -4,11 +4,12 @@
     'method' => 'GET',
     'contentId' => 'blogList',
     'paginationId' => 'paginationContainer',
-    'classes' => ''
+    'classes' => '',
+    'disableDark' => false
 ])
 
 <div
-  class="filter-bar @if ($classes) {{ $classes }} @endif relative z-10 w-full rounded-2xl bg-white p-3 shadow-lg dark:bg-gray-800">
+  class="filter-bar @if ($classes) {{ $classes }} @endif relative z-10 w-full rounded-4xl bg-white px-4 py-3 shadow-lg @if(!$disableDark) dark:bg-gray-800 @endif">
   <form action="{{ $action }}" method="{{ $method }}">
     <div class="flex flex-wrap items-center justify-center gap-4">
 
@@ -26,9 +27,9 @@
           {{-- SEARCH INPUT --}}
           @case('search')
             <div
-              class="flex min-w-[220px] flex-1 items-center rounded-lg bg-white text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              class="flex min-w-[220px] flex-1 items-center rounded-2xl bg-white text-gray-900 @if(!$disableDark) dark:border-gray-600 dark:bg-gray-700 dark:text-white @endif">
               <input
-                class="focus:border-accent focus:ring-accent/20 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="focus:border-accent focus:ring-accent/20 w-full rounded-2xl border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 @if(!$disableDark) dark:border-gray-600 dark:bg-gray-700 dark:text-white @endif"
                 name="{{ $name }}" placeholder="{{ $filter['placeholder'] ?? '' }}" type="search"
                 value="{{ $value }}">
             </div>
@@ -37,9 +38,9 @@
           {{-- TEXT INPUT --}}
           @case('text')
             <div
-              class="flex min-w-[220px] flex-1 items-center rounded-lg bg-white text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              class="flex min-w-[220px] flex-1 items-center rounded-2xl bg-white text-gray-900 @if(!$disableDark) dark:border-gray-600 dark:bg-gray-700 dark:text-white @endif">
               <input
-                class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="focus:border-primary focus:ring-primary/20 w-full rounded-2xl border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 @if(!$disableDark) dark:border-gray-600 dark:bg-gray-700 dark:text-white @endif"
                 name="{{ $name }}" placeholder="{{ $filter['placeholder'] ?? '' }}"
                 type="text" value="{{ $value }}">
             </div>
@@ -48,9 +49,9 @@
           {{-- DATE INPUT --}}
           @case('date')
             <div
-              class="flex min-w-[220px] flex-1 items-center rounded-lg bg-white text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              class="flex min-w-[220px] flex-1 items-center rounded-2xl bg-white text-gray-900 @if(!$disableDark) dark:border-gray-600 dark:bg-gray-700 dark:text-white @endif">
               <input
-                class="datepicker-input focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 bg-red-500 px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="datepicker-input focus:border-primary focus:ring-primary/20 w-full rounded-2xl border border-gray-300 bg-red-500 px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 @if(!$disableDark) dark:border-gray-600 dark:bg-gray-700 dark:text-white @endif"
                 name="{{ $name }}" placeholder="{{ $filter['placeholder'] ?? 'Select date' }}"
                 type="text" value="{{ $value }}">
             </div>
@@ -59,8 +60,8 @@
           {{-- SELECT DROPDOWN --}}
           @case('select')
             <select
-              class="focus:border-accent focus:ring-accent/20 w-48 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              name="{{ $name }}">
+              name="{{ $name }}"
+              class="focus:border-accent focus:ring-accent/20 flex-1 max-w-[380px] cursor-pointer rounded-2xl border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 @if(!$disableDark) dark:border-gray-600 dark:bg-gray-700 dark:text-white @endif">
               @foreach ($filter['options'] as $option)
                 @php
                   // For "All Cities" or similar, use empty value
@@ -81,9 +82,9 @@
 
               <div class="radio-group">
                 @foreach ($filter['options'] as $option)
-                  <label class='text-gray-900 dark:text-white'>
+                  <label class='text-gray-900 @if(!$disableDark) dark:text-white @endif'>
                     <input @checked(old($name, request($name)) == ($option['value'] ?? $option))
-                      class='focus:border-primary focus:ring-primary/20 w-full appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white'
+                      class='focus:border-primary focus:ring-primary/20 w-full appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 @if(!$disableDark) dark:border-gray-600 dark:bg-gray-700 dark:text-white @endif'
                       name="{{ $name }}" type="radio"
                       value="{{ $option['value'] ?? $option }}">
                     {{ $option['label'] ?? $option }}
@@ -103,13 +104,13 @@
                 @endphp
 
                 <label
-                  class="flex items-center gap-2 text-sm font-medium text-gray-900 dark:text-white">
+                  class="flex items-center gap-2 text-sm font-medium text-gray-900 cursor-pointer @if(!$disableDark) dark:text-white @endif">
 
                   <input @checked(in_array($optValue, old($name . '[]', (array) request($name)))) class="peer hidden" name="{{ $name }}[]"
                     type="checkbox" value="{{ $optValue }}">
 
                   <div
-                    class="peer-checked:bg-accent peer-checked:border-primary flex h-4 w-4 items-center justify-center rounded border border-gray-400 bg-gray-700">
+                    class="peer-checked:bg-accent peer-checked:border-primary flex h-4 w-4 items-center justify-center rounded border border-gray-400 @if(!$disableDark) bg-gray-700 @endif">
 
                     <svg class="hidden h-3 w-3 text-white peer-checked:block" fill="none"
                       stroke="currentColor" viewBox="0 0 24 24">
@@ -129,15 +130,15 @@
 
           @default
             <div
-              class="flex min-w-[220px] flex-1 items-center rounded-lg bg-white text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+              class="flex min-w-[220px] flex-1 items-center rounded-lg bg-white text-gray-900 @if(!$disableDark) dark:border-gray-600 dark:bg-gray-700 dark:text-white @endif">
               <input
-                class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 @if(!$disableDark) dark:border-gray-600 dark:bg-gray-700 dark:text-white @endif"
                 name="{{ $name }}" type="text" value="{{ $value }}">
             </div>
         @endswitch
       @endforeach
 
-      <a class="border-accent hover:bg-accent hidden whitespace-nowrap rounded-full border-2 px-5 py-2 text-sm font-semibold text-white transition hover:text-white"
+      <a class="border-accent hover:bg-accent hidden whitespace-nowrap rounded-full border-2 px-5 py-2 text-sm font-semibold @if (!$disableDark) dark:text-white @endif transition hover:text-white"
         href="{{ url()->current() }}" id="clearFilters" style="display:none;">
         Clear Filters
       </a>

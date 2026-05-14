@@ -5,16 +5,16 @@
       {{-- Previous --}}
       @if ($paginator->onFirstPage())
         <li>
-          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-400">
-            ←
+          <span class="flex h-10 py-2 px-4 items-center justify-center rounded-full bg-gray-100 text-gray-400">
+          Prev
           </span>
         </li>
       @else
         <li>
           <a href="{{ $paginator->previousPageUrl() }}"
              rel="prev"
-             class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[var(--color-primary)] shadow-sm transition hover:bg-[var(--color-accent)] hover:text-white">
-            ←
+             class="flex h-10 py-2 px-4 items-center justify-center rounded-full bg-white text-[var(--color-primary)] shadow-sm transition hover:bg-[var(--color-accent)] hover:text-white">
+            Prev
           </a>
         </li>
       @endif
@@ -63,14 +63,14 @@
         <li>
           <a href="{{ $paginator->nextPageUrl() }}"
              rel="next"
-             class="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[var(--color-primary)] shadow-sm transition hover:bg-[var(--color-accent)] hover:text-white">
-            →
+             class="flex h-10 py-2 px-4 items-center justify-center rounded-full bg-white text-[var(--color-primary)] shadow-sm transition hover:bg-[var(--color-accent)] hover:text-white">
+            Next
           </a>
         </li>
       @else
         <li>
-          <span class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-400">
-            →
+          <span class="flex h-10 py-2 px-4 items-center justify-center rounded-full bg-gray-100 text-gray-400">
+            Next
           </span>
         </li>
       @endif
