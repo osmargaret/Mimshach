@@ -47,9 +47,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
     Route::put('/settings/profile', [SettingsController::class, 'updateProfile'])->name('settings.profile.update');
     Route::put('/settings/password', [SettingsController::class, 'updatePassword'])->name('settings.password.update');
-    Route::post('/settings/admins', [SettingsController::class, 'createAdmin'])->name('settings.admins.store');
-    Route::put('/settings/admins/{admin}', [SettingsController::class, 'updateAdmin'])->name('settings.admins.update');
-    Route::delete('/settings/admins/{admin}', [SettingsController::class, 'deleteAdmin'])->name('settings.admins.destroy');
+    Route::post('/settings/admins', [SettingsController::class, 'createAdmin'])
+      ->name('settings.admins.store');
+
+    Route::get('/settings/admins/{user}', [SettingsController::class, 'editAdmin'])
+      ->name('settings.admins.edit');
+
+    Route::put('/settings/admins/{user}', [SettingsController::class, 'updateAdmin'])
+      ->name('settings.admins.update');
+
+    Route::delete('/settings/admins/{user}', [SettingsController::class, 'deleteAdmin'])
+      ->name('settings.admins.destroy');
     Route::get('/settings/site', [SettingsController::class, 'getSiteSettings'])->name('settings.site.get');
     Route::post('/settings/site', [SettingsController::class, 'updateSiteSettings'])->name('settings.site.update');
   });

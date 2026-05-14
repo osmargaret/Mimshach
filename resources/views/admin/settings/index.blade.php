@@ -385,9 +385,9 @@
         },
         admins: {
           store: "{{ route('admin.settings.admins.store') }}",
-          edit: (id) => `/admin/settings/admins/${id}`,
-          update: (id) => `/admin/settings/admins/${id}`,
-          delete: (id) => `/admin/settings/admins/${id}`
+          edit: (id) => `{{ url('/admin/settings/admins') }}/${id}`,
+          update: (id) => `{{ url('/admin/settings/admins') }}/${id}`,
+          delete: (id) => `{{ url('/admin/settings/admins') }}/${id}`
         }
       };
 
@@ -619,47 +619,42 @@
         document.body.style.overflow = 'hidden';
       }
 
-      async function editAdmin(id) {
-        currentAdminId = id;
+      function editAdmin(id) {
+  currentAdminId = id;
 
-        try {
-
-          const response = await fetch(routes.admins.edit(id), {
-            method: 'GET',
-            headers: {
-              'Accept': 'application/json',
-              'X-Requested-With': 'XMLHttpRequest'
-            }
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-          const data = await response.json();
-
-          document.getElementById('modalTitle').textContent = 'Edit Admin';
-
-          document.getElementById('adminName').value = data.name;
-          document.getElementById('adminEmail').value = data.email;
-          document.getElementById('adminRole').value = data.role;
-          document.getElementById('adminStatus').value = data.is_active ? '1' : '0';
-
-          document.getElementById('passwordFields').classList.add('hidden');
-          document.getElementById('statusField').classList.remove('hidden');
-
-          document.getElementById('adminModal').classList.remove('hidden');
-          document.getElementById('adminModal').classList.add('flex');
-
-          document.body.style.overflow = 'hidden';
-
-        } catch (error) {
-
-          console.error('Edit admin error:', error);
-
-          showToast('error', 'Failed to fetch admin details');
-        }
+  fetch(routes.admins.edit(id), {
+      headers: {
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
       }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      return response.json();
+    })
+    .then(data => {
+      document.getElementById('modalTitle').textContent = 'Edit Admin';
+      document.getElementById('adminName').value = data.name;
+      document.getElementById('adminEmail').value = data.email;
+      document.getElementById('adminRole').value = data.role;
+      document.getElementById('adminStatus').value = data.is_active ? '1' : '0';
+
+      document.getElementById('passwordFields').classList.add('hidden');
+      document.getElementById('statusField').classList.remove('hidden');
+
+      document.getElementById('adminModal').classList.remove('hidden');
+      document.getElementById('adminModal').classList.add('flex');
+
+      document.body.style.overflow = 'hidden';
+    })
+    .catch(error => {
+      console.error('Edit error:', error);
+      showToast('error', 'Failed to fetch admin details');
+    });
+}
 
       function closeAdminModal() {
         document.getElementById('adminModal').classList.add('hidden');
