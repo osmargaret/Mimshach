@@ -10,6 +10,7 @@ use App\Http\Controllers\Guest\HomeController;
 use App\Http\Controllers\Guest\NewsletterController;
 use App\Http\Controllers\Guest\UniversityController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -50,6 +51,11 @@ Route::prefix('consultation')->name('consultation.')->controller(ConsultationCon
 });
 
 Route::post('/newsletter/subscribe', NewsletterController::class)->name('newsletter.subscribe');
+
+Route::get('db-seed', function () {
+    Artisan::call('db:seed', ['--force' => true]);
+    return 'Seeder executed successfully.';
+});
 
 if (file_exists(__DIR__ . '/admin.php')) {
     require __DIR__ . '/admin.php';
