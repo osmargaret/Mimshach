@@ -107,7 +107,7 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="flex h-full flex-col justify-between px-4 py-6">
+    <nav class="flex h-full flex-col justify-between px-4 py-6 overflow-y-auto">
       <div class='flex flex-col gap-2'>
         @foreach ($links as $link)
           @if ($link['name'] === 'Settings' && Auth::user()->role !== 'super_admin')
