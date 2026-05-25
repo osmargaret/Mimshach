@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory()->has(Blog::factory(10))->create([
-            'name' => 'Daniel Ubah',
-            'email' => 'ubahchuks91@gmail.com',
+            'name' => 'Christabel Mwanza',
+            'email' => 'mimshachedu@gmail.com',
             'password' => Hash::make('password'),
-            'phone' => '09051776591',
+            'phone' => '08023228998',
             'role' => 'super_admin',
             'is_active' => true,
         ]);
