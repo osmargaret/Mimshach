@@ -1,4 +1,8 @@
-<x-admin-layout pageTitle="Funding Management">
+@extends('layouts.admin')
+
+@section('title', 'Funding Management')
+
+@section('content')
   <div class="space-y-6">
     <!-- Header Section -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -25,7 +29,7 @@
     </div>
 
     <!-- Filter Bar -->
-    <x-filter-bar :$filters contentId="fundingList" paginationId="paginationContainer" />
+    @include('components.filter-bar', ['filters' => $filters, 'contentId' => 'fundingList', 'paginationId' => 'paginationContainer'])
 
     <div class="overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-gray-800">
       <div class="overflow-x-auto">
@@ -61,7 +65,7 @@
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800"
             id="fundingList">
-            <x-admin.funding.table :$fundings />
+            @include('components.admin.funding.table', ['fundings' => $fundings])
           </tbody>
         </table>
       </div>
@@ -72,7 +76,7 @@
     </div>
   </div>
 
-  <x-admin.view-modal title="View Details" />
+  @include('components.admin.view-modal', ['title' => 'View Details'])
 
   <!-- Create/Edit Modal -->
   <div
@@ -223,7 +227,9 @@
     </div>
   </div>
 
-  <x-slot:scripts>
+  @endsection
+
+@section('scripts')
     <script>
       // Function to clear all error messages
       function clearErrors() {
@@ -525,5 +531,4 @@
         if (e.target === this) closeDeleteModal();
       });
     </script>
-  </x-slot:scripts>
-</x-admin-layout>
+@endsection

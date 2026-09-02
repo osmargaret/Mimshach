@@ -1,11 +1,21 @@
-<x-app-layout pageTitle="Events | Mimshach">
-  <x-page-header 
-    subtitle="Join webinars, university fairs, and networking sessions around the world"
-    title="Upcoming Events" 
-  />
+@extends('layouts.app')
+
+@section('title', 'Events | Mimshach')
+
+@section('content')
+  @include('components.page-header', [
+    'subtitle' => 'Join webinars, university fairs, and networking sessions around the world',
+    'title' => 'Upcoming Events'
+  ])
 
   <main id="main-content" class="container mx-auto max-w-[1400px] px-4">
-    <x-filter-bar :$filters contentId="eventsList" paginationId="paginationContainer" classes='-mt-10' disableDark="true" />
+    @include('components.filter-bar', [
+      'filters' => $filters,
+      'contentId' => 'eventsList',
+      'paginationId' => 'paginationContainer',
+      'classes' => '-mt-10',
+      'disableDark' => 'true'
+    ])
 
     <!-- Events Grid - 4 columns on desktop -->
     @if ($events->isEmpty())
@@ -18,7 +28,7 @@
       <ul role="list" class="my-12 flex flex-col gap-6" id="eventsList">
         @foreach ($events as $event)
           <li role="listitem">
-            <x-event.event-card :$event />
+            @include('components.event.event-card', ['event' => $event])
           </li>
         @endforeach
       </ul>
@@ -31,4 +41,4 @@
       @endif
     </div>
   </main>
-</x-app-layout>
+@endsection

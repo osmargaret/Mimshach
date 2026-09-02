@@ -7,7 +7,11 @@
   $benefits = config('data.benefits');
 @endphp
 
-<x-app-layout pageTitle="Mimshach | Empowering Global Education Dreams">
+@extends('layouts.app')
+
+@section('title', 'Mimshach | Empowering Global Education Dreams')
+
+@section('content')
 
   <!-- HERO -->
   <section class="relative min-h-screen flex items-center bg-cover bg-center bg-no-repeat text-white"
@@ -257,7 +261,7 @@
     </div>
   </section>
 
-</x-app-layout>
+@endsection
 
 <style>
   /* Animations */

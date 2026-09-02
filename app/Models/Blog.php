@@ -16,9 +16,28 @@ class Blog extends Model
     protected $fillable = [
         'title',
         'slug',
+        'subtitle',
         'content',
+        'user_id',
         'featured_image',
     ];
+
+    protected $appends = [
+        'featured_image_url',
+    ];
+
+    public function getFeaturedImageUrlAttribute(): ?string
+    {
+        if (! $this->featured_image) {
+            return null;
+        }
+
+        if (filter_var($this->featured_image, FILTER_VALIDATE_URL) || str_starts_with($this->featured_image, 'http')) {
+            return $this->featured_image;
+        }
+
+        return asset('storage/'.ltrim($this->featured_image, '/'));
+    }
 
     public function sluggable(): array
     {

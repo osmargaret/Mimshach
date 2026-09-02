@@ -1,4 +1,8 @@
-<x-admin-layout pageTitle="Consultation Requests">
+@extends('layouts.admin')
+
+@section('title', 'Consultation Requests')
+
+@section('content')
   <div class="space-y-6">
     <!-- Header Section -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -138,7 +142,7 @@
     </div>
 
     <!-- Filter Bar -->
-    <x-filter-bar :$filters contentId="consultationsList" paginationId="paginationContainer" />
+    @include('components.filter-bar', ['filters' => $filters, 'contentId' => 'consultationsList', 'paginationId' => 'paginationContainer'])
 
     <div class="overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-gray-800">
       <div class="overflow-x-auto">
@@ -171,7 +175,7 @@
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800"
             id="consultationsList">
-            <x-admin.consultation.table :$consultations />
+            @include('components.admin.consultation.table', ['consultations' => $consultations])
           </tbody>
         </table>
       </div>
@@ -183,4 +187,4 @@
       @endif
     </div>
   </div>
-</x-admin-layout>
+@endsection

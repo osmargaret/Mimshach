@@ -1,4 +1,8 @@
-<x-admin-layout pageTitle="Blog Management">
+@extends('layouts.admin')
+
+@section('title', 'Blog Management')
+
+@section('content')
   <div class="space-y-6">
     <!-- Header Section -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -24,7 +28,7 @@
     </div>
 
     <!-- Filter Bar -->
-    <x-filter-bar :$filters contentId="blogsList" paginationId="paginationContainer" />
+    @include('components.filter-bar', ['filters' => $filters, 'contentId' => 'blogsList', 'paginationId' => 'paginationContainer'])
 
     <!-- Blogs Table -->
     <div class="overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-gray-800">
@@ -52,7 +56,7 @@
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800"
             id="blogsList">
-            <x-admin.blogs.table :$blogs />
+            @include('components.admin.blogs.table', ['blogs' => $blogs])
           </tbody>
         </table>
       </div>
@@ -63,7 +67,7 @@
     </div>
   </div>
 
-  <x-admin.view-modal title="View Details" />
+  @include('components.admin.view-modal', ['title' => 'View Details'])
 
   <!-- Create/Edit Modal -->
   <div
@@ -180,7 +184,9 @@
     </div>
   </div>
 
-  <x-slot:scripts>
+  @endsection
+
+@section('scripts')
     <script>
       // Routes configuration
       const routes = {
@@ -240,6 +246,7 @@
         form.reset();
         document.getElementById('blogId').value = '';
         document.getElementById('currentImage').classList.add('hidden');
+        document.getElementById('currentImagePreview').src = '';
         
         // Clear any existing error messages
         clearErrors();
@@ -429,6 +436,19 @@
         });
       });
 
+      // Preview selected featured image file
+      document.getElementById('featured_image')?.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            document.getElementById('currentImagePreview').src = event.target.result;
+            document.getElementById('currentImage').classList.remove('hidden');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
       // Delete form submission
       document.getElementById('deleteForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -478,5 +498,4 @@
         if (e.target === this) closeDeleteModal();
       });
     </script>
-  </x-slot:scripts>
-</x-admin-layout>
+@endsection

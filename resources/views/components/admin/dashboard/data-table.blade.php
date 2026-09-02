@@ -1,12 +1,13 @@
 @props([
     'title',
     'subtitle',
-    'headers',
-    'rows',
+    'headers' => [],
+    'rows' => [],
     'fields' => [],
     'viewAllRoute' => '#',
     'emptyMessage' => 'No data available',
-    'emptyIcon' => 'inbox'
+    'emptyIcon' => 'inbox',
+    'type' => 'consultations',
 ])
 
 <div
@@ -32,55 +33,90 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-        @if ($slot->isNotEmpty())
+        @if (isset($slot) && !empty((string) $slot))
           {{ $slot }}
+        @elseif (empty($rows) || (is_countable($rows) && count($rows) === 0))
+          <tr>
+            <td class="px-6 py-12 text-center text-gray-500 dark:text-gray-400"
+              colspan="{{ count($headers) }}">
+              @if ($emptyIcon === 'inbox')
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+              @elseif($emptyIcon === 'calendar')
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+              @elseif($emptyIcon === 'email')
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
+                  viewBox="0 0 24 24">
+                  <path
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+              @endif
+              <p class="mt-2">{{ $emptyMessage }}</p>
+            </td>
+          </tr>
         @else
-          @forelse($rows as $row)
-            <tr class="table-row-hover transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
-              <td
-                class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
-                {{ $row->name }}
-              </td>
-              <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-                {{ $row->email }}
-              </td>
-              <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
-                {{ $row->created_at->format('M d, Y') }}
-              </td>
-              <td class="whitespace-nowrap px-6 py-4">
-                <x-admin.dashboard.status-badge type="new" />
-              </td>
-            </tr>
-          @empty
-            <tr>
-              <td class="px-6 py-12 text-center text-gray-500 dark:text-gray-400"
-                colspan="{{ count($headers) }}">
-                @if ($emptyIcon === 'inbox')
-                  <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
-                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                  </svg>
-                @elseif($emptyIcon === 'calendar')
-                  <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                  </svg>
-                @elseif($emptyIcon === 'email')
-                  <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-                  </svg>
-                @endif
-                <p class="mt-2">{{ $emptyMessage }}</p>
-              </td>
-            </tr>
-          @endforelse
+          @if ($type === 'newsletters')
+            @foreach ($rows as $row)
+              <tr class="table-row-hover transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
+                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-white">
+                  {{ $row->email }}
+                </td>
+                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                  {{ $row->subscribed_at ? $row->subscribed_at->format('M d, Y H:i') : $row->created_at->format('M d, Y H:i') }}
+                </td>
+                <td class="whitespace-nowrap px-6 py-4">
+                  @include('components.admin.dashboard.status-badge', ['type' => 'active'])
+                </td>
+              </tr>
+            @endforeach
+          @elseif ($type === 'events')
+            @foreach ($rows as $row)
+              <tr class="table-row-hover transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
+                <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
+                  {{ $row->title }}
+                </td>
+                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
+                  {{ $row->location }}
+                </td>
+                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
+                  {{ \Carbon\Carbon::parse($row->date)->format('M d, Y') }}
+                </td>
+                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                  {{ \Carbon\Carbon::parse($row->start_time)->format('g:i A') }}
+                </td>
+                <td class="whitespace-nowrap px-6 py-4">
+                  @include('components.admin.dashboard.status-badge', ['type' => 'upcoming'])
+                </td>
+              </tr>
+            @endforeach
+          @else
+            @foreach ($rows as $row)
+              <tr class="table-row-hover transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
+                <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
+                  {{ $row->name }}
+                </td>
+                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
+                  {{ $row->email }}
+                </td>
+                <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                  {{ $row->created_at->format('M d, Y') }}
+                </td>
+                <td class="whitespace-nowrap px-6 py-4">
+                  @include('components.admin.dashboard.status-badge', ['type' => 'new'])
+                </td>
+              </tr>
+            @endforeach
+          @endif
         @endif
       </tbody>
     </table>

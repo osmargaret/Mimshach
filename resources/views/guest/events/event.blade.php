@@ -28,7 +28,11 @@ $eventEndInEventTz = $event->end_time->setTimezone($event->timezone);
   $userCity = str_replace('_', ' ', last(explode('/', $userTimezone)));
 @endphp
 
-<x-app-layout :$pageTitle>
+@extends('layouts.app')
+
+@section('title', $pageTitle)
+
+@section('content')
   <!-- Hero Section -->
   <div
     class="bg-linear-to-br relative overflow-hidden from-[#0A192F] to-[#1a2f4a] py-28 pb-20 text-white md:py-[140px]">
@@ -219,7 +223,7 @@ $eventEndInEventTz = $event->end_time->setTimezone($event->timezone);
               @if ($event->status == 'upcoming')
                 <!-- Countdown Timer -->
                 <div class="mb-6">
-                  <x-countdown-timer :target="$countdownTarget" label='Event Starts In' />
+                  @include('components.countdown-timer', ['target' => $countdownTarget, 'label' => 'Event Starts In'])
 
 
                 </div>
@@ -302,7 +306,9 @@ $eventEndInEventTz = $event->end_time->setTimezone($event->timezone);
     </div>
   </div>
 
-  <x-slot:scripts>
+  @endsection
+
+@section('scripts')
     <script>
       // Set user timezone cookie if not set
       if (!document.cookie.includes('user_timezone=')) {
@@ -550,5 +556,4 @@ $eventEndInEventTz = $event->end_time->setTimezone($event->timezone);
         const loop = setInterval(updateCountdown, 1000);
       });
     </script>
-  </x-slot:scripts>
-</x-app-layout>
+@endsection

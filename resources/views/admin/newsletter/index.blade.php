@@ -1,4 +1,8 @@
-<x-admin-layout pageTitle="Newsletter Subscriptions">
+@extends('layouts.admin')
+
+@section('title', 'Newsletter Subscriptions')
+
+@section('content')
   <div class="space-y-6">
     <!-- Header Section -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -102,7 +106,7 @@
     </div>
 
     <!-- Filter Bar -->
-    <x-filter-bar :$filters contentId="subscriptionsList" paginationId="paginationContainer" />
+    @include('components.filter-bar', ['filters' => $filters, 'contentId' => 'subscriptionsList', 'paginationId' => 'paginationContainer'])
 
     <div class="overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-gray-800">
       <div class="overflow-x-auto">
@@ -126,7 +130,7 @@
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800"
             id="subscriptionsList">
-            <x-admin.newsletter.table :$subscriptions />
+            @include('components.admin.newsletter.table', ['subscriptions' => $subscriptions])
           </tbody>
         </table>
       </div>
@@ -136,4 +140,4 @@
       </div>
     </div>
   </div>
-</x-admin-layout>
+@endsection

@@ -1,4 +1,4 @@
-@props(['type' => 'default'])
+@props(['type' => 'default', 'label' => null])
 
 @php
     $classes = [
@@ -18,10 +18,12 @@
         'pending' => 'Pending',
         'completed' => 'Completed',
         'cancelled' => 'Cancelled',
-        'default' => $slot,
     ];
+
+    $badgeClass = $classes[$type] ?? $classes['default'];
+    $badgeLabel = $label ?? ($labels[$type] ?? (isset($slot) && !empty((string) $slot) ? (string) $slot : ucfirst($type)));
 @endphp
 
-<span class="inline-flex rounded-full {{ $classes[$type] }} px-2.5 py-0.5 text-xs font-semibold">
-    {{ $labels[$type] ?? $slot }}
+<span class="inline-flex rounded-full {{ $badgeClass }} px-2.5 py-0.5 text-xs font-semibold">
+    {{ $badgeLabel }}
 </span>

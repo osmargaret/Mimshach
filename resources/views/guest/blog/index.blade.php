@@ -1,8 +1,12 @@
-<x-app-layout pageTitle="Blog & Resources | Mimshach">
-  <x-page-header 
-    subtitle="Expert advice, guides, and resources for your study abroad journey"
-    title="Blog & Resources" 
-  />
+@extends('layouts.app')
+
+@section('title', 'Blog & Resources | Mimshach')
+
+@section('content')
+  @include('components.page-header', [
+    'subtitle' => 'Expert advice, guides, and resources for your study abroad journey',
+    'title' => 'Blog & Resources'
+  ])
 
   <div class="container mx-auto max-w-[1400px] px-4">
     <!-- Blog Grid - 4 columns on large screens -->
@@ -15,7 +19,7 @@
         </div>
       @else
         @foreach ($blogs as $blog)
-          <x-blog.blog-card :$blog />
+          @include('components.blog.blog-card', ['blog' => $blog])
         @endforeach
       @endif
     </div>
@@ -27,4 +31,4 @@
       @endif
     </div>
   </div>
-</x-app-layout>
+@endsection

@@ -1,8 +1,12 @@
-<x-app-layout pageTitle="Funding Opportunities | Study Abroad">
-  <x-page-header 
-    subtitle="Discover scholarships, grants, and loans to support your study abroad journey"
-    title="Funding Opportunities" 
-  />
+@extends('layouts.app')
+
+@section('title', 'Funding Opportunities | Study Abroad')
+
+@section('content')
+  @include('components.page-header', [
+    'subtitle' => 'Discover scholarships, grants, and loans to support your study abroad journey',
+    'title' => 'Funding Opportunities'
+  ])
 
   <div class="container mx-auto max-w-[1200px] px-4">
     <!-- Fundings Grid -->
@@ -15,7 +19,7 @@
         </div>
       @else
         @foreach ($fundings as $funding)
-          <x-funding.funding-card :$funding />
+          @include('components.funding.funding-card', ['funding' => $funding])
         @endforeach
       @endif
     </div>
@@ -27,4 +31,4 @@
       @endif
     </div>
   </div>
-</x-app-layout>
+@endsection

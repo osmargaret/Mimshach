@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class BlogController extends Controller
 {
@@ -42,9 +41,9 @@ class BlogController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', '%' . $search . '%')
-                    ->orWhere('subtitle', 'like', '%' . $search . '%')
-                    ->orWhere('content', 'like', '%' . $search . '%');
+                $q->where('title', 'like', '%'.$search.'%')
+                    ->orWhere('subtitle', 'like', '%'.$search.'%')
+                    ->orWhere('content', 'like', '%'.$search.'%');
             });
         }
 
@@ -70,8 +69,10 @@ class BlogController extends Controller
                 'title' => 'required|string|max:255',
                 'subtitle' => 'nullable|string',
                 'content' => 'required|string',
-                'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+                'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ]);
+
+            $validated['user_id'] = auth()->id();
 
             // Handle featured image upload
             if ($request->hasFile('featured_image') && $request->file('featured_image')->isValid()) {
@@ -81,29 +82,30 @@ class BlogController extends Controller
                 } catch (\Exception $e) {
                     return response()->json([
                         'success' => false,
-                        'message' => 'Failed to upload image: ' . $e->getMessage()
+                        'message' => 'Failed to upload image: '.$e->getMessage(),
                     ], 500);
                 }
-            } 
+            }
 
             $blog = Blog::create($validated);
 
             return response()->json([
                 'success' => true,
                 'message' => 'Blog post created successfully',
-                'blog' => $blog
+                'blog' => $blog,
             ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Validation failed',
-                'errors' => $e->errors()
+                'errors' => $e->errors(),
             ], 422);
         } catch (\Exception $e) {
-            Log::error('Blog store error: ' . $e->getMessage());
+            Log::error('Blog store error: '.$e->getMessage());
+
             return response()->json([
                 'success' => false,
-                'message' => 'Error creating blog post: ' . $e->getMessage()
+                'message' => 'Error creating blog post: '.$e->getMessage(),
             ], 500);
         }
     }
@@ -113,19 +115,16 @@ class BlogController extends Controller
         try {
             $blog = Blog::with('user')->findOrFail($id);
 
-            // Add full URL for featured image
-            $blogData = $blog->toArray();
-            $blogData['featured_image_url'] = $blog->featured_image ? Storage::url($blog->featured_image) : null;
-
             return response()->json([
                 'success' => true,
-                'blog' => $blogData
+                'blog' => $blog,
             ]);
         } catch (\Exception $e) {
-            Log::error('Blog edit error: ' . $e->getMessage());
+            Log::error('Blog edit error: '.$e->getMessage());
+
             return response()->json([
                 'success' => false,
-                'message' => 'Blog post not found'
+                'message' => 'Blog post not found',
             ], 404);
         }
     }
@@ -139,13 +138,13 @@ class BlogController extends Controller
                 'title' => 'required|string|max:255',
                 'subtitle' => 'nullable|string',
                 'content' => 'required|string',
-                'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+                'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             ]);
 
             // Handle featured image upload
             if ($request->hasFile('featured_image') && $request->file('featured_image')->isValid()) {
-                // Delete old image if exists
-                if ($blog->featured_image && Storage::disk('public')->exists($blog->featured_image)) {
+                // Delete old image if exists locally
+                if ($blog->featured_image && ! str_starts_with($blog->featured_image, 'http') && Storage::disk('public')->exists($blog->featured_image)) {
                     Storage::disk('public')->delete($blog->featured_image);
                 }
 
@@ -158,13 +157,20 @@ class BlogController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Blog post updated successfully',
-                'blog' => $blog
+                'blog' => $blog->fresh(),
             ]);
-        } catch (\Exception $e) {
-            Log::error('Blog update error: ' . $e->getMessage());
+        } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error updating blog post: ' . $e->getMessage()
+                'message' => 'Validation failed',
+                'errors' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            Log::error('Blog update error: '.$e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error updating blog post: '.$e->getMessage(),
             ], 500);
         }
     }
@@ -183,13 +189,14 @@ class BlogController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Blog post deleted successfully'
+                'message' => 'Blog post deleted successfully',
             ]);
         } catch (\Exception $e) {
-            Log::error('Blog delete error: ' . $e->getMessage());
+            Log::error('Blog delete error: '.$e->getMessage());
+
             return response()->json([
                 'success' => false,
-                'message' => 'Error deleting blog post: ' . $e->getMessage()
+                'message' => 'Error deleting blog post: '.$e->getMessage(),
             ], 500);
         }
     }

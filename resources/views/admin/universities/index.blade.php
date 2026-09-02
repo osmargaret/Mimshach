@@ -1,4 +1,8 @@
-<x-admin-layout pageTitle="Universities Management">
+@extends('layouts.admin')
+
+@section('title', 'Universities Management')
+
+@section('content')
   <div class="space-y-6">
     <!-- Header Section -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -24,7 +28,7 @@
     </div>
 
     <!-- Filter Component -->
-    <x-filter-bar :$filters contentId="universitiesList" paginationId="paginationContainer" />
+    @include('components.filter-bar', ['filters' => $filters, 'contentId' => 'universitiesList', 'paginationId' => 'paginationContainer'])
 
     <div class="overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-gray-800">
       <div class="overflow-x-auto">
@@ -60,7 +64,7 @@
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800"
             id="universitiesList">
-            <x-admin.universities.table :$universities />
+            @include('components.admin.universities.table', ['universities' => $universities])
           </tbody>
         </table>
       </div>
@@ -71,7 +75,7 @@
     </div>
   </div>
 
-  <x-admin.view-modal title="View Details" />
+  @include('components.admin.view-modal', ['title' => 'View Details'])
 
   <!-- Create/Edit Modal -->
   <div class="fixed inset-0 z-50 hidden h-full w-full overflow-y-auto bg-black/50 backdrop-blur-sm"
@@ -247,7 +251,9 @@
     </div>
   </div>
 
-  <x-slot:scripts>
+  @endsection
+
+@section('scripts')
     <script>
       let currentDeleteId = null;
 
@@ -675,5 +681,4 @@
         if (e.target === this) closeAdmissionsModal();
       });
     </script>
-  </x-slot:scripts>
-</x-admin-layout>
+@endsection

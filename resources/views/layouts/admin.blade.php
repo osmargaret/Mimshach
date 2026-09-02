@@ -1,5 +1,3 @@
-@props(['pageTitle' => ''])
-
 <!DOCTYPE html>
 <html class="h-full" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -7,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
     <meta content="{{ csrf_token() }}" name="csrf-token">
-    <title>{{ $pageTitle }}</title>
+    <title>@yield('title', $pageTitle ?? 'Admin Dashboard - Mimshach')</title>
     <!-- Add to your layout head section -->
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" rel="stylesheet">
@@ -15,22 +13,22 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    {{ $styles ?? '' }}
+    @yield('styles')
   </head>
 
   <body
     class="bg-linear-to-br h-full overflow-hidden from-gray-50 to-gray-100 font-sans antialiased dark:from-gray-900 dark:to-gray-950">
     <div class="flex h-full">
-      <x-layouts.admin.navbar />
+      @include('components.layouts.admin.navbar')
 
       <!-- Main Content -->
       <div class="flex flex-1 flex-col overflow-hidden">
         <!-- Top Navigation -->
-        <x-layouts.admin.header />
+        @include('components.layouts.admin.header')
 
         <!-- Page Content -->
         <main class="flex-1 overflow-y-auto p-4 sm:p-6">
-          {{ $slot }}
+          @yield('content')
         </main>
 
         <div class="z-2000 fixed right-6 top-6 flex flex-col gap-3" id="toastContainer"></div>
@@ -38,7 +36,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script>
       // Mobile sidebar functionality
       const sidebar = document.getElementById('sidebar');
@@ -267,7 +264,7 @@
         }
       });
     </script>
-    {{ $scripts ?? '' }}
+    @yield('scripts')
   </body>
 
 </html>

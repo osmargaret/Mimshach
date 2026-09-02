@@ -1,4 +1,8 @@
-<x-admin-layout pageTitle="Events Management">
+@extends('layouts.admin')
+
+@section('title', 'Events Management')
+
+@section('content')
   <div class="space-y-6">
     <!-- Header Section -->
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -25,7 +29,7 @@
     </div>
 
     <!-- Filter Bar -->
-    <x-filter-bar :$filters contentId="eventsList" paginationId="paginationContainer" />
+    @include('components.filter-bar', ['filters' => $filters, 'contentId' => 'eventsList', 'paginationId' => 'paginationContainer'])
 
     <div class="overflow-hidden rounded-2xl bg-white shadow-lg dark:bg-gray-800">
       <div class="overflow-x-auto">
@@ -58,7 +62,7 @@
           </thead>
           <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800"
             id='eventsList'>
-            <x-admin.events.event-list :$events />
+            @include('components.admin.events.event-list', ['events' => $events])
           </tbody>
         </table>
       </div>
@@ -69,7 +73,7 @@
     </div>
   </div>
 
-  <x-admin.view-modal title="View Details" />
+  @include('components.admin.view-modal', ['title' => 'View Details'])
 
   <!-- Event Create/Edit Modal -->
   <div
@@ -301,7 +305,9 @@
     </div>
   </div>
 
-  <x-slot:scripts>
+  @endsection
+
+@section('scripts')
     <script>
       let currentDeleteId = null;
 
@@ -735,5 +741,4 @@
         if (e.target === this) closeRegistrationsModal();
       });
     </script>
-  </x-slot:scripts>
-</x-admin-layout>
+@endsection

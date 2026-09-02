@@ -2,13 +2,24 @@
   // Filters and universities are provided by the controller
 @endphp
 
-<x-app-layout pageTitle="Partner Universities | Mimshach">
-  <x-page-header
-    subtitle="Explore top institutions around the world offering programs for international students"
-    title="Partner Universities" />
+@extends('layouts.app')
+
+@section('title', 'Partner Universities | Mimshach')
+
+@section('content')
+  @include('components.page-header', [
+    'subtitle' => 'Explore top institutions around the world offering programs for international students',
+    'title' => 'Partner Universities'
+  ])
 
   <div class="container mx-auto max-w-[1400px] px-4">
-    <x-filter-bar :$filters contentId="uniGrid" paginationId="paginationContainer" classes='-mt-10' disableDark="true" />
+    @include('components.filter-bar', [
+      'filters' => $filters,
+      'contentId' => 'uniGrid',
+      'paginationId' => 'paginationContainer',
+      'classes' => '-mt-10',
+      'disableDark' => 'true'
+    ])
 
     <!-- Universities Grid - 4 columns on large screens -->
     <div class="my-12 grid grid-cols-1 gap-6 md:my-16 md:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4" id="uniGrid">
@@ -20,7 +31,7 @@
         </div>
       @else
         @foreach ($universities as $university)
-          <x-university.university-card :$university />
+          @include('components.university.university-card', ['university' => $university])
         @endforeach
       @endif
     </div>
@@ -32,4 +43,4 @@
       @endif
     </div>
   </div>
-</x-app-layout>
+@endsection

@@ -1,12 +1,23 @@
-<x-app-layout pageTitle='Admission Insights | Mimshach Education Centre'>
+@extends('layouts.app')
 
-  <x-page-header subtitle="Stay updated with application deadlines, university news, and expert tips"
-    title="Admission Insights" />
+@section('title', 'Admission Insights | Mimshach Education Centre')
+
+@section('content')
+  @include('components.page-header', [
+    'subtitle' => 'Stay updated with application deadlines, university news, and expert tips',
+    'title' => 'Admission Insights'
+  ])
 
   <div class="mx-auto max-w-[1200px] px-4">
 
     <!-- Filter Bar -->
-    <x-filter-bar :$filters contentId="admissionList" paginationId="paginationContainer" classes='-mt-10' disableDark="true" />
+    @include('components.filter-bar', [
+      'filters' => $filters,
+      'contentId' => 'admissionList',
+      'paginationId' => 'paginationContainer',
+      'classes' => '-mt-10',
+      'disableDark' => 'true'
+    ])
 
     <!-- Blog List -->
     <div class="mt-12 space-y-6" id="admissionList">
@@ -22,7 +33,7 @@
         </div>
       @else
         @foreach ($admissions as $admission)
-          <x-admission.admission-card :$admission />
+          @include('components.admission.admission-card', ['admission' => $admission])
         @endforeach
       @endif
 
@@ -36,4 +47,4 @@
     </div>
 
   </div>
-</x-app-layout>
+@endsection

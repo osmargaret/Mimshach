@@ -1,5 +1,3 @@
-@props(['pageTitle' => ''])
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -7,7 +5,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $pageTitle }}</title>
+    <title>@yield('title', $pageTitle ?? 'Mimshach')</title>
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,14 +19,14 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    {{ $styles ?? '' }}
+    @yield('styles')
   </head>
 
   <body class="text-primary overflow-x-hidden scroll-smooth bg-[#FEFCF8]">
     <!-- Hero Section -->
-    <x-layouts.header />
-    {{ $slot }}
-    <x-layouts.footer />
+    @include('components.layouts.header')
+    @yield('content')
+    @include('components.layouts.footer')
     <div class="z-2000 fixed right-6 top-6 flex flex-col gap-3" id="toastContainer"></div>
 
     <!-- Smooth scroll and navbar script -->
@@ -95,7 +93,8 @@
         }, 6000);
       }
     </script>
-    {{ $scripts ?? '' }}
+    @yield('scripts')
+  </body>
   </body>
 
 </html>

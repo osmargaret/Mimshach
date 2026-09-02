@@ -1,65 +1,59 @@
-<x-admin-layout pageTitle='Admin Dashboard'>
+@extends('layouts.admin')
+
+@section('title', 'Admin Dashboard')
+
+@section('content')
   <div class="space-y-6">
     <!-- Welcome Banner -->
-    <x-admin.dashboard.welcome-banner />
+    @include('components.admin.dashboard.welcome-banner')
 
     <!-- Stats Grid -->
-    <x-admin.dashboard.dashboard-grid :columns="4">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
       @foreach ($stats as $stat)
-        <x-admin.dashboard.stat-card :change="$stat['change'] ?? null" :color="$stat['color']" :icon="$stat['icon']"
-          :label="$stat['label']" :value="$stat['value']" />
+        @include('components.admin.dashboard.stat-card', [
+          'change' => $stat['change'] ?? null,
+          'color' => $stat['color'],
+          'icon' => $stat['icon'],
+          'label' => $stat['label'],
+          'value' => $stat['value']
+        ])
       @endforeach
-    </x-admin.dashboard.dashboard-grid>
+    </div>
 
     <!-- Recent Data Tables -->
-    <x-admin.dashboard.dashboard-grid :columns="2">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
       <!-- Recent Consultations Table -->
-      <x-admin.dashboard.data-table :headers="['Name', 'Email', 'Date', 'Status']" :rows="$recentConsultations ?? []" emptyIcon="inbox"
-        emptyMessage="No consultations yet" subtitle="Latest inquiries from students"
-        title="Recent Consultation Requests" :fields="['name', 'email', 'created_at']" />
+      @include('components.admin.dashboard.data-table', [
+        'type' => 'consultations',
+        'title' => 'Recent Consultation Requests',
+        'subtitle' => 'Latest inquiries from students',
+        'headers' => ['Name', 'Email', 'Date', 'Status'],
+        'rows' => $recentConsultations ?? [],
+        'emptyIcon' => 'inbox',
+        'emptyMessage' => 'No consultations yet',
+      ])
+
       <!-- Recent Newsletters Table -->
-      <x-admin.dashboard.data-table :headers="['Email', 'Subscribed Date', 'Status']" :rows="$recentNewsletters ?? []" emptyIcon="email"
-        emptyMessage="No subscribers yet" subtitle="New subscribers"
-        title="Recent Newsletter Subscriptions">
-        @foreach ($recentNewsletters ?? [] as $newsletter)
-          <tr class="table-row-hover transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
-            <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-900 dark:text-white">
-              {{ $newsletter->email }}
-            </td>
-            <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
-              {{ $newsletter->subscribed_at->format('M d, Y H:i') }}
-            </td>
-            <td class="whitespace-nowrap px-6 py-4">
-              <x-admin.dashboard.status-badge type="active" />
-            </td>
-          </tr>
-        @endforeach
-      </x-admin.dashboard.data-table>
-    </x-admin.dashboard.dashboard-grid>
+      @include('components.admin.dashboard.data-table', [
+        'type' => 'newsletters',
+        'title' => 'Recent Newsletter Subscriptions',
+        'subtitle' => 'New subscribers',
+        'headers' => ['Email', 'Subscribed Date', 'Status'],
+        'rows' => $recentNewsletters ?? [],
+        'emptyIcon' => 'email',
+        'emptyMessage' => 'No subscribers yet',
+      ])
+    </div>
 
     <!-- Recent Events Table -->
-    <x-admin.dashboard.data-table :headers="['Title', 'Location', 'Date', 'Time', 'Status']" :rows="$recentEvents ?? []" emptyIcon="calendar"
-      emptyMessage="No upcoming events" subtitle="Scheduled events and activities"
-      title="Upcoming Events">
-      @foreach ($recentEvents ?? [] as $event)
-        <tr class="table-row-hover transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
-          <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
-            {{ $event->title }}
-          </td>
-          <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-            {{ $event->location }}
-          </td>
-          <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
-            {{ \Carbon\Carbon::parse($event->date)->format('M d, Y') }}
-          </td>
-          <td class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
-            {{ \Carbon\Carbon::parse($event->start_time)->format('g:i A') }}
-          </td>
-          <td class="whitespace-nowrap px-6 py-4">
-            <x-admin.dashboard.status-badge type="upcoming" />
-          </td>
-        </tr>
-      @endforeach
-    </x-admin.dashboard.data-table>
+    @include('components.admin.dashboard.data-table', [
+      'type' => 'events',
+      'title' => 'Upcoming Events',
+      'subtitle' => 'Scheduled events and activities',
+      'headers' => ['Title', 'Location', 'Date', 'Time', 'Status'],
+      'rows' => $recentEvents ?? [],
+      'emptyIcon' => 'calendar',
+      'emptyMessage' => 'No upcoming events',
+    ])
   </div>
-</x-admin-layout>
+@endsection

@@ -7,8 +7,11 @@
   // @dd($deadlineIso)
 @endphp
 
-<x-app-layout :$pageTitle>
-  <x-slot:styles>
+@extends('layouts.app')
+
+@section('title', $pageTitle)
+
+@section('styles')
     <style>
       /* Only keeping essential styles that can't be easily replaced with Tailwind */
       .admission-hero:before {
@@ -32,7 +35,9 @@
         background: #C6A43F;
       }
     </style>
-  </x-slot:styles>
+@endsection
+
+@section('content')
 
   <div
     class="admission-hero bg-linear-to-br relative overflow-hidden from-[#0A192F] to-[#1a2f4a] py-[140px] pb-20 text-white">
@@ -142,7 +147,7 @@
             </div>
 
             @if (!\Carbon\Carbon::parse($admission->deadline)->isPast())
-              <x-countdown-timer :target="$admission->deadline" label='Time Remaining To Apply' />
+              @include('components.countdown-timer', ['target' => $admission->deadline, 'label' => 'Time Remaining To Apply'])
             @endif
           </div>
 
@@ -186,7 +191,9 @@
     </div>
   </div>
 
-  <x-slot:scripts>
+  @endsection
+
+@section('scripts')
     <script>
       document.addEventListener('DOMContentLoaded', () => {
 
@@ -265,5 +272,4 @@
         const loop = setInterval(updateCountdown, 1000);
       });
     </script>
-  </x-slot:scripts>
-</x-app-layout>
+@endsection

@@ -3,7 +3,11 @@
   $pageTitle = $funding->name . ' | Funding | Study Abroad';
 @endphp
 
-<x-app-layout :$pageTitle>
+@extends('layouts.app')
+
+@section('title', $pageTitle)
+
+@section('content')
   <!-- Hero Section -->
   <div
     class="bg-linear-to-br relative overflow-hidden from-[#0A192F] to-[#1a2f4a] py-28 pb-20 text-white md:py-[140px]">
@@ -152,4 +156,4 @@
       @endif
     </div>
   </div>
-</x-app-layout>
+@endsection

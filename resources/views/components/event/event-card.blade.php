@@ -109,7 +109,7 @@
   </div>
 </a>
 
-<x-slot:styles>
+@push('styles')
   <style>
     .line-clamp-1 {
       display: -webkit-box;
@@ -125,4 +125,4 @@
       overflow: hidden;
     }
   </style>
-</x-slot:styles>
+@endpush

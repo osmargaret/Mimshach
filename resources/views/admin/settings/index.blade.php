@@ -1,4 +1,8 @@
-<x-admin-layout pageTitle="Settings">
+@extends('layouts.admin')
+
+@section('title', 'Settings')
+
+@section('content')
   <div class="mx-auto max-w-7xl">
     <div class="mb-8">
       <h2
@@ -373,7 +377,9 @@
     </div>
   </div>
 
-  <x-slot:scripts>
+  @endsection
+
+@section('scripts')
     <script>
       // Routes configuration (matching the pattern from events page)
       const routes = {
@@ -815,6 +821,4 @@
         document.body.style.overflow = 'auto';
       }
     </script>
-  </x-slot:scripts>
-
-</x-admin-layout>
+@endsection

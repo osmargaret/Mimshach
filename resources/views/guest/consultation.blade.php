@@ -1,6 +1,12 @@
-<x-app-layout pageTitle="Consultation | Mimshach">
-  <x-page-header subtitle="Let's discuss your goals and create a personalized study abroad plan"
-    title="Start Your Study Abroad Journey" />
+@extends('layouts.app')
+
+@section('title', 'Consultation | Mimshach')
+
+@section('content')
+  @include('components.page-header', [
+    'subtitle' => "Let's discuss your goals and create a personalized study abroad plan",
+    'title' => 'Start Your Study Abroad Journey'
+  ])
 
   <!-- Consultation Section -->
   <div class="container mx-auto my-12 max-w-[1200px] px-4 md:my-16">
@@ -166,7 +172,9 @@
     </div>
   </div>
 
-  <x-slot:scripts>
+  @endsection
+
+@section('scripts')
     <script>
       document.getElementById('consultationForm').addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -280,5 +288,4 @@
         });
       });
     </script>
-  </x-slot:scripts>
-</x-app-layout>
+@endsection

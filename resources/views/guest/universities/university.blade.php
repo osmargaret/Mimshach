@@ -2,7 +2,11 @@
   $pageTitle = $university->name . ' | Partner Universities | Mimshach';
 @endphp
 
-<x-app-layout :$pageTitle>
+@extends('layouts.app')
+
+@section('title', $pageTitle)
+
+@section('content')
   <!-- Hero Section -->
   <div class="relative bg-cover bg-center bg-no-repeat" 
        style="background-image: linear-gradient(135deg, rgba(10, 25, 47, 0.92) 0%, rgba(10, 25, 47, 0.85) 100%), url('{{ Storage::url($university->image) }}');">
@@ -122,9 +126,9 @@
         </div>
       </div>
     </div>
-  </div>
+  @endsection
 
-  <x-slot:styles>
+@section('styles')
     <style>
       .line-clamp-2 {
         display: -webkit-box;
@@ -159,5 +163,4 @@
         background: #b38f2e;
       }
     </style>
-  </x-slot:styles>
-</x-app-layout>
+@endsection

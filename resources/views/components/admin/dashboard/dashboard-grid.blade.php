@@ -10,5 +10,5 @@
 @endphp
 
 <div class="grid {{ $gridClasses[$columns] ?? 'grid-cols-1' }} gap-6">
-    {{ $slot }}
+    {{ $slot ?? '' }}
 </div>

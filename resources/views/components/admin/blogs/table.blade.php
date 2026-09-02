@@ -3,9 +3,9 @@
 @forelse($blogs as $blog)
   <tr class="transition-colors hover:bg-gray-50 dark:hover:bg-gray-700">
     <td class="whitespace-nowrap px-4 py-4 sm:px-6">
-      @if ($blog->featured_image)
+      @if ($blog->featured_image_url)
         <img alt="{{ $blog->title }}" class="h-12 w-12 rounded-lg object-cover"
-          src="{{ $blog->featured_image ?? Storage::url($blog->featured_image) }}">
+          src="{{ $blog->featured_image_url }}">
       @else
         <div
           class="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700">

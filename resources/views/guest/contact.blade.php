@@ -1,7 +1,12 @@
-<x-app-layout pageTitle="Contact Us | Mimshach">
-  <x-page-header
-    subtitle="Get in touch with our team - we're here to help you achieve your global education dreams"
-    title="Contact Us" />
+@extends('layouts.app')
+
+@section('title', 'Contact Us | Mimshach')
+
+@section('content')
+  @include('components.page-header', [
+    'subtitle' => "Get in touch with our team - we're here to help you achieve your global education dreams",
+    'title' => 'Contact Us'
+  ])
 
   <!-- Contact Section -->
   <div class="container mx-auto my-12 max-w-[1200px] px-4 md:my-16">
@@ -143,7 +148,9 @@
     </div>
   </div>
 
-  <x-slot:scripts>
+  @endsection
+
+@section('scripts')
     <script>
       document.getElementById('contactForm').addEventListener('submit', async function(e) {
 
@@ -256,5 +263,4 @@
         });
       });
     </script>
-  </x-slot:scripts>
-</x-app-layout>
+@endsection
