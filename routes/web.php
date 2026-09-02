@@ -9,8 +9,10 @@ use App\Http\Controllers\Guest\FundingController;
 use App\Http\Controllers\Guest\HomeController;
 use App\Http\Controllers\Guest\NewsletterController;
 use App\Http\Controllers\Guest\UniversityController;
-use Illuminate\Support\Facades\Route;
+use App\Notifications\WelcomeNotification;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -55,6 +57,12 @@ Route::post('/newsletter/subscribe', NewsletterController::class)->name('newslet
 Route::get('db-seed', function () {
     Artisan::call('db:seed', ['--force' => true]);
     return 'Seeder executed successfully.';
+});
+
+Route::get('test-mail',function(){
+    Notification::route('mail', 'is.oluwadamilola@gmail.com')
+    ->notify(new WelcomeNotification());
+    return 'done';
 });
 
 if (file_exists(__DIR__ . '/admin.php')) {
