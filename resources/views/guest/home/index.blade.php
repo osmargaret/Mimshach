@@ -243,20 +243,75 @@
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="py-24 bg-linear-to-r from-[#C6A43F] to-[#dbb14f]" data-navbar-theme="dark" id='cta'>
+  <!-- Sub-Agent Partnership CTA -->
+  <section class="bg-linear-to-r from-[#C6A43F] to-[#dbb14f] py-20 md:py-24" data-navbar-theme="dark" id='cta'>
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-      <div class=" rounded-3xl p-12 text-center text-[#0A192F]">
-        <h2 class="font-['Playfair_Display',serif] text-3xl md:text-4xl lg:text-5xl font-bold">
-          Start Your Global Education Journey Today
+      <div class="mx-auto max-w-4xl text-center text-[#0A192F]">
+        <!-- Badge -->
+        <span class="inline-flex items-center gap-2 rounded-full bg-[#0A192F]/10 px-4 py-1.5 text-xs md:text-sm font-semibold uppercase tracking-wider text-[#0A192F]">
+          🤝 Partnership Opportunity
+        </span>
+
+        <!-- Main Title -->
+        <h2 class="mt-4 font-['Playfair_Display',serif] text-3xl font-bold md:text-4xl lg:text-5xl">
+          Become an MEC Sub-Agent 🌍
         </h2>
-        <p class="mt-6 text-xl max-w-2xl mx-auto opacity-90">
-          Let's turn your dream into a plan. Book your free consultation now.
+
+        <!-- Subheading -->
+        <p class="mt-4 text-lg font-medium opacity-95 md:text-xl">
+          Are you an education consultant, student recruiter, or passionate about helping students study abroad?
         </p>
-        <a class="inline-block bg-[#0A192F] hover:bg-[#1a2f4a] text-white rounded-full px-8 py-3 font-semibold mt-10 transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
-          href="{{ route('contact.index') }}">
-          Contact Us
-        </a>
+
+        <!-- Description -->
+        <p class="mt-4 text-sm leading-relaxed text-[#0A192F]/85 md:text-base">
+          Mimshach Education Centre (MEC) is inviting partners to join our growing sub-agent network. With over 10 years of experience and partnerships across Canada, the USA, Europe, Asia, and beyond, we provide direct access to global admissions and end-to-end recruitment support.
+        </p>
+
+        <!-- Benefits Highlights -->
+        <div class="mt-8 grid grid-cols-1 gap-4 text-left sm:grid-cols-2 md:grid-cols-3">
+          <div class="rounded-2xl bg-white/40 p-4 backdrop-blur-xs transition-all hover:bg-white/60">
+            <div class="mb-2 flex items-center gap-2 font-bold text-[#0A192F]">
+              <i class="fas fa-university text-[#0A192F]"></i>
+              <span class="text-sm">Global Admissions</span>
+            </div>
+            <p class="text-xs leading-relaxed text-[#0A192F]/80">
+              Access trusted university & college partnerships across Canada, the USA, Europe, and Asia.
+            </p>
+          </div>
+
+          <div class="rounded-2xl bg-white/40 p-4 backdrop-blur-xs transition-all hover:bg-white/60">
+            <div class="mb-2 flex items-center gap-2 font-bold text-[#0A192F]">
+              <i class="fas fa-passport text-[#0A192F]"></i>
+              <span class="text-sm">Visa & Admissions Support</span>
+            </div>
+            <p class="text-xs leading-relaxed text-[#0A192F]/80">
+              Dedicated assistance with applications, documentation, programme selection, and visa processing.
+            </p>
+          </div>
+
+          <div class="rounded-2xl bg-white/40 p-4 backdrop-blur-xs transition-all hover:bg-white/60 sm:col-span-2 md:col-span-1">
+            <div class="mb-2 flex items-center gap-2 font-bold text-[#0A192F]">
+              <i class="fas fa-plane-departure text-[#0A192F]"></i>
+              <span class="text-sm">Pre-Departure Services</span>
+            </div>
+            <p class="text-xs leading-relaxed text-[#0A192F]/80">
+              Student travel insurance, international SIM cards, and discounted airfares for your clients.
+            </p>
+          </div>
+        </div>
+
+        <p class="mt-8 text-sm font-semibold text-[#0A192F]">
+          Partner with MEC and grow your education recruitment opportunities.
+        </p>
+
+        <!-- CTA Link -->
+        <div class="mt-8">
+          <a class="inline-flex items-center gap-2 rounded-full bg-[#0A192F] px-8 py-3.5 text-base font-semibold text-white transition-all duration-200 hover:-translate-y-1 hover:bg-[#1a2f4a] hover:shadow-xl"
+            href="{{ route('contact.index') }}">
+            <span>📩 Contact Us to Register</span>
+            <i class="fas fa-arrow-right text-xs text-[#C6A43F]"></i>
+          </a>
+        </div>
       </div>
     </div>
   </section>

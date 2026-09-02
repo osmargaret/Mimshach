@@ -80,20 +80,37 @@
             <div>
               <label class="mb-2 block text-sm font-semibold text-[#0A192F]"
                 for="programmes">Programmes of Interest (multiple) *</label>
-              <select
-                class="w-full rounded-2xl border border-gray-200 bg-[#F9F7F5] p-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20"
-                id="programmes" multiple name="programmes[]" size="4">
-                <option value="business">Business & Management</option>
-                <option value="engineering">Engineering</option>
-                <option value="computer_science">Computer Science</option>
-                <option value="medicine">Medicine & Health</option>
-                <option value="law">Law</option>
-                <option value="arts">Arts & Humanities</option>
-                <option value="social_sciences">Social Sciences</option>
-                <option value="natural_sciences">Natural Sciences</option>
-              </select>
-              <small class="mt-1 block text-xs text-gray-500">Hold Ctrl/Cmd to select
-                multiple</small>
+              
+              <div class="custom-multiselect relative" id="programmesMultiSelect">
+                <!-- Native hidden select so standard FormData serialization and backend validation continue to work seamlessly -->
+                <select class="hidden" id="programmes" multiple name="programmes[]">
+                  <option value="business">Business & Management</option>
+                  <option value="engineering">Engineering</option>
+                  <option value="computer_science">Computer Science</option>
+                  <option value="medicine">Medicine & Health</option>
+                  <option value="law">Law</option>
+                  <option value="arts">Arts & Humanities</option>
+                  <option value="social_sciences">Social Sciences</option>
+                  <option value="natural_sciences">Natural Sciences</option>
+                </select>
+
+                <!-- Trigger Input Container -->
+                <div class="multiselect-trigger flex min-h-[50px] w-full cursor-pointer items-center justify-between rounded-2xl border border-gray-200 bg-[#F9F7F5] px-4 py-2.5 transition-all hover:border-[#C6A43F] focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+                  <div class="multiselect-selected flex flex-wrap items-center gap-1.5">
+                    <span class="multiselect-placeholder text-sm text-gray-400">Select programmes of interest...</span>
+                  </div>
+                  <i class="fas fa-chevron-down multiselect-arrow ml-2 text-xs text-gray-400 transition-transform duration-200"></i>
+                </div>
+
+                <!-- Dropdown Menu -->
+                <div class="multiselect-dropdown absolute left-0 right-0 top-full z-30 mt-1.5 hidden max-h-60 overflow-y-auto rounded-2xl border border-gray-100 bg-white p-2 shadow-xl">
+                  <div class="mb-1 flex items-center justify-between border-b border-gray-100 px-3 pb-2 pt-1 text-xs text-gray-500">
+                    <span class="font-medium">Click to select multiple</span>
+                    <button class="multiselect-clear-all font-semibold text-[#C6A43F] hover:underline" type="button">Clear all</button>
+                  </div>
+                  <div class="multiselect-options space-y-1"></div>
+                </div>
+              </div>
               <div class="error-message mt-1 hidden text-sm text-red-600" data-field="programmes">
               </div>
             </div>
@@ -102,20 +119,37 @@
             <div>
               <label class="mb-2 block text-sm font-semibold text-[#0A192F]"
                 for="countries">Preferred Countries (multiple) *</label>
-              <select
-                class="w-full rounded-2xl border border-gray-200 bg-[#F9F7F5] p-3 text-base transition-all focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20"
-                id="countries" multiple name="countries[]" size="4">
-                <option value="uk">United Kingdom</option>
-                <option value="usa">United States</option>
-                <option value="canada">Canada</option>
-                <option value="australia">Australia</option>
-                <option value="germany">Germany</option>
-                <option value="france">France</option>
-                <option value="netherlands">Netherlands</option>
-                <option value="ireland">Ireland</option>
-              </select>
-              <small class="mt-1 block text-xs text-gray-500">Hold Ctrl/Cmd to select
-                multiple</small>
+
+              <div class="custom-multiselect relative" id="countriesMultiSelect">
+                <!-- Native hidden select -->
+                <select class="hidden" id="countries" multiple name="countries[]">
+                  <option value="uk">United Kingdom</option>
+                  <option value="usa">United States</option>
+                  <option value="canada">Canada</option>
+                  <option value="australia">Australia</option>
+                  <option value="germany">Germany</option>
+                  <option value="france">France</option>
+                  <option value="netherlands">Netherlands</option>
+                  <option value="ireland">Ireland</option>
+                </select>
+
+                <!-- Trigger Input Container -->
+                <div class="multiselect-trigger flex min-h-[50px] w-full cursor-pointer items-center justify-between rounded-2xl border border-gray-200 bg-[#F9F7F5] px-4 py-2.5 transition-all hover:border-[#C6A43F] focus:border-[#C6A43F] focus:outline-none focus:ring-2 focus:ring-[#C6A43F]/20">
+                  <div class="multiselect-selected flex flex-wrap items-center gap-1.5">
+                    <span class="multiselect-placeholder text-sm text-gray-400">Select preferred countries...</span>
+                  </div>
+                  <i class="fas fa-chevron-down multiselect-arrow ml-2 text-xs text-gray-400 transition-transform duration-200"></i>
+                </div>
+
+                <!-- Dropdown Menu -->
+                <div class="multiselect-dropdown absolute left-0 right-0 top-full z-30 mt-1.5 hidden max-h-60 overflow-y-auto rounded-2xl border border-gray-100 bg-white p-2 shadow-xl">
+                  <div class="mb-1 flex items-center justify-between border-b border-gray-100 px-3 pb-2 pt-1 text-xs text-gray-500">
+                    <span class="font-medium">Click to select multiple</span>
+                    <button class="multiselect-clear-all font-semibold text-[#C6A43F] hover:underline" type="button">Clear all</button>
+                  </div>
+                  <div class="multiselect-options space-y-1"></div>
+                </div>
+              </div>
               <div class="error-message mt-1 hidden text-sm text-red-600" data-field="countries">
               </div>
             </div>
@@ -176,6 +210,138 @@
 
 @section('scripts')
     <script>
+      function setupMultiSelect(containerId, placeholderText) {
+        const container = document.getElementById(containerId);
+        if (!container) return null;
+
+        const select = container.querySelector('select');
+        const trigger = container.querySelector('.multiselect-trigger');
+        const selectedContainer = container.querySelector('.multiselect-selected');
+        const dropdown = container.querySelector('.multiselect-dropdown');
+        const arrow = container.querySelector('.multiselect-arrow');
+        const optionsList = container.querySelector('.multiselect-options');
+        const clearAllBtn = container.querySelector('.multiselect-clear-all');
+
+        function renderOptions() {
+          optionsList.innerHTML = '';
+          Array.from(select.options).forEach((opt, idx) => {
+            const item = document.createElement('div');
+            item.className =
+              'multiselect-item flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors text-sm text-[#0A192F]';
+            item.innerHTML = `
+              <div class="checkbox-box flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-gray-300 transition-colors ${opt.selected ? 'bg-[#C6A43F] border-[#C6A43F]' : ''}">
+                <i class="fas fa-check text-[10px] text-white ${opt.selected ? '' : 'hidden'}"></i>
+              </div>
+              <span class="flex-1 select-none">${opt.text}</span>
+            `;
+
+            item.addEventListener('click', (e) => {
+              e.stopPropagation();
+              opt.selected = !opt.selected;
+              updateUI();
+              trigger.classList.remove('border-red-500');
+              const errorEl = container.parentElement.querySelector('.error-message');
+              if (errorEl) {
+                errorEl.textContent = '';
+                errorEl.classList.add('hidden');
+              }
+            });
+
+            optionsList.appendChild(item);
+          });
+        }
+
+        function updateUI() {
+          const selectedOptions = Array.from(select.selectedOptions);
+          selectedContainer.innerHTML = '';
+
+          if (selectedOptions.length === 0) {
+            selectedContainer.innerHTML = `<span class="multiselect-placeholder text-sm text-gray-400 select-none">${placeholderText}</span>`;
+          } else {
+            selectedOptions.forEach(opt => {
+              const chip = document.createElement('span');
+              chip.className =
+                'inline-flex items-center gap-1.5 rounded-full bg-[#0A192F] px-3 py-1 text-xs font-medium text-white shadow-xs';
+              chip.innerHTML = `
+                <span>${opt.text}</span>
+                <button type="button" class="ml-0.5 text-gray-300 hover:text-white" title="Remove">&times;</button>
+              `;
+              chip.querySelector('button').addEventListener('click', (e) => {
+                e.stopPropagation();
+                opt.selected = false;
+                updateUI();
+                const errorEl = container.parentElement.querySelector('.error-message');
+                if (errorEl && select.selectedOptions.length > 0) {
+                  errorEl.textContent = '';
+                  errorEl.classList.add('hidden');
+                }
+              });
+              selectedContainer.appendChild(chip);
+            });
+          }
+
+          // Update checkbox icons in the dropdown
+          Array.from(select.options).forEach((opt, idx) => {
+            const item = optionsList.children[idx];
+            if (!item) return;
+            const box = item.querySelector('.checkbox-box');
+            const icon = item.querySelector('.fa-check');
+            if (opt.selected) {
+              box.className =
+                'checkbox-box flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border bg-[#C6A43F] border-[#C6A43F] transition-colors';
+              icon.classList.remove('hidden');
+            } else {
+              box.className =
+                'checkbox-box flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border border-gray-300 transition-colors';
+              icon.classList.add('hidden');
+            }
+          });
+        }
+
+        clearAllBtn?.addEventListener('click', (e) => {
+          e.stopPropagation();
+          Array.from(select.options).forEach(opt => opt.selected = false);
+          updateUI();
+        });
+
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          // Close other multiselect dropdowns
+          document.querySelectorAll('.multiselect-dropdown').forEach(d => {
+            if (d !== dropdown) d.classList.add('hidden');
+          });
+          document.querySelectorAll('.multiselect-arrow').forEach(a => {
+            if (a !== arrow) a.classList.remove('rotate-180');
+          });
+
+          const isClosed = dropdown.classList.contains('hidden');
+          dropdown.classList.toggle('hidden', !isClosed);
+          arrow.classList.toggle('rotate-180', isClosed);
+        });
+
+        renderOptions();
+        updateUI();
+
+        return {
+          updateUI,
+          reset: () => {
+            Array.from(select.options).forEach(opt => opt.selected = false);
+            updateUI();
+          }
+        };
+      }
+
+      // Close dropdowns on outside click
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.custom-multiselect')) {
+          document.querySelectorAll('.multiselect-dropdown').forEach(d => d.classList.add('hidden'));
+          document.querySelectorAll('.multiselect-arrow').forEach(a => a.classList.remove('rotate-180'));
+        }
+      });
+
+      const programmesMS = setupMultiSelect('programmesMultiSelect', 'Select programmes of interest...');
+      const countriesMS = setupMultiSelect('countriesMultiSelect', 'Select preferred countries...');
+
       document.getElementById('consultationForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
@@ -191,7 +357,7 @@
           error.classList.add('hidden');
         });
 
-        document.querySelectorAll('input, select').forEach(field => {
+        document.querySelectorAll('input, select, .multiselect-trigger').forEach(field => {
           field.classList.remove('border-red-500');
         });
 
@@ -225,8 +391,10 @@
 
             Object.entries(data.errors).forEach(([field, messages]) => {
 
+              const cleanField = field.split('.')[0];
+
               const errorElement = document.querySelector(
-                `.error-message[data-field="${field}"]`
+                `.error-message[data-field="${cleanField}"]`
               );
 
               if (errorElement) {
@@ -234,12 +402,18 @@
                 errorElement.classList.remove('hidden');
               }
 
-              let fieldElement =
-                document.querySelector(`[name="${field}"]`) ||
-                document.querySelector(`[name="${field}[]"]`);
+              if (cleanField === 'programmes') {
+                document.querySelector('#programmesMultiSelect .multiselect-trigger')?.classList.add('border-red-500');
+              } else if (cleanField === 'countries') {
+                document.querySelector('#countriesMultiSelect .multiselect-trigger')?.classList.add('border-red-500');
+              } else {
+                let fieldElement =
+                  document.querySelector(`[name="${cleanField}"]`) ||
+                  document.querySelector(`[name="${cleanField}[]"]`);
 
-              if (fieldElement) {
-                fieldElement.classList.add('border-red-500');
+                if (fieldElement) {
+                  fieldElement.classList.add('border-red-500');
+                }
               }
             });
 
@@ -252,6 +426,8 @@
           formMessages.innerHTML = data.message;
 
           form.reset();
+          programmesMS?.reset();
+          countriesMS?.reset();
 
         } catch (error) {
 

@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Guest;
 
 use App\Http\Controllers\Controller;
 use App\Models\ConsultationRequest;
-use Illuminate\Http\Request;
+use App\Notifications\ConsultationNotification;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class ConsultationController extends Controller
 {
@@ -38,7 +39,7 @@ class ConsultationController extends Controller
             'countries.required' => 'Please select at least one preferred country.',
         ]);
 
-        ConsultationRequest::create([
+        $consultationRequest = ConsultationRequest::create([
             'name' => $validated['fullname'],
             'email' => $validated['email'],
             'phone' => $validated['phone'],
@@ -47,6 +48,15 @@ class ConsultationController extends Controller
             'preferred_countries' => $validated['countries'],
             'tuition_budget' => $validated['tuition'],
         ]);
+
+        try {
+            $recipient = config('mail.admissions_email', 'admissions@mimshachconsultancy.com');
+
+            Notification::route('mail', $recipient)
+                ->notify(new ConsultationNotification($consultationRequest));
+        } catch (\Throwable $e) {
+            report($e);
+        }
 
         return response()->json([
             'success' => true,
